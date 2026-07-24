@@ -1,0 +1,1 @@
+export { default as Ambassadors } from "./components/Ambassadors";

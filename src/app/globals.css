@@ -1,26 +1,407 @@
 @import "tailwindcss";
 
+/* ==========================================================
+   WPT GLOBAL TAIWAN DESIGN SYSTEM
+   Version 2
+========================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* =======================================================
+     COLORS
+  ======================================================= */
+
+  --background: #050913;
+  --surface: #090f1b;
+  --surface-light: #111a2d;
+  --surface-hover: #162238;
+
+  --foreground: #ffffff;
+  --muted: #9ca8bd;
+
+  /* Primary Action */
+
+  --primary: #2d6bff;
+  --primary-hover: #1d5cff;
+
+  /* Premium Accent */
+
+  --accent: #d4af37;
+  --accent-hover: #c89d17;
+
+  /* UI */
+
+  --border: rgba(255, 255, 255, 0.07);
+
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #f59e0b;
+
+  /* =======================================================
+     LAYOUT
+  ======================================================= */
+
+  --radius: 18px;
+
+  --header-height: 72px;
+
+  --topbar-height: 36px;
+
+  --container: 1400px;
+
+  --transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --font-sans: var(--font-geist-sans);
+
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ==========================================================
+   RESET
+========================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
+  margin: 0;
+
   background: var(--background);
+
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+  font-family: var(--font-sans);
+
+  overflow-x: hidden;
+
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+
+  cursor: pointer;
+
+  border: none;
+
+  outline: none;
+}
+
+img {
+  display: block;
+
+  max-width: 100%;
+
+  user-select: none;
+}
+
+/* ==========================================================
+   TYPOGRAPHY
+========================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+
+  font-weight: 700;
+
+  letter-spacing: -0.03em;
+
+  line-height: 1.1;
+
+  color: white;
+}
+
+p {
+  margin: 0;
+
+  line-height: 1.8;
+
+  color: var(--muted);
+}
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.container {
+  width: min(100% - 64px, var(--container));
+
+  margin-inline: auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: min(100% - 32px, var(--container));
+  }
+}
+
+/* ==========================================================
+   SECTION
+========================================================== */
+
+.section {
+  padding-block: 96px;
+}
+
+@media (max-width: 1024px) {
+  .section {
+    padding-block: 72px;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding-block: 56px;
+  }
+}
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  height: 48px;
+
+  padding-inline: 28px;
+
+  border-radius: 999px;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  transition: all var(--transition);
+
+  white-space: nowrap;
+}
+
+/* Download */
+
+.btn-primary {
+  background: var(--primary);
+
+  color: white;
+
+  box-shadow: 0 10px 30px rgba(45, 107, 255, 0.18);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+
+  transform: translateY(-2px);
+}
+
+/* Register */
+
+.btn-secondary {
+  background: white;
+
+  color: #111827;
+}
+
+.btn-secondary:hover {
+  background: #f3f4f6;
+
+  transform: translateY(-2px);
+}
+
+/* Premium */
+
+.btn-gold {
+  background: var(--accent);
+
+  color: black;
+}
+
+.btn-gold:hover {
+  background: var(--accent-hover);
+}
+
+/* ==========================================================
+   CARD
+========================================================== */
+
+.card {
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  transition: all var(--transition);
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+
+  background: var(--surface-light);
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.header {
+  background: #070b14;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.topbar {
+  background: #050913;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ==========================================================
+   SHADOWS
+========================================================== */
+
+.shadow-primary {
+  box-shadow: 0 15px 40px rgba(45, 107, 255, 0.18);
+}
+
+.shadow-soft {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* ==========================================================
+   GRADIENTS
+========================================================== */
+
+.text-gradient {
+  background: linear-gradient(90deg, #ffffff, #cfd7ff);
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.025) 1px,
+
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.025) 1px,
+
+      transparent 1px
+    );
+
+  background-size: 40px 40px;
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050913;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27344b;
+
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3d5378;
+}
+
+/* ==========================================================
+   SELECTION
+========================================================== */
+
+::selection {
+  background: #2d6bff;
+
+  color: white;
+}
+
+/* ==========================================================
+   INPUTS
+========================================================== */
+
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* ==========================================================
+   UTILITIES
+========================================================== */
+
+.text-muted {
+  color: var(--muted);
+}
+
+.surface {
+  background: var(--surface);
+}
+
+.surface-light {
+  background: var(--surface-light);
+}
+
+.border-default {
+  border: 1px solid var(--border);
+}
+
+.rounded-default {
+  border-radius: var(--radius);
+}
+
+.transition-default {
+  transition: all var(--transition);
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 640px) {
+  .btn {
+    width: 100%;
+  }
 }
