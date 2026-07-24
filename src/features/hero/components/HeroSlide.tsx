@@ -42,7 +42,7 @@ export default function HeroSlide({ slide, className }: HeroSlideProps) {
               alt={getHeroImageAlt(slide)}
               fill
               priority
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, 0px"
               className="object-cover"
             />
           ) : (
@@ -86,14 +86,14 @@ export default function HeroSlide({ slide, className }: HeroSlideProps) {
           TABLET & DESKTOP
       ====================================================== */}
 
-      <div className="hidden h-full md:block">
+      <div className="relative hidden h-full md:block">
         {slide.DesktopImage && (
           <Image
             src={getMediaUrl(slide.DesktopImage.url)}
             alt={getHeroImageAlt(slide)}
             fill
             priority
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 1920px"
             className="object-cover"
           />
         )}

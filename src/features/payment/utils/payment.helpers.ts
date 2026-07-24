@@ -12,6 +12,12 @@ import type { PaymentMethod } from "@/types/payment";
  */
 
 /**
+ * Shared number formatter.
+ * Using a fixed locale prevents SSR/CSR hydration mismatches.
+ */
+const numberFormatter = new Intl.NumberFormat("en-US");
+
+/**
  * Format supported currencies.
  *
  * Example:
@@ -37,7 +43,7 @@ export function formatDepositRange(
   minimum: number,
   maximum: number,
 ): string {
-  return `$${minimum.toLocaleString()} - $${maximum.toLocaleString()}`;
+  return `$${numberFormatter.format(minimum)} - $${numberFormatter.format(maximum)}`;
 }
 
 /**
