@@ -6,3 +6,4 @@ export * from "./payment";
 export * from "./faq";
 export * from "./poker-exchange";
 export * from "./teaching-center";
+export * from "./about";

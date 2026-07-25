@@ -39,7 +39,7 @@ export default function DetailHero({ data, className }: DetailHeroProps) {
   return (
     <section className={cn("relative overflow-hidden", className)}>
       {/* Banner */}
-      <div className="relative h-[420px] w-full md:h-[520px] lg:h-[620px]">
+      <div className="relative h-105 w-full md:h-130 lg:h-155">
         <Image
           src={image}
           alt={data.title}
