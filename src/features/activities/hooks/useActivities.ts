@@ -1,3 +1,4 @@
+//src/features/activities/hooks/useActivities.ts
 "use client";
 
 import { useMemo } from "react";

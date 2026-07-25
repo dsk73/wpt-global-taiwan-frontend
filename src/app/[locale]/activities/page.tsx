@@ -1,3 +1,5 @@
+//src/app/[locale]/activities/page.tsx
+
 import { Header } from "@/features/header";
 import { Footer } from "@/features/footer";
 import FeaturedActivity from "@/features/activities/components/FeaturedActivity";

@@ -26,6 +26,7 @@ export interface PopulateObject {
 }
 
 export type Populate =
+  | true
   | "*"
   | string[]
   | PopulateObject;
@@ -67,6 +68,11 @@ function appendPopulate(
     return;
   }
 
+  if (populate === true) {
+    params.append(parent, "true");
+    return;
+  }
+
   if (Array.isArray(populate)) {
     populate.forEach((field, index) => {
       params.append(`${parent}[${index}]`, field);
@@ -76,7 +82,27 @@ function appendPopulate(
   }
 
   Object.entries(populate).forEach(([key, value]) => {
-    appendPopulate(params, value, `${parent}[${key}]`);
+    const current = `${parent}[${key}]`;
+
+    if (value === true) {
+      params.append(current, "true");
+      return;
+    }
+
+    if (value === "*") {
+      params.append(current, "*");
+      return;
+    }
+
+    if (Array.isArray(value)) {
+      value.forEach((field, index) => {
+        params.append(`${current}[${index}]`, field);
+      });
+
+      return;
+    }
+
+    appendPopulate(params, value, current);
   });
 }
 
@@ -143,10 +169,6 @@ export function buildQuery(
 ): string {
   const params = new URLSearchParams();
 
-  /**
-   * Always send a locale.
-   * Falls back to the application's default locale.
-   */
   params.append(
     "locale",
     options.locale ?? DEFAULT_LOCALE,

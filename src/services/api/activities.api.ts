@@ -1,3 +1,5 @@
+//src/services/api/activities.api.ts
+
 import { DEFAULT_SORT, ENDPOINTS } from "@/lib/endpoints";
 import fetcher from "@/lib/fetcher";
 import { buildQuery } from "@/lib/query-builder";

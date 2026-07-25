@@ -33,6 +33,15 @@ export const NAVIGATION: NavigationItem[] = [
     },
     href: "/about",
   },
+
+  {
+  href: "/community",
+  label: {
+    "zh-Hant-TW": "社群",
+    en: "Community",
+    "ms-MY": "Komuniti",
+  },
+},
 ];
 
 export const HEADER_ACTIONS: HeaderAction[] = [

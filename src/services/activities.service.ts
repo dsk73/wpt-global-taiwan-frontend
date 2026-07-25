@@ -1,3 +1,5 @@
+//src/services/activities.service.ts
+
 import {
   getActivities,
   getActivityBySlug,
