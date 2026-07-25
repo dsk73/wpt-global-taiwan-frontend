@@ -1,3 +1,4 @@
+//src/features/content-detail/components/DetailHero.tsx
 "use client";
 
 import Image from "next/image";

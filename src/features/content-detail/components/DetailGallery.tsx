@@ -1,3 +1,5 @@
+//src/features/content-detail/components/DetailGallery.tsx
+
 "use client";
 
 import Image from "next/image";

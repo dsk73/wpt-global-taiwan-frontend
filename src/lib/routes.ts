@@ -18,4 +18,10 @@ export const routes = {
 
   communityPost: (locale: string, slug: string) =>
     `/${locale}/community/${slug}`,
+
+  pokerExchange: (locale: string) =>
+    `/${locale}/poker-exchange`,
+
+  pokerExchangePost: (locale: string, slug: string) =>
+    `/${locale}/poker-exchange/${slug}`,
 };

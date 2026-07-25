@@ -1,3 +1,5 @@
+//src/features/content-detail/types.ts
+
 import type { ReactNode } from "react";
 
 import type { Locale } from "@/providers";

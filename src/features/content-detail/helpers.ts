@@ -1,3 +1,5 @@
+//src/features/content-detail/helpers.ts
+
 import type { Locale } from "@/providers";
 import type { Media } from "@/types/media";
 

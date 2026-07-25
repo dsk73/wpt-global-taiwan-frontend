@@ -1,3 +1,4 @@
+//src/features/content-detail/constants.ts
 import type { Locale } from "@/providers";
 
 export const DEFAULT_BANNER_IMAGE = "/images/placeholder.jpg";

@@ -3,3 +3,5 @@ export * from "./activities.service";
 export * from "./payment.service";
 export * from "./faq.service";
 export * from "./ambassadors.service";
+export * from "./community.service";
+export * from "./poker-exchange.service";
