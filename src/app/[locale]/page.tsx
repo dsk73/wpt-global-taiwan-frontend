@@ -1,3 +1,4 @@
+//src/app/[locale]/page.tsx
 import Hero from "@/features/hero/components/Hero";
 import Ambassadors from "@/features/ambassadors/components/Ambassadors";
 import Payment from "@/features/payment/components/Payment";

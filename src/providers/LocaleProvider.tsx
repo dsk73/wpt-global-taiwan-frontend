@@ -1,3 +1,5 @@
+//src/providers/LocaleProvider.tsx
+
 "use client";
 
 import {
