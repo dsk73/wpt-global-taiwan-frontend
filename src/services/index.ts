@@ -7,3 +7,4 @@ export * from "./community.service";
 export * from "./poker-exchange.service";
 export * from "./teaching-center.service";
 export * from "./about.service";
+export * from "./register.service";
