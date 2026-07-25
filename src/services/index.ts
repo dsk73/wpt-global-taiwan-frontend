@@ -5,3 +5,4 @@ export * from "./faq.service";
 export * from "./ambassadors.service";
 export * from "./community.service";
 export * from "./poker-exchange.service";
+export * from "./teaching-center.service";

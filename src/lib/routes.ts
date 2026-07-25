@@ -24,4 +24,10 @@ export const routes = {
 
   pokerExchangePost: (locale: string, slug: string) =>
     `/${locale}/poker-exchange/${slug}`,
+
+  teachingCenter: (locale: string) =>
+    `/${locale}/teaching-center`,
+
+  teachingCenterPost: (locale: string, slug: string) =>
+    `/${locale}/teaching-center/${slug}`,
 };
