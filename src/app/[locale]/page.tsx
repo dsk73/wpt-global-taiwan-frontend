@@ -2,12 +2,14 @@ import Hero from "@/features/hero/components/Hero";
 import Ambassadors from "@/features/ambassadors/components/Ambassadors";
 import Payment from "@/features/payment/components/Payment";
 import Activities from "@/features/activities/components/Activities";
+import { FAQHeader, FAQSection } from "@/features/faq";
 import Footer from "@/features/footer/components/Footer";
 
 import { getHeroSlides } from "@/services/hero.service";
 import { getBrandAmbassadors } from "@/services/ambassadors.service";
 import { getPaymentMethods } from "@/services/payment.service";
 import { getHomepageActivities } from "@/services/activities.service";
+import { fetchFAQs } from "@/services";
 
 import type { Locale } from "@/providers";
 
@@ -20,12 +22,14 @@ interface HomePageProps {
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
 
-  const [slides, ambassadors, payments, activitiesData] = await Promise.all([
-    getHeroSlides(locale),
-    getBrandAmbassadors(locale),
-    getPaymentMethods(locale),
-    getHomepageActivities(locale),
-  ]);
+  const [slides, ambassadors, payments, activitiesData, faqs] =
+    await Promise.all([
+      getHeroSlides(locale),
+      getBrandAmbassadors(locale),
+      getPaymentMethods(locale),
+      getHomepageActivities(locale),
+      fetchFAQs(locale),
+    ]);
 
   return (
     <>
@@ -33,9 +37,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <main>
         <Ambassadors ambassadors={ambassadors} locale={locale} />
-
         <Payment payments={payments} locale={locale} />
-
         <Activities
           activities={[
             ...(activitiesData.featured ? [activitiesData.featured] : []),
@@ -43,6 +45,13 @@ export default async function HomePage({ params }: HomePageProps) {
           ]}
           locale={locale}
         />
+        <section className="py-14 lg:py-20">
+          <FAQHeader locale={locale} />
+
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <FAQSection faqs={faqs} locale={locale} limit={5} />
+          </div>
+        </section>{" "}
       </main>
 
       <Footer locale={locale} />
