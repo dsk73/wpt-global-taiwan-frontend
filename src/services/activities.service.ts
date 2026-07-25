@@ -1,4 +1,7 @@
-import { getActivities } from "./api/activities.api";
+import {
+  getActivities,
+  getActivityBySlug,
+} from "./api/activities.api";
 
 import { getMediaUrl } from "@/lib/media";
 
@@ -94,11 +97,63 @@ export async function getAllActivities(
 }
 
 /**
+ * Get activity by slug.
+ */
+export async function getActivity(
+  locale: Locale,
+  slug: string,
+): Promise<Activity | null> {
+  const activity = await getActivityBySlug(locale, slug);
+
+  if (!activity || !activity.Active) {
+    return null;
+  }
+
+  return normalizeMedia(activity);
+}
+
+/**
+ * Get related activities.
+ *
+ * Excludes the current activity and returns
+ * a limited number of activities.
+ */
+export async function getRelatedActivities(
+  locale: Locale,
+  currentDocumentId: string,
+  limit = 3,
+): Promise<Activity[]> {
+  const activities = await getAllActivities(locale);
+
+  return activities
+    .filter(
+      (activity) =>
+        activity.documentId !== currentDocumentId,
+    )
+    .slice(0, limit);
+}
+/**
+ * Get activity slugs.
+ */
+export async function getActivitySlugs(
+  locale: Locale,
+): Promise<string[]> {
+  const activities =
+    await getAllActivities(locale);
+
+  return activities.map(
+    (activity) => activity.Slug,
+  );
+}
+
+/**
  * Activities Service
  */
 export const activitiesService = {
   getHomepageActivities,
   getAllActivities,
+  getActivity,
+  getRelatedActivities,
+  getActivitySlugs,
 };
-
 export default activitiesService;

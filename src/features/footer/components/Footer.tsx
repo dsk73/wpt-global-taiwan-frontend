@@ -1,3 +1,5 @@
+//src/features/footer/components/Footer.tsx
+
 "use client";
 
 import Image from "next/image";

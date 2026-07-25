@@ -41,7 +41,7 @@ export default function ActivityCard({
         className,
       )}
     >
-      <Link href="#">
+      <Link href={`/${locale}/activities/${activity.Slug}`}>
         {/* Image */}
         <div className="relative aspect-16/10 overflow-hidden">
           <Image

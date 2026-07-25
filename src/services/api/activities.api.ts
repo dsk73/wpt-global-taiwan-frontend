@@ -44,10 +44,36 @@ export async function getActivities(
 }
 
 /**
+ * Fetch a single activity by slug.
+ */
+export async function getActivityBySlug(
+  locale: Locale,
+  slug: string,
+): Promise<Activity | null> {
+  const query = buildQuery({
+    locale,
+    populate: "*",
+    filters: {
+      Slug: {
+        $eq: slug,
+      },
+    },
+  });
+
+  const activities = await fetcher.getCollection<Activity>(
+    `${ENDPOINTS.ACTIVITIES}?${query}`,
+  );
+
+  return activities[0] ?? null;
+}
+
+/**
  * Activities API
  */
 export const activitiesApi = {
   getActivities,
+  getActivityBySlug,
 };
+
 
 export default activitiesApi;

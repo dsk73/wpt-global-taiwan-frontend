@@ -1,3 +1,6 @@
+//src/features/footer/index.ts
+
+
 export { default as Footer } from "./components/Footer";
 
 export { default as FooterColumn } from "./components/FooterColumn";

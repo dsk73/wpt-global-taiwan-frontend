@@ -42,7 +42,7 @@ export default function FeaturedActivity({
         className,
       )}
     >
-      <Link href={`/activities/${activity.Slug}`}>
+      <Link href={`/${locale}/activities/${activity.Slug}`}>
         <div className="grid lg:grid-cols-2">
           {/* Banner Image */}
           <div className="relative aspect-16/10 overflow-hidden lg:aspect-auto lg:min-h-125">
