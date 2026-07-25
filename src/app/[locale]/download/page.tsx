@@ -51,8 +51,6 @@ export default async function DownloadPage({ params }: DownloadPageProps) {
 
   return (
     <>
-      <Header />
-
       <main className="min-h-screen">
         <DownloadHero download={download} />
 
