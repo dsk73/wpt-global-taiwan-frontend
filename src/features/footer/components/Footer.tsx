@@ -71,24 +71,29 @@ const LEGAL: Record<Locale, { label: string; href: string }[]> = {
 
 const SOCIAL = [
   {
+    label: "Official LINE",
+    href: "https://lin.ee/ybdTE8k",
+    icon: "line" as const,
+  },
+  {
+    label: "Official LINE Community",
+    href: "https://reurl.cc/53qANy",
+    icon: "line" as const,
+  },
+  {
     label: "Telegram",
-    href: "https://t.me/",
+    href: "https://t.me/wptg_tw",
     icon: "telegram" as const,
   },
   {
-    label: "Facebook",
-    href: "https://facebook.com/",
-    icon: "facebook" as const,
+    label: "Official Instagram",
+    href: "https://www.instagram.com/wptglobal_kol",
+    icon: "Official Instagram" as const,
   },
   {
-    label: "Instagram",
-    href: "https://instagram.com/",
+    label: "Instagram Channel",
+    href: "https://www.instagram.com/agogo_poker",
     icon: "instagram" as const,
-  },
-  {
-    label: "YouTube",
-    href: "https://youtube.com/",
-    icon: "youtube" as const,
   },
 ];
 
