@@ -5,6 +5,7 @@ import Payment from "@/features/payment/components/Payment";
 import Activities from "@/features/activities/components/Activities";
 import { FAQHeader, FAQSection } from "@/features/faq";
 import Footer from "@/features/footer/components/Footer";
+import FloatingLineButton from "@/features/floating-line/components/FloatingLineButton";
 
 import { getHeroSlides } from "@/services/hero.service";
 import { getBrandAmbassadors } from "@/services/ambassadors.service";
@@ -56,6 +57,7 @@ export default async function HomePage({ params }: HomePageProps) {
       </main>
 
       <Footer locale={locale} />
+      <FloatingLineButton />
     </>
   );
 }
