@@ -136,10 +136,10 @@ export default function Header() {
           <Image
             src="/logos/wpt-logo.png"
             alt="WPT Global Taiwan"
-            width={107}
-            height={48}
+            width={140}
+            height={63}
             priority
-            className="h-10 lg:h-12"
+            className="h-12 lg:h-14"
             style={{ width: "auto" }}
           />
         </Link>
@@ -235,9 +235,9 @@ export default function Header() {
             <Image
               src="/logos/wpt-logo.png"
               alt="WPT"
-              width={80}
-              height={36}
-              className="h-9"
+              width={110}
+              height={50}
+              className="h-11"
               style={{ width: "auto" }}
             />
 
