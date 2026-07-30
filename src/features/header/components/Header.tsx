@@ -176,19 +176,25 @@ export default function Header() {
         {/* ========================= */}
 
         <div className="hidden items-center gap-3 lg:flex">
-          {HEADER_ACTIONS.map((action) => (
-            <Link
-              key={action.href}
-              href={localizedHref(action.href)}
-              className={
-                action.variant === "primary"
-                  ? "btn btn-primary"
-                  : "btn btn-secondary"
-              }
-            >
-              {action.label[locale]}
-            </Link>
-          ))}
+          {HEADER_ACTIONS.map((action) => {
+            const isExternal = action.href.startsWith("http");
+
+            return (
+              <Link
+                key={action.href}
+                href={isExternal ? action.href : localizedHref(action.href)}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                className={
+                  action.variant === "primary"
+                    ? "btn btn-primary"
+                    : "btn btn-secondary"
+                }
+              >
+                {action.label[locale]}
+              </Link>
+            );
+          })}
         </div>
 
         {/* ========================= */}
@@ -308,20 +314,26 @@ export default function Header() {
             {/* ========================= */}
 
             <div className="mt-auto space-y-3 pt-10">
-              {HEADER_ACTIONS.map((action) => (
-                <Link
-                  key={action.href}
-                  href={localizedHref(action.href)}
-                  onClick={() => setMobileOpen(false)}
-                  className={
-                    action.variant === "primary"
-                      ? "btn btn-primary w-full"
-                      : "btn btn-secondary w-full"
-                  }
-                >
-                  {action.label[locale]}
-                </Link>
-              ))}
+              {HEADER_ACTIONS.map((action) => {
+                const isExternal = action.href.startsWith("http");
+
+                return (
+                  <Link
+                    key={action.href}
+                    href={isExternal ? action.href : localizedHref(action.href)}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    onClick={() => setMobileOpen(false)}
+                    className={
+                      action.variant === "primary"
+                        ? "btn btn-primary w-full"
+                        : "btn btn-secondary w-full"
+                    }
+                  >
+                    {action.label[locale]}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </aside>

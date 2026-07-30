@@ -1,3 +1,5 @@
+//src/config/navigation.ts
+
 import { HeaderAction, NavigationItem } from "@/types/navigation";
 
 export const NAVIGATION: NavigationItem[] = [
@@ -33,15 +35,14 @@ export const NAVIGATION: NavigationItem[] = [
     },
     href: "/about",
   },
-
   {
-  href: "/community",
-  label: {
-    "zh-Hant-TW": "社群",
-    en: "Community",
-    "ms-MY": "Komuniti",
+    href: "/community",
+    label: {
+      "zh-Hant-TW": "社群",
+      en: "Community",
+      "ms-MY": "Komuniti",
+    },
   },
-},
 ];
 
 export const HEADER_ACTIONS: HeaderAction[] = [
@@ -51,7 +52,9 @@ export const HEADER_ACTIONS: HeaderAction[] = [
       en: "Register",
       "ms-MY": "Daftar",
     },
-    href: "/register",
+
+    href: "https://landing.wptglobal.com/zh-TW/invite-bonus-tw?referralCode=I12O4Z",
+
     variant: "secondary",
   },
   {
@@ -60,7 +63,9 @@ export const HEADER_ACTIONS: HeaderAction[] = [
       en: "Download",
       "ms-MY": "Muat Turun",
     },
-    href: "/download",
+
+    href: "https://landing.wptglobal.com/zh-TW/invite-bonus-tw?referralCode=I12O4Z",
+
     variant: "primary",
   },
 ];
