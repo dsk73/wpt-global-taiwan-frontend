@@ -37,7 +37,6 @@ export default function Header() {
 
   const [languageOpen, setLanguageOpen] = useState(false);
 
-
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
 
@@ -68,15 +67,28 @@ export default function Header() {
       <div className="hidden border-b border-white/10 bg-[#070B15] lg:block">
         <div className="container flex h-10 items-center justify-between text-sm">
           <div className="flex items-center gap-6">
-            {TOPBAR_LINKS.map((item) => (
-              <Link
-                key={item.href}
-                href={localizedHref(item.href)}
-                className="text-slate-300 transition hover:text-white"
-              >
-                {item.label[locale]}
-              </Link>
-            ))}
+            {TOPBAR_LINKS.map((item) => {
+              const isFaq = item.href === "/faq";
+              const isPartnership = item.href === "/partnership";
+
+              return (
+                <Link
+                  key={item.href}
+                  href={
+                    isFaq
+                      ? localizedHref("/#faq")
+                      : isPartnership
+                        ? "https://lin.ee/Ow9fvQx"
+                        : localizedHref(item.href)
+                  }
+                  target={isPartnership ? "_blank" : undefined}
+                  rel={isPartnership ? "noopener noreferrer" : undefined}
+                  className="text-slate-300 transition hover:text-white"
+                >
+                  {item.label[locale]}
+                </Link>
+              );
+            })}
           </div>
 
           <div className="relative">
