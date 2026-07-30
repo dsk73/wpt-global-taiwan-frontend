@@ -1,5 +1,3 @@
-//src/features/footer/components/Footer.tsx
-
 "use client";
 
 import Image from "next/image";
@@ -24,101 +22,125 @@ const DESCRIPTION: Record<Locale, string> = {
     "WPT Global Taiwan ialah destinasi rasmi anda untuk kejohanan, promosi, pembelajaran poker dan ganjaran eksklusif.",
 };
 
-const NAVIGATION: Record<Locale, { label: string; href: string }[]> = {
-  "zh-Hant-TW": [
-    { label: "首頁", href: "/" },
-    { label: "活動", href: "#activities" },
-    { label: "下載", href: "#download" },
-    { label: "FAQ", href: "#faq" },
-    { label: "聯絡我們", href: "#contact" },
-  ],
-  en: [
-    { label: "Home", href: "/" },
-    { label: "Activities", href: "#activities" },
-    { label: "Download", href: "#download" },
-    { label: "FAQ", href: "#faq" },
-    { label: "Contact", href: "#contact" },
-  ],
-  "ms-MY": [
-    { label: "Laman Utama", href: "/" },
-    { label: "Aktiviti", href: "#activities" },
-    { label: "Muat Turun", href: "#download" },
-    { label: "FAQ", href: "#faq" },
-    { label: "Hubungi", href: "#contact" },
-  ],
-};
-
 const LEGAL: Record<Locale, { label: string; href: string }[]> = {
   "zh-Hant-TW": [
-    { label: "使用條款", href: "#" },
-    { label: "隱私政策", href: "#" },
-    { label: "Cookies 政策", href: "#" },
-    { label: "責任遊戲", href: "#" },
+    { label: "條款與條件", href: "#" },
+    { label: "隱私權政策", href: "#" },
+    { label: "Cookie 政策", href: "#" },
+    { label: "KYC 政策和程序", href: "#" },
+    { label: "客戶接受政策", href: "#" },
+    { label: "獎金政策", href: "#" },
+    { label: "客戶爭議解決", href: "#" },
   ],
   en: [
     { label: "Terms & Conditions", href: "#" },
     { label: "Privacy Policy", href: "#" },
-    { label: "Cookies Policy", href: "#" },
-    { label: "Responsible Gaming", href: "#" },
+    { label: "Cookie Policy", href: "#" },
+    { label: "KYC Policy", href: "#" },
+    { label: "Customer Acceptance Policy", href: "#" },
+    { label: "Bonus Policy", href: "#" },
+    { label: "Complaint Resolution", href: "#" },
   ],
   "ms-MY": [
     { label: "Terma & Syarat", href: "#" },
     { label: "Dasar Privasi", href: "#" },
-    { label: "Dasar Cookies", href: "#" },
-    { label: "Permainan Bertanggungjawab", href: "#" },
+    { label: "Dasar Cookie", href: "#" },
+    { label: "Dasar & Prosedur KYC", href: "#" },
+    { label: "Dasar Penerimaan Pelanggan", href: "#" },
+    { label: "Dasar Bonus", href: "#" },
+    { label: "Penyelesaian Aduan", href: "#" },
   ],
 };
 
-const SOCIAL = [
-  {
-    label: "Official LINE",
-    href: "https://lin.ee/ybdTE8k",
-    icon: "line" as const,
-  },
-  {
-    label: "Official LINE Community",
-    href: "https://reurl.cc/53qANy",
-    icon: "line" as const,
-  },
-  {
-    label: "Telegram",
-    href: "https://t.me/wptg_tw",
-    icon: "telegram" as const,
-  },
-  {
-    label: "Official Instagram",
-    href: "https://www.instagram.com/wptglobal_kol",
-    icon: "Official Instagram" as const,
-  },
-  {
-    label: "Instagram Channel",
-    href: "https://www.instagram.com/agogo_poker",
-    icon: "instagram" as const,
-  },
-];
+const COMMUNITY: Record<Locale, { label: string; href: string }[]> = {
+  "zh-Hant-TW": [
+    {
+      label: "官方LINE",
+      href: "https://lin.ee/ybdTE8k",
+    },
+    {
+      label: "LINE 社群",
+      href: "https://reurl.cc/53qANy",
+    },
+    {
+      label: "官方 Instagram",
+      href: "https://www.instagram.com/wptglobal_kol",
+    },
+    {
+      label: "Instagram 頻道",
+      href: "https://www.instagram.com/agogo_poker",
+    },
+    {
+      label: "玩家交流群",
+      href: "https://t.me/wptg_tw",
+    },
+  ],
+
+  en: [
+    {
+      label: "Official LINE",
+      href: "https://lin.ee/ybdTE8k",
+    },
+    {
+      label: "LINE Community",
+      href: "https://reurl.cc/53qANy",
+    },
+    {
+      label: "Official Instagram",
+      href: "https://www.instagram.com/wptglobal_kol",
+    },
+    {
+      label: "Instagram Channel",
+      href: "https://www.instagram.com/agogo_poker",
+    },
+    {
+      label: "Player Community",
+      href: "https://t.me/wptg_tw",
+    },
+  ],
+
+  "ms-MY": [
+    {
+      label: "LINE Rasmi",
+      href: "https://lin.ee/ybdTE8k",
+    },
+    {
+      label: "Komuniti LINE",
+      href: "https://reurl.cc/53qANy",
+    },
+    {
+      label: "Instagram Rasmi",
+      href: "https://www.instagram.com/wptglobal_kol",
+    },
+    {
+      label: "Saluran Instagram",
+      href: "https://www.instagram.com/agogo_poker",
+    },
+    {
+      label: "Komuniti Pemain",
+      href: "https://t.me/wptg_tw",
+    },
+  ],
+};
 
 const TITLES: Record<
   Locale,
   {
-    navigation: string;
     legal: string;
     social: string;
   }
 > = {
   "zh-Hant-TW": {
-    navigation: "快速連結",
     legal: "法律資訊",
     social: "社群媒體",
   },
   en: {
-    navigation: "Navigation",
     legal: "Legal",
-    social: "Social Media",
+    social: "Community",
   },
   "ms-MY": {
-    navigation: "Navigasi",
     legal: "Perundangan",
-    social: "Media Sosial",
+    social: "Komuniti",
   },
 };
 
@@ -131,14 +153,13 @@ export default function Footer({ locale }: FooterProps) {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-12 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.45 }}
-            className="col-span-2 lg:col-span-1"
           >
             <Link href="/">
               <Image
@@ -156,17 +177,14 @@ export default function Footer({ locale }: FooterProps) {
             </p>
           </motion.div>
 
-          {/* Navigation */}
-          <FooterColumn
-            title={TITLES[locale].navigation}
-            items={NAVIGATION[locale]}
-          />
-
           {/* Legal */}
           <FooterColumn title={TITLES[locale].legal} items={LEGAL[locale]} />
 
-          {/* Social */}
-          <SocialLinks title={TITLES[locale].social} links={SOCIAL} />
+          {/* Community */}
+          <SocialLinks
+            title={TITLES[locale].social}
+            links={COMMUNITY[locale]}
+          />
         </div>
 
         <FooterBottom locale={locale} />

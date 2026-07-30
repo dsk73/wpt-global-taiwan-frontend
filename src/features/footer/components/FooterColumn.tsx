@@ -1,3 +1,5 @@
+//src/features/footer/components/FooterColumn.tsx
+
 "use client";
 
 import Link from "next/link";
