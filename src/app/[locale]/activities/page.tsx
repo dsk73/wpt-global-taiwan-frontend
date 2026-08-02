@@ -16,9 +16,9 @@ interface ActivitiesPageProps {
 }
 
 const PAGE_TITLE: Record<Locale, string> = {
-  "zh-Hant-TW": "最新活動",
-  en: "Activities",
-  "ms-MY": "Aktiviti",
+  "zh-Hant-TW": "最新活動與優惠",
+  en: "Latest Activities & Promotions",
+  "ms-MY": "Aktiviti & Promosi Terkini",
 };
 
 const PAGE_DESCRIPTION: Record<Locale, string> = {

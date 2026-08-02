@@ -16,15 +16,15 @@ interface ActivitiesProps {
 }
 
 const EYEBROWS: Record<Locale, string> = {
-  "zh-Hant-TW": "最新活動",
+  "zh-Hant-TW": "最新活動與優惠",
   en: "LATEST ACTIVITIES",
   "ms-MY": "AKTIVITI TERKINI",
 };
 
 const TITLES: Record<Locale, string> = {
   "zh-Hant-TW": "最新活動與優惠",
-  en: "Latest News & Promotions",
-  "ms-MY": "Berita & Promosi Terkini",
+  en: "Latest Activities & Promotions",
+  "ms-MY": "Aktiviti & Promosi Terkini",
 };
 
 const SUBTITLES: Record<Locale, string> = {
