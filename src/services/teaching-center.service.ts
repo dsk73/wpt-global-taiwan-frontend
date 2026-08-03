@@ -1,32 +1,35 @@
-// src/services/teaching-center.service.ts
+import { getTeachingGuide, getTeachingGuides } from "./api/teaching-center.api";
 
-import {
-  getTeachingCenterArticle,
-  getTeachingCenterArticles,
-} from "./api/teaching-center.api";
+import { teachingGuideSchema } from "@/schemas/teaching-center.schema";
 
 import type { Locale } from "@/providers";
-import type { TeachingCenterArticle } from "@/types/teaching-center";
+import type { TeachingGuide } from "@/types/teaching-guide";
 
 /**
- * Get all active Teaching Center articles
+ * Get all active teaching guides
  */
-export async function fetchTeachingCenterArticles(
+export async function fetchTeachingGuides(
   locale: Locale,
-): Promise<TeachingCenterArticle[]> {
-  const articles = await getTeachingCenterArticles(locale);
+): Promise<TeachingGuide[]> {
+  const guides = await getTeachingGuides(locale);
 
-  return articles.filter((article) => article.Active);
+  return guides
+    .map((guide) => teachingGuideSchema.parse(guide))
+    .filter((guide) => guide.Active);
 }
 
 /**
- * Get a single Teaching Center article by slug
+ * Get a single teaching guide by slug
  */
-export async function fetchTeachingCenterArticle(
+export async function fetchTeachingGuide(
   slug: string,
   locale: Locale,
-): Promise<TeachingCenterArticle | null> {
-  const articles = await getTeachingCenterArticle(slug, locale);
+): Promise<TeachingGuide | null> {
+  const guides = await getTeachingGuide(slug, locale);
 
-  return articles.length > 0 ? articles[0] : null;
+  if (guides.length === 0) {
+    return null;
+  }
+
+  return teachingGuideSchema.parse(guides[0]);
 }

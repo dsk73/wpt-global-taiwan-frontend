@@ -4,3 +4,5 @@ export * from "./about.api";
 export * from "./payment.api";
 export * from "./register.api";
 export * from "./download.api";
+export * from "./teaching-center.api";
+export * from "./teaching-center-page.api";

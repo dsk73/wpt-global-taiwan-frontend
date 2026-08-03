@@ -3,28 +3,28 @@
 import TeachingCenterCard from "./TeachingCenterCard";
 
 import type { Locale } from "@/providers";
-import type { TeachingCenterArticle } from "@/types/teaching-center";
+import type { TeachingGuide } from "@/types/teaching-guide";
 
 interface TeachingCenterGridProps {
-  articles: TeachingCenterArticle[];
+  guides: TeachingGuide[];
   locale: Locale;
 }
 
 export default function TeachingCenterGrid({
-  articles,
+  guides,
   locale,
 }: TeachingCenterGridProps) {
-  if (!articles.length) {
+  if (!guides.length) {
     return null;
   }
 
   return (
     <section className="py-16">
       <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-        {articles.map((article) => (
+        {guides.map((guide) => (
           <TeachingCenterCard
-            key={article.documentId}
-            article={article}
+            key={guide.documentId}
+            guide={guide}
             locale={locale}
           />
         ))}

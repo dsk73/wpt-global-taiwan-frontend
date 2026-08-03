@@ -11,3 +11,4 @@ export * from "./about.service";
 export * from "./register.service";
 export * from "./download.service";
 export * from "./community-page.service";
+export * from "./teaching-center-page.service";

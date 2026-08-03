@@ -5,11 +5,15 @@ export interface MediaFormat {
   hash: string;
   ext: string;
   mime: string;
+
   path?: string | null;
-  width: number;
-  height: number;
+
+  width: number | null;
+  height: number | null;
+
   size: number;
   sizeInBytes?: number;
+
   url: string;
 }
 
@@ -31,8 +35,8 @@ export interface Media {
   alternativeText?: string | null;
   caption?: string | null;
 
-  width?: number;
-  height?: number;
+  width?: number | null;
+  height?: number | null;
 
   ext?: string;
   mime?: string;

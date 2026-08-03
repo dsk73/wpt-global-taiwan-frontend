@@ -1,27 +1,50 @@
-// src/services/api/teaching-center.api.ts
-
 import { fetcher } from "@/lib/fetcher";
+import { buildQuery } from "@/lib/query-builder";
 
 import type { Locale } from "@/providers";
-import type { TeachingCenterArticle } from "@/types/teaching-center";
+import type { TeachingGuide } from "@/types/teaching-guide";
 
-const ENDPOINT = "/teaching-center-articles";
+const ENDPOINT = "/teaching-guides";
 
-export async function getTeachingCenterArticles(
+export async function getTeachingGuides(
   locale: Locale,
-): Promise<TeachingCenterArticle[]> {
-  return fetcher.getCollection<TeachingCenterArticle>(
-    `${ENDPOINT}?locale=${locale}&sort[0]=DisplayOrder:asc&sort[1]=PublishDate:desc&populate=*`,
-  );
+): Promise<TeachingGuide[]> {
+  const query = buildQuery({
+    locale,
+    sort: ["DisplayOrder:asc"],
+    populate: {
+      Thumbnail: true,
+      BannerImage: true,
+      GuideSections: {
+        populate: "*",
+      },
+      localizations: true,
+    },
+  });
+
+  return fetcher.getCollection<TeachingGuide>(`${ENDPOINT}?${query}`);
 }
 
-export async function getTeachingCenterArticle(
+export async function getTeachingGuide(
   slug: string,
   locale: Locale,
-): Promise<TeachingCenterArticle[]> {
-  return fetcher.getCollection<TeachingCenterArticle>(
-    `${ENDPOINT}?locale=${locale}&filters[Slug][$eq]=${encodeURIComponent(
-      slug,
-    )}&populate=*`,
-  );
+): Promise<TeachingGuide[]> {
+  const query = buildQuery({
+    locale,
+    filters: {
+      Slug: {
+        $eq: slug,
+      },
+    },
+    populate: {
+      Thumbnail: true,
+      BannerImage: true,
+      GuideSections: {
+        populate: "*",
+      },
+      localizations: true,
+    },
+  });
+
+  return fetcher.getCollection<TeachingGuide>(`${ENDPOINT}?${query}`);
 }

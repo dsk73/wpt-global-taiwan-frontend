@@ -12,3 +12,4 @@ export * from "./register";
 export * from "./download";
 export * from "./category";
 export * from "./community-page";
+export * from "./teaching-guide";
