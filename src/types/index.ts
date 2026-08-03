@@ -1,3 +1,5 @@
+// src/types/index.ts
+
 export * from "./activity";
 export * from "./ambassador";
 export * from "./hero";

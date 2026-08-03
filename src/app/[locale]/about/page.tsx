@@ -1,13 +1,14 @@
-import ReactMarkdown from "react-markdown";
+// src/app/[locale]/about/page.tsx
 
-import Header from "@/features/header/components/Header";
 import Footer from "@/features/footer/components/Footer";
 
 import {
+  AboutGlobalSection,
   AboutHero,
+  AboutIntroduction,
+  CoreValuesSection,
   MissionSection,
   VisionSection,
-  CoreValuesSection,
 } from "@/features/about";
 
 import { fetchAboutPage } from "@/services";
@@ -27,19 +28,12 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
   return (
     <>
-      <Header />
       <main>
         <AboutHero about={about} />
 
-        {about.Content?.trim() && (
-          <section className="py-16 md:py-20">
-            <div className="container mx-auto max-w-5xl px-4">
-              <div className="prose prose-lg max-w-none dark:prose-invert">
-                <ReactMarkdown>{about.Content}</ReactMarkdown>
-              </div>
-            </div>
-          </section>
-        )}
+        <AboutIntroduction about={about} />
+
+        <AboutGlobalSection about={about} />
 
         <MissionSection about={about} />
 

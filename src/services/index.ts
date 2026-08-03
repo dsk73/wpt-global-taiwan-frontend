@@ -1,3 +1,5 @@
+// src/services/index.ts
+
 export * from "./hero.service";
 export * from "./activities.service";
 export * from "./payment.service";
