@@ -29,7 +29,12 @@ export default function CommunityLineCTA({ social }: CommunityLineCTAProps) {
               {social.Icon ? (
                 <Image
                   src={getMediaUrl(social.Icon.url)}
-                  alt={social.Icon.alternativeText ?? social.Label}
+                  alt={
+                    social.Icon.alternativeText ||
+                    social.Label ||
+                    social.Platform ||
+                    "Community social icon"
+                  }
                   width={64}
                   height={64}
                   className="h-full w-full object-contain"

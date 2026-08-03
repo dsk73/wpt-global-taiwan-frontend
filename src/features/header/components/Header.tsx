@@ -181,7 +181,7 @@ export default function Header() {
 
             return (
               <Link
-                key={action.href}
+                key={`${action.variant}-${action.label.en}`}
                 href={isExternal ? action.href : localizedHref(action.href)}
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
@@ -319,7 +319,7 @@ export default function Header() {
 
                 return (
                   <Link
-                    key={action.href}
+                    key={`${action.variant}-${action.label.en}`}
                     href={isExternal ? action.href : localizedHref(action.href)}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}

@@ -1,3 +1,5 @@
+//src/app/layout.tsx
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -27,6 +29,7 @@ export default function RootLayout({
     <html
       lang="zh-Hant-TW"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#070B16] text-white">

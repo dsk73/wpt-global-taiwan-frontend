@@ -27,7 +27,7 @@ export default function CommunitySocialCard({
         {social.Icon ? (
           <Image
             src={getMediaUrl(social.Icon.url)}
-            alt={social.Label}
+            alt={social.Label || social.Platform || "Community social icon"}
             width={64}
             height={64}
             className="h-16 w-16 object-contain transition-transform duration-300 group-hover:scale-110"
