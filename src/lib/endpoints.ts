@@ -28,6 +28,8 @@ export const ENDPOINTS = {
 
   DOWNLOAD: "/download-page",
 
+  COMMUNITY_PAGE: "/community-page",
+
   PARTNERSHIP: "/partnership",
 
   REGISTER: "/register",

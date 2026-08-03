@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import Header from "@/features/header/components/Header";
 import Footer from "@/features/footer/components/Footer";
 import {
   DownloadButtons,

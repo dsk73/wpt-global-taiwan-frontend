@@ -1,3 +1,5 @@
+//src/types/category.ts
+
 import type { Activity } from "./activity";
 
 /**
