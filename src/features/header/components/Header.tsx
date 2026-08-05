@@ -62,7 +62,6 @@ export default function Header() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#070B15] shadow-sm transition-colors duration-300">
       {/* ========================= */}
       {/* TOP BAR */}
-      {/* ========================= */}
 
       <div className="hidden border-b border-white/10 bg-[#070B15] lg:block">
         <div className="container flex h-10 items-center justify-between text-sm">
