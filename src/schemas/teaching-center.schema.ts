@@ -97,7 +97,7 @@ export const teachingCenterPageSchema = z.object({
 
   GuideSectionDescription: z.string(),
 
-  SEO: seoSchema.optional(),
+  SEO: seoSchema.nullable(),
 
   locale: z.string(),
 });

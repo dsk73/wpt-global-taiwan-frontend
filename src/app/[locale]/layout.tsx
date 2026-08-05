@@ -3,6 +3,7 @@
 import Header from "@/features/header/components/Header";
 import { DEFAULT_LOCALE, isValidLocale } from "@/config/languages";
 import { LocaleProvider, type Locale } from "@/providers";
+import { notFound } from "next/navigation";
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -17,7 +18,11 @@ export default async function LocaleLayout({
 }: LocaleLayoutProps) {
   const { locale } = await params;
 
-  const currentLocale: Locale = isValidLocale(locale) ? locale : DEFAULT_LOCALE;
+if (!isValidLocale(locale)) {
+  notFound();
+}
+
+const currentLocale: Locale = locale;
 
   return (
     <LocaleProvider locale={currentLocale}>

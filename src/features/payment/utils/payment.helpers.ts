@@ -26,9 +26,9 @@ const numberFormatter = new Intl.NumberFormat("en-US");
  * "USDT • USD • TWD"
  */
 export function formatCurrencies(
-  currencies: string[] = [],
+  currencies: string[] | null | undefined,
 ): string {
-  return currencies.join(" • ");
+  return (currencies ?? []).join(" • ");
 }
 
 /**

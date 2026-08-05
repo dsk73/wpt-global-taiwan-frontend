@@ -60,12 +60,12 @@ export default function FeaturedActivity({
             />
 
             <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
-
-            {activity.Tags.length > 0 && (
-              <div className="absolute left-6 top-6 rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-black">
-                {activity.Tags[0]}
-              </div>
-            )}
+	
+	{activity.Tags?.length > 0 && (
+  	<div className="absolute left-6 top-6 rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-black">
+    	{activity.Tags[0]}
+  	</div>
+	)}
           </div>
 
           {/* Content */}

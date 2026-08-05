@@ -84,7 +84,7 @@ export interface TeachingCenterPage {
 
   GuideSectionDescription: string;
 
-  SEO?: SEO;
+  SEO?: SEO | null;
 
   locale: string;
 }

@@ -4,14 +4,20 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "wpt-global-taiwan-backend.onrender.com",
+        protocol: "http",
+        hostname: "54.179.185.61",
+        port: "1338",
         pathname: "/uploads/**",
       },
       {
         protocol: "http",
         hostname: "localhost",
         port: "1338",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "wpt-global-taiwan-backend.onrender.com",
         pathname: "/uploads/**",
       },
     ],

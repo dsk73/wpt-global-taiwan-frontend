@@ -15,6 +15,9 @@ import { fetchFAQs } from "@/services";
 
 import type { Locale } from "@/providers";
 
+import { notFound } from "next/navigation";
+import { isValidLocale } from "@/config/languages";
+
 interface HomePageProps {
   params: Promise<{
     locale: Locale;
@@ -23,6 +26,10 @@ interface HomePageProps {
 
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
+
+if (!isValidLocale(locale)) {
+  notFound();
+}
 
   const [slides, ambassadors, payments, activitiesData, faqs] =
     await Promise.all([
@@ -37,10 +44,11 @@ export default async function HomePage({ params }: HomePageProps) {
     <>
       <Hero slides={slides} />
 
-      <main>
-        <Ambassadors ambassadors={ambassadors} locale={locale} />
+	<main>
+	<Ambassadors ambassadors={ambassadors} locale={locale} />
         <Payment payments={payments} locale={locale} />
-        <Activities
+
+	<Activities
           activities={[
             ...(activitiesData.featured ? [activitiesData.featured] : []),
             ...activitiesData.activities,
@@ -53,11 +61,11 @@ export default async function HomePage({ params }: HomePageProps) {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <FAQSection faqs={faqs} locale={locale} limit={5} />
           </div>
-        </section>{" "}
-      </main>
+	 </section>{" "}
+        </main>
 
       <Footer locale={locale} />
-      <FloatingLineButton />
+      <FloatingLineButton />  
     </>
   );
 }
