@@ -34,7 +34,7 @@ export default function ActivityHero({ activity, locale }: ActivityHeroProps) {
   return (
     <section className="relative overflow-hidden">
       {/* Banner */}
-      <div className="relative h-[420px] w-full md:h-[520px] lg:h-[620px]">
+      <div className="relative h-105 w-full md:h-130 lg:h-155">
         <Image
           src={
             activity.BannerImage?.url ??

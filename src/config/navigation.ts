@@ -6,7 +6,7 @@ export const NAVIGATION: NavigationItem[] = [
   {
     label: {
       "zh-Hant-TW": "最新活動",
-      en: "Activities",
+      en: "Promotions",
       "ms-MY": "Aktiviti",
     },
     href: "/activities",
@@ -30,7 +30,7 @@ export const NAVIGATION: NavigationItem[] = [
   {
     label: {
       "zh-Hant-TW": "關於我們",
-      en: "About",
+      en: "About Us",
       "ms-MY": "Tentang Kami",
     },
     href: "/about",

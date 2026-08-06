@@ -15,11 +15,9 @@ interface FooterProps {
 }
 
 const DESCRIPTION: Record<Locale, string> = {
-  "zh-Hant-TW":
-    "WPT Global Taiwan 是您的官方德州撲克平台，提供最新賽事、活動、教學以及玩家專屬優惠。",
-  en: "WPT Global Taiwan is your official destination for tournaments, promotions, poker education and exclusive player benefits.",
-  "ms-MY":
-    "WPT Global Taiwan ialah destinasi rasmi anda untuk kejohanan, promosi, pembelajaran poker dan ganjaran eksklusif.",
+  "zh-Hant-TW": "",
+  en: "",
+  "ms-MY": "",
 };
 
 const LEGAL: Record<Locale, { label: string; href: string }[]> = {
@@ -36,10 +34,10 @@ const LEGAL: Record<Locale, { label: string; href: string }[]> = {
     { label: "Terms & Conditions", href: "#" },
     { label: "Privacy Policy", href: "#" },
     { label: "Cookie Policy", href: "#" },
-    { label: "KYC Policy", href: "#" },
+    { label: "KYC Policies and Procedures", href: "#" },
     { label: "Customer Acceptance Policy", href: "#" },
     { label: "Bonus Policy", href: "#" },
-    { label: "Complaint Resolution", href: "#" },
+    { label: "Complaint Dispute Resolution", href: "#" },
   ],
   "ms-MY": [
     { label: "Terma & Syarat", href: "#" },
@@ -123,26 +121,6 @@ const COMMUNITY: Record<Locale, { label: string; href: string }[]> = {
   ],
 };
 
-const TITLES: Record<
-  Locale,
-  {
-    legal: string;
-    social: string;
-  }
-> = {
-  "zh-Hant-TW": {
-    legal: "法律資訊",
-    social: "社群媒體",
-  },
-  en: {
-    legal: "Legal",
-    social: "Community",
-  },
-  "ms-MY": {
-    legal: "Perundangan",
-    social: "Komuniti",
-  },
-};
 
 export default function Footer({ locale }: FooterProps) {
   return (
@@ -172,18 +150,18 @@ export default function Footer({ locale }: FooterProps) {
               />
             </Link>
 
-            <p className="mt-6 max-w-xs leading-7 text-white/60">
-              {DESCRIPTION[locale]}
-            </p>
+            {DESCRIPTION[locale] && (
+              <p className="mt-6 max-w-xs leading-7 text-white/60">
+                {DESCRIPTION[locale]}
+              </p>
+            )}
           </motion.div>
 
           {/* Legal */}
-          <FooterColumn title={TITLES[locale].legal} items={LEGAL[locale]} />
-
+          <FooterColumn title="" items={LEGAL[locale]} />
           {/* Community */}
           <SocialLinks
-            title={TITLES[locale].social}
-            links={COMMUNITY[locale]}
+            title="" links={COMMUNITY[locale]}
           />
         </div>
 
