@@ -60,6 +60,41 @@ export interface HeroSEO {
 }
 
 /* ============================================================
+ * Hero Promotion Card
+ * ============================================================ */
+
+export interface HeroPromotionBenefit {
+  id: number;
+
+  Title: string | null;
+  Description: string | null;
+
+  Icon: HeroImage | null;
+}
+
+export interface HeroPromotionCard {
+  id: number;
+  documentId: string;
+
+  CardTitle: string | null;
+  Badge: string | null;
+
+  ReferralCode: string | null;
+  ReferralURL: string | null;
+
+  ShowCountdown: boolean;
+  CountdownText: string | null;
+
+  Benefits: HeroPromotionBenefit[];
+
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+
+  locale?: Locale;
+}
+
+/* ============================================================
  * Hero Slide (Raw Strapi Response)
  * ============================================================ */
 
@@ -116,6 +151,6 @@ export interface HeroMeta {
  * ============================================================ */
 
 export interface HeroApiResponse {
-  data: HeroSlide[];
-  meta?: HeroMeta;
+  slides: HeroSlide[];
+  promotionCard: HeroPromotionCard | null;
 }

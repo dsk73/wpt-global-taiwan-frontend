@@ -52,6 +52,51 @@ export const heroSEOSchema = z.object({
 
 /**
  * ============================================================
+ * Hero Promotion Benefit Schema
+ * ============================================================
+ */
+
+export const heroPromotionBenefitSchema = z.object({
+  id: z.number(),
+
+  Title: z.string().nullable(),
+  Description: z.string().nullable(),
+
+  Icon: heroImageSchema.nullable(),
+});
+
+/**
+ * ============================================================
+ * Hero Promotion Card Schema
+ * ============================================================
+ */
+
+export const heroPromotionCardSchema = z.object({
+  id: z.number(),
+  documentId: z.string(),
+
+  CardTitle: z.string().nullable(),
+
+  Badge: z.string().nullable(),
+
+  ReferralCode: z.string().nullable(),
+  ReferralURL: z.string().nullable(),
+
+  ShowCountdown: z.boolean(),
+
+  CountdownText: z.string().nullable(),
+
+  Benefits: z.array(heroPromotionBenefitSchema),
+
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+  publishedAt: z.string().optional(),
+
+  locale: z.string().optional(),
+});
+
+/**
+ * ============================================================
  * Hero Slide Schema
  * ============================================================
  */
@@ -117,8 +162,8 @@ export const heroMetaSchema = z.object({
  */
 
 export const heroResponseSchema = z.object({
-  data: z.array(heroSlideSchema),
-  meta: heroMetaSchema.optional(),
+  slides: z.array(heroSlideSchema),
+  promotionCard: heroPromotionCardSchema.nullable(),
 });
 
 /**
@@ -129,5 +174,13 @@ export const heroResponseSchema = z.object({
 
 export type HeroImageDTO = z.infer<typeof heroImageSchema>;
 export type HeroSEODTO = z.infer<typeof heroSEOSchema>;
+
+export type HeroPromotionBenefitDTO = z.infer<
+  typeof heroPromotionBenefitSchema
+>;
+
+export type HeroPromotionCardDTO = z.infer<typeof heroPromotionCardSchema>;
+
 export type HeroSlideDTO = z.infer<typeof heroSlideSchema>;
+
 export type HeroResponseDTO = z.infer<typeof heroResponseSchema>;

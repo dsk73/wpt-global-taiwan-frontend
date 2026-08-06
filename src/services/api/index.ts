@@ -6,3 +6,4 @@ export * from "./register.api";
 export * from "./download.api";
 export * from "./teaching-center.api";
 export * from "./teaching-center-page.api";
+export * from "./hero-promotion.api";

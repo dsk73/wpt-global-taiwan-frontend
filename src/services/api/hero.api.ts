@@ -1,15 +1,17 @@
 import { buildQuery } from "@/lib/query-builder";
 import { DEFAULT_SORT, ENDPOINTS } from "@/lib/endpoints";
 import fetcher from "@/lib/fetcher";
+
 import type { Locale } from "@/providers";
-import type { HeroSlide } from "@/types/hero";
+
+import type { HeroPromotionCard, HeroSlide } from "@/types/hero";
 
 /**
  * ============================================================
  * Hero API
  * ============================================================
  *
- * This layer is responsible ONLY for communicating with Strapi.
+ * Responsible ONLY for communicating with Strapi.
  *
  * Responsibilities:
  * - Build request query
@@ -17,38 +19,59 @@ import type { HeroSlide } from "@/types/hero";
  * - Return raw Strapi response
  *
  * This layer should NEVER:
+ * - Transform data
  * - Filter slides
- * - Sort slides manually
- * - Normalize image URLs
- * - Build button objects
- * - Transform DTOs
+ * - Sort manually
+ * - Normalize media URLs
  *
- * Those responsibilities belong to hero.service.ts.
+ * Those belong in hero.service.ts
  * ============================================================
  */
 
 /**
- * Fetch all Hero slides for the requested locale.
+ * ============================================================
+ * Hero Slides
+ * ============================================================
  */
-export async function getHeroSlides(
-  locale: Locale,
-): Promise<HeroSlide[]> {
+
+export async function getHeroSlides(locale: Locale): Promise<HeroSlide[]> {
   const query = buildQuery({
     locale,
     populate: "*",
     sort: DEFAULT_SORT,
   });
 
-  return fetcher.getCollection<HeroSlide>(
-    `${ENDPOINTS.HERO}?${query}`,
+  return fetcher.getCollection<HeroSlide>(`${ENDPOINTS.HERO}?${query}`);
+}
+
+/**
+ * ============================================================
+ * Hero Promotion Card (Single Type)
+ * ============================================================
+ */
+
+export async function getHeroPromotionCard(
+  locale: Locale,
+): Promise<HeroPromotionCard | null> {
+  const query = buildQuery({
+    locale,
+    populate: "*",
+  });
+
+  return fetcher.getSingle<HeroPromotionCard>(
+    `${ENDPOINTS.HERO_PROMOTION_CARD}?${query}`,
   );
 }
 
 /**
+ * ============================================================
  * Hero API
+ * ============================================================
  */
+
 export const heroApi = {
   getHeroSlides,
+  getHeroPromotionCard,
 };
 
 export default heroApi;

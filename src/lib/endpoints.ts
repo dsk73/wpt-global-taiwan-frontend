@@ -37,6 +37,8 @@ export const ENDPOINTS = {
   POKER_EXCHANGE: "/poker-exchange",
 
   TEACHING_CENTER: "/teaching-center",
+
+  HERO_PROMOTION_CARD: "/hero-promotion-card",
 } as const;
 
 /**

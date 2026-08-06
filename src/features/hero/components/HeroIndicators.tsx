@@ -20,12 +20,7 @@ export default function HeroIndicators({
   }
 
   return (
-    <div
-      className={cn(
-        "absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3",
-        className,
-      )}
-    >
+    <div className={cn("flex items-center justify-center gap-3", className)}>
       {Array.from({ length: total }).map((_, index) => {
         const isActive = index === currentIndex;
 
@@ -40,8 +35,8 @@ export default function HeroIndicators({
               "cursor-pointer rounded-full transition-all duration-300",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary)",
               isActive
-                ? "h-3 w-8 bg-(--primary)"
-                : "h-3 w-3 bg-white/50 hover:bg-white/80",
+                ? "h-2.5 w-10 rounded-full bg-(--primary)"
+                : "h-2.5 w-2.5 rounded-full bg-white/40 hover:bg-white/70",
             )}
           />
         );
