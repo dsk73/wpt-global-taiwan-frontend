@@ -25,12 +25,13 @@ const SUBTITLES: Record<Locale, string> = {
     "快速找到有關 WPT Global Taiwan、付款方式、下載、促銷活動、教學中心等常見問題。",
   en: "Find answers to the most common questions about WPT Global Taiwan, payments, downloads, promotions, teaching center and more.",
   "ms-MY":
-    "Cari jawapan kepada soalan lazim mengenai WPT Global Taiwan, pembayaran, muat turun, promosi dan banyak lagi.",
+    "Cari jawapan kepada soalan lazim mengenai WPT Global Taiwan, pembayaran, muat turun, promosi dan banyak lagi。",
 };
 
 export default function FAQHeader({ locale }: FAQHeaderProps) {
   return (
     <motion.div
+      id="faq"
       initial={{ opacity: 0, x: -30 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}

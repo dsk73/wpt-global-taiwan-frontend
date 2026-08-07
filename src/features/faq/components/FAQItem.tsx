@@ -5,6 +5,7 @@ import { useState } from "react";
 import clsx from "clsx";
 import { ChevronDown } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import type { FAQ } from "@/types";
 
@@ -16,100 +17,96 @@ interface FAQItemProps {
 export default function FAQItem({ faq, defaultOpen = false }: FAQItemProps) {
   const [open, setOpen] = useState(defaultOpen);
 
+  const contentId = `faq-${faq.documentId}`;
+
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0D1424] transition-all duration-300">
       <button
         type="button"
+        aria-expanded={open}
+        aria-controls={contentId}
         onClick={() => setOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition hover:bg-white/5"
+        className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left transition-all duration-200 hover:bg-white/5 active:scale-[0.995] md:px-7 md:py-6"
       >
-        <h3 className="text-base font-semibold text-white md:text-lg">
+        <h3 className="text-base font-semibold leading-7 text-white md:text-lg">
           {faq.Question}
         </h3>
 
         <ChevronDown
           className={clsx(
-            "h-5 w-5 shrink-0 text-white transition-transform duration-300",
+            "h-6 w-6 shrink-0 text-(--primary) transition-transform duration-300",
             open && "rotate-180",
           )}
         />
       </button>
 
       <div
+        id={contentId}
         className={clsx(
-          "grid transition-all duration-300 ease-in-out",
+          "grid overflow-hidden transition-all duration-300 ease-in-out",
           open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
         <div className="overflow-hidden">
-          <div className="border-t border-white/10 px-6 py-5">
-            <ReactMarkdown
-              components={{
-                p: ({ children }) => (
-                  <p className="leading-7 text-white/70">{children}</p>
-                ),
+          <div className="border-t border-white/10 px-6 py-5 md:px-7 md:py-6">
+            <div
+              className={clsx(
+                "prose prose-invert max-w-none",
 
-                a: ({ href, children }) => (
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="
-      inline-flex
-      items-center
-      gap-1
-      font-semibold
-      italic
-      text-sky-400
-      underline
-      underline-offset-4
-      decoration-sky-400
-      transition-all
-      duration-200
-      hover:text-sky-300
-      hover:decoration-sky-300
-    "
-                  >
-                    {children}
-                  </a>
-                ),
+                // Paragraphs
+                "prose-p:text-white/70",
+                "prose-p:leading-8",
 
-                strong: ({ children }) => (
-                  <strong className="font-semibold text-white">
-                    {children}
-                  </strong>
-                ),
+                // Headings
+                "prose-headings:text-white",
 
-                ul: ({ children }) => (
-                  <ul className="ml-6 list-disc space-y-2 text-white/70">
-                    {children}
-                  </ul>
-                ),
+                // Bold
+                "prose-strong:text-white",
 
-                ol: ({ children }) => (
-                  <ol className="ml-6 list-decimal space-y-2 text-white/70">
-                    {children}
-                  </ol>
-                ),
+                // Lists
+                "prose-ul:space-y-2",
+                "prose-ol:space-y-2",
+                "prose-li:text-white/70",
 
-                li: ({ children }) => <li>{children}</li>,
-              }}
+                // Links
+                "prose-a:text-sky-400",
+                "prose-a:no-underline",
+                "hover:prose-a:underline",
+                "hover:prose-a:text-sky-300",
+
+                // Tables
+                "prose-table:w-full",
+                "prose-table:border-collapse",
+
+                "prose-th:border",
+                "prose-th:border-white/10",
+                "prose-th:bg-white/5",
+                "prose-th:px-4",
+                "prose-th:py-3",
+
+                "prose-td:border",
+                "prose-td:border-white/10",
+                "prose-td:px-4",
+                "prose-td:py-3",
+
+                // Images
+                "prose-img:rounded-xl",
+
+                // Code
+                "prose-code:text-cyan-300",
+                "prose-code:before:content-none",
+                "prose-code:after:content-none",
+
+                // Code blocks
+                "prose-pre:bg-[#101827]",
+                "prose-pre:border",
+                "prose-pre:border-white/10",
+              )}
             >
-              {faq.Answer}
-            </ReactMarkdown>
-
-            {faq.category && (
-              <div className="mt-5">
-                <span
-                  className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold text-white"
-                  style={{
-                    backgroundColor: faq.category.Color,
-                  }}
-                >
-                  {faq.category.Name}
-                </span>
-              </div>
-            )}
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {faq.Answer}
+              </ReactMarkdown>
+            </div>
           </div>
         </div>
       </div>

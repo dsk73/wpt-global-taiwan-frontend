@@ -31,7 +31,7 @@ export default async function HomePage({ params }: HomePageProps) {
     notFound();
   }
 
-  const [hero, ambassadors, , activitiesData, faqs] = await Promise.all([
+  const [hero, ambassadors, , activitiesData, groupedFAQs] = await Promise.all([
     getHeroData(locale),
     getBrandAmbassadors(locale),
     getPaymentMethods(locale),
@@ -58,7 +58,7 @@ export default async function HomePage({ params }: HomePageProps) {
           <FAQHeader locale={locale} />
 
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <FAQSection faqs={faqs} locale={locale} limit={5} />
+            <FAQSection groupedFAQs={groupedFAQs} locale={locale} />{" "}
           </div>
         </section>
       </main>

@@ -1,7 +1,7 @@
 //src/app/[locale]/layout.tsx
 
 import Header from "@/features/header/components/Header";
-import { DEFAULT_LOCALE, isValidLocale } from "@/config/languages";
+import { isValidLocale } from "@/config/languages";
 import { LocaleProvider, type Locale } from "@/providers";
 import { notFound } from "next/navigation";
 

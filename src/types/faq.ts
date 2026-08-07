@@ -1,4 +1,13 @@
-import type { Category } from "./category";
+// src/types/faq.ts
+
+export type FAQCategory =
+  | "my-account"
+  | "wpt-global"
+  | "kyc"
+  | "deposits"
+  | "withdrawals"
+  | "account-security"
+  | "promotions";
 
 export interface FAQ {
   id: number;
@@ -7,12 +16,12 @@ export interface FAQ {
   Question: string;
   Answer: string;
 
+  Category: FAQCategory;
+
   DisplayOrder: number;
   Active: boolean;
 
   locale: string;
-
-  category?: Category | null;
 
   localizations?: FAQ[];
 
@@ -20,3 +29,5 @@ export interface FAQ {
   updatedAt: string;
   publishedAt: string;
 }
+
+export type GroupedFAQs = Record<FAQCategory, FAQ[]>;

@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 
 import { notFound } from "next/navigation";
+
 import Footer from "@/features/footer/components/Footer";
-import { FAQHero, FAQSection } from "@/features/faq";
+import { FAQHero, FAQPage } from "@/features/faq";
+
 import { fetchFAQs } from "@/services";
+
 import type { Locale } from "@/providers";
 
 interface FAQPageProps {
@@ -21,40 +24,49 @@ export async function generateMetadata({
     title:
       locale === "zh-Hant-TW"
         ? "常見問題 | WPT Global Taiwan"
-        : "Frequently Asked Questions | WPT Global Taiwan",
+        : locale === "ms-MY"
+          ? "Soalan Lazim | WPT Global Taiwan"
+          : "Frequently Asked Questions | WPT Global Taiwan",
 
     description:
       locale === "zh-Hant-TW"
-        ? "查看有關 WPT Global Taiwan、付款方式、下載、促銷活動、教學中心等常見問題。"
-        : "Find answers to common questions about WPT Global Taiwan, payments, downloads, promotions, teaching center, and more.",
+        ? "查看有關 WPT Global Taiwan、付款方式、下載、促銷活動、帳戶及更多資訊的常見問題。"
+        : locale === "ms-MY"
+          ? "Cari jawapan kepada soalan lazim mengenai WPT Global Taiwan, pembayaran, promosi, akaun dan banyak lagi."
+          : "Find answers to frequently asked questions about WPT Global Taiwan, payments, promotions, accounts and more.",
   };
 }
 
-export default async function FAQPage({ params }: FAQPageProps) {
+export default async function FAQPageRoute({ params }: FAQPageProps) {
   const { locale } = await params;
 
-  const faqs = await fetchFAQs(locale);
+  const groupedFAQs = await fetchFAQs(locale);
 
-  if (!faqs) {
+  if (!groupedFAQs) {
     notFound();
   }
 
   return (
     <>
-      <main className="min-h-screen bg-black">
+      <main className="min-h-screen bg-[#070B15]">
         <FAQHero
           title={
-            locale === "zh-Hant-TW" ? "常見問題" : "Frequently Asked Questions"
+            locale === "zh-Hant-TW"
+              ? "常見問題"
+              : locale === "ms-MY"
+                ? "Soalan Lazim"
+                : "Frequently Asked Questions"
           }
           subtitle={
             locale === "zh-Hant-TW"
-              ? "快速找到有關 WPT Global Taiwan、付款、下載、促銷活動及更多資訊的解答。"
-              : "Find answers to the most frequently asked questions about WPT Global Taiwan."
+              ? "快速找到有關 WPT Global Taiwan、付款、提款、KYC、優惠活動及更多資訊的解答。"
+              : locale === "ms-MY"
+                ? "Cari jawapan kepada soalan lazim mengenai WPT Global Taiwan."
+                : "Find answers to the most frequently asked questions about WPT Global Taiwan."
           }
         />
-        <section className="py-16 lg:py-20">
-          <FAQSection faqs={faqs} locale={locale} showCategories showSearch />
-        </section>
+
+        <FAQPage locale={locale} groupedFAQs={groupedFAQs} />
       </main>
 
       <Footer locale={locale} />

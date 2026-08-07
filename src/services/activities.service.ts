@@ -1,9 +1,6 @@
 //src/services/activities.service.ts
 
-import {
-  getActivities,
-  getActivityBySlug,
-} from "./api/activities.api";
+import { getActivities, getActivityBySlug } from "./api/activities.api";
 
 import { getMediaUrl } from "@/lib/media";
 
@@ -55,25 +52,18 @@ function normalizeMedia(activity: Activity): Activity {
 /**
  * Get homepage activities.
  */
-export async function getHomepageActivities(
-  locale: Locale,
-) {
+export async function getHomepageActivities(locale: Locale) {
   const activities = await getActivities(locale);
 
   const normalized = activities
     .filter((activity) => activity.Active)
-    .sort(
-      (a, b) => a.DisplayOrder - b.DisplayOrder,
-    )
+    .sort((a, b) => a.DisplayOrder - b.DisplayOrder)
     .map(normalizeMedia);
 
-  const featured =
-    normalized.find((activity) => activity.Featured) ??
-    null;
+  const featured = normalized.find((activity) => activity.Featured) ?? null;
 
   const latest = normalized.filter(
-    (activity) =>
-      activity.documentId !== featured?.documentId,
+    (activity) => activity.documentId !== featured?.documentId,
   );
 
   return {
@@ -85,16 +75,12 @@ export async function getHomepageActivities(
 /**
  * Get all activities.
  */
-export async function getAllActivities(
-  locale: Locale,
-): Promise<Activity[]> {
+export async function getAllActivities(locale: Locale): Promise<Activity[]> {
   const activities = await getActivities(locale);
 
   return activities
     .filter((activity) => activity.Active)
-    .sort(
-      (a, b) => a.DisplayOrder - b.DisplayOrder,
-    )
+    .sort((a, b) => a.DisplayOrder - b.DisplayOrder)
     .map(normalizeMedia);
 }
 
@@ -128,24 +114,27 @@ export async function getRelatedActivities(
   const activities = await getAllActivities(locale);
 
   return activities
-    .filter(
-      (activity) =>
-        activity.documentId !== currentDocumentId,
-    )
+    .filter((activity) => activity.documentId !== currentDocumentId)
     .slice(0, limit);
 }
 /**
  * Get activity slugs.
  */
-export async function getActivitySlugs(
-  locale: Locale,
-): Promise<string[]> {
-  const activities =
-    await getAllActivities(locale);
+export async function getActivitySlugs(locale: Locale): Promise<string[]> {
+  try {
+    const activities = await getAllActivities(locale);
 
-  return activities.map(
-    (activity) => activity.Slug,
-  );
+    console.log(
+      `Activity Slugs (${locale}):`,
+      activities.map((a) => a.Slug),
+    );
+
+    return activities.map((activity) => activity.Slug);
+  } catch (error) {
+    console.error(`Failed to load activity slugs for locale: ${locale}`, error);
+
+    return [];
+  }
 }
 
 /**
