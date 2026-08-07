@@ -2,10 +2,15 @@
 
 import type { Media } from "./media";
 
-export interface CoreValue {
+export interface AboutFeature {
   id: number;
   Title: string;
   Description: string;
+  Image?: Media | null;
+  ButtonText: string;
+  ButtonURL: string;
+  DisplayOrder: number;
+  Active: boolean;
 }
 
 export interface AboutSEO {
@@ -22,29 +27,22 @@ export interface AboutPage {
   documentId: string;
 
   // Hero
-  Title: string;
-  BannerImage?: Media | null;
+  HeroTitle: string;
+  HeroSubtitle: string;
+  HeroBannerImage?: Media | null;
 
-  // Introduction
-  IntroductionLogo?: Media | null;
-  IntroductionContent: string;
+  // About Section
+  AboutTitle: string;
+  AboutLogo?: Media | null;
+  AboutContent: string;
 
-  // Global Section
-  GlobalImage?: Media | null;
+  // Intro Section
+  SectionTitle: string;
+  SectionContent: string;
+  SectionImage?: Media | null;
 
-  // Mission
-  MissionTitle: string;
-  MissionContent: string;
-  MissionImage?: Media | null;
-
-  // Vision
-  VisionTitle: string;
-  VisionContent: string;
-  VisionImage?: Media | null;
-
-  // Core Values
-  CoreValuesTitle: string;
-  CoreValues: CoreValue[];
+  // Features
+  Features: AboutFeature[];
 
   // SEO
   SEO?: AboutSEO | null;

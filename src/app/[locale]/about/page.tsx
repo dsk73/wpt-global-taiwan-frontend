@@ -6,9 +6,6 @@ import {
   AboutGlobalSection,
   AboutHero,
   AboutIntroduction,
-  CoreValuesSection,
-  MissionSection,
-  VisionSection,
 } from "@/features/about";
 
 import { fetchAboutPage } from "@/services";
@@ -28,18 +25,10 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
   return (
     <>
-      <main>
+      <main className="bg-[#07090F]">
         <AboutHero about={about} />
-
         <AboutIntroduction about={about} />
-
-        <AboutGlobalSection about={about} />
-
-        <MissionSection about={about} />
-
-        <VisionSection about={about} />
-
-        <CoreValuesSection about={about} />
+        <AboutGlobalSection about={about} />{" "}
       </main>
 
       <Footer locale={locale} />

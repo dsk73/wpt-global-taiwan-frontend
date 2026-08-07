@@ -23,10 +23,15 @@ const mediaSchema = z
   .nullable()
   .optional();
 
-const coreValueSchema = z.object({
+const aboutFeatureSchema = z.object({
   id: z.number(),
   Title: z.string(),
   Description: z.string(),
+  Image: mediaSchema,
+  ButtonText: z.string().nullable().optional(),
+  ButtonURL: z.string().nullable().optional(),
+  DisplayOrder: z.number(),
+  Active: z.boolean(),
 });
 
 const seoSchema = z
@@ -45,32 +50,31 @@ export const aboutPageSchema = z.object({
   id: z.number(),
   documentId: z.string(),
 
-  Title: z.string(),
+  // Hero
+  HeroTitle: z.string(),
+  HeroSubtitle: z.string(),
+  HeroBannerImage: mediaSchema,
 
-  BannerImage: mediaSchema,
+  // About Section
+  AboutTitle: z.string(),
+  AboutLogo: mediaSchema,
+  AboutContent: z.string(),
 
-  IntroductionLogo: mediaSchema,
+  // Intro Section
+  SectionTitle: z.string(),
+  SectionContent: z.string(),
+  SectionImage: mediaSchema,
 
-  IntroductionContent: z.string(),
+  // Features
+  Features: z.array(aboutFeatureSchema),
 
-  GlobalImage: mediaSchema,
-
-  MissionTitle: z.string(),
-  MissionContent: z.string(),
-  MissionImage: mediaSchema,
-
-  VisionTitle: z.string(),
-  VisionContent: z.string(),
-  VisionImage: mediaSchema,
-
-  CoreValuesTitle: z.string(),
-
-  CoreValues: z.array(coreValueSchema),
-
+  // SEO
   SEO: seoSchema,
 
+  // Localization
   locale: z.string(),
 
+  // Timestamps
   createdAt: z.string(),
   updatedAt: z.string(),
   publishedAt: z.string(),
