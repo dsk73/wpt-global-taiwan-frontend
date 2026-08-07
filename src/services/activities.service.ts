@@ -111,11 +111,16 @@ export async function getRelatedActivities(
   currentDocumentId: string,
   limit = 3,
 ): Promise<Activity[]> {
-  const activities = await getAllActivities(locale);
+  try {
+    const activities = await getAllActivities(locale);
 
-  return activities
-    .filter((activity) => activity.documentId !== currentDocumentId)
-    .slice(0, limit);
+    return activities
+      .filter((activity) => activity.documentId !== currentDocumentId)
+      .slice(0, limit);
+  } catch (error) {
+    console.error("Related activities error:", error);
+    return [];
+  }
 }
 /**
  * Get activity slugs.

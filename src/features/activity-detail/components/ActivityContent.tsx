@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import DOMPurify from "isomorphic-dompurify";
 
 import { cn } from "@/lib/utils";
 
@@ -97,11 +96,15 @@ export default function ActivityContent({
           "prose-img:rounded-2xl",
           "prose-img:shadow-2xl",
 
-          /* Horizontal rule */
+          /* Horizontal Rule */
           "prose-hr:border-white/10",
         )}
       >
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(content),
+          }}
+        />
       </article>
     </motion.section>
   );
