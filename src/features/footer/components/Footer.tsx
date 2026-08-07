@@ -62,7 +62,7 @@ const COMMUNITY: Record<Locale, { label: string; href: string }[]> = {
     },
     {
       label: "官方 Instagram",
-      href: "https://www.instagram.com/wptglobal_kol",
+      href: "https://www.instagram.com/pokerbonus.tw/",
     },
     {
       label: "Instagram 頻道",
@@ -85,7 +85,7 @@ const COMMUNITY: Record<Locale, { label: string; href: string }[]> = {
     },
     {
       label: "Official Instagram",
-      href: "https://www.instagram.com/wptglobal_kol",
+      href: "https://www.instagram.com/pokerbonus.tw/",
     },
     {
       label: "Instagram Channel",
@@ -108,7 +108,7 @@ const COMMUNITY: Record<Locale, { label: string; href: string }[]> = {
     },
     {
       label: "Instagram Rasmi",
-      href: "https://www.instagram.com/wptglobal_kol",
+      href: "https://www.instagram.com/pokerbonus.tw/",
     },
     {
       label: "Saluran Instagram",
