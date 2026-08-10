@@ -11,19 +11,19 @@ interface TeachingGuideSectionsProps {
 export default function TeachingGuideSections({
   guide,
 }: TeachingGuideSectionsProps) {
-  if (!guide.GuideSections?.length) {
+  if (!guide.Sections?.length) {
     return null;
   }
 
+  const sections = [...guide.Sections].sort(
+    (a, b) => a.DisplayOrder - b.DisplayOrder,
+  );
+
   return (
     <section className="py-8">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {guide.GuideSections.map((section, index) => (
-          <TeachingGuideSection
-            key={section.id}
-            section={section}
-            reverse={index % 2 === 1}
-          />
+      <div className="space-y-20">
+        {sections.map((section) => (
+          <TeachingGuideSection key={section.id} section={section} />
         ))}
       </div>
     </section>

@@ -14,14 +14,47 @@ export interface SEO {
 }
 
 /* ---------------------------------------
- * Guide Section
+ * Teaching Guide Step
  * ------------------------------------- */
 
-export interface GuideSection {
+export interface TeachingGuideStep {
+  id: number;
+  StepNumber: number;
+  Content: string;
+  Image?: Media | null;
+  DisplayOrder: number;
+}
+
+/* ---------------------------------------
+ * Teaching Guide Section
+ * ------------------------------------- */
+
+export interface TeachingGuideSection {
   id: number;
   Title: string;
-  Description: string;
-  Image?: Media | null;
+
+  /**
+   * Number of columns to display for this section.
+   *
+   * Examples:
+   * 3 = Computer section
+   * 4 = Mobile section
+   */
+  Columns: number;
+
+  DisplayOrder: number;
+  Steps: TeachingGuideStep[];
+}
+
+/* ---------------------------------------
+ * CTA Button
+ * ------------------------------------- */
+
+export interface TeachingGuideCTA {
+  id?: number;
+  Label: string;
+  URL: string;
+  OpenInNewTab: boolean;
 }
 
 /* ---------------------------------------
@@ -30,39 +63,28 @@ export interface GuideSection {
 
 export interface TeachingGuide {
   id: number;
-
   documentId: string;
 
   Title: string;
-
   Slug: string;
 
-  Summary: string;
-
-  Content: string;
-
+  /**
+   * Dedicated thumbnail used for the
+   * Teaching Center guide card.
+   */
   Thumbnail?: Media | null;
 
-  BannerImage?: Media | null;
+  /**
+   * Guide sections containing the
+   * individual instructional steps.
+   */
+  Sections: TeachingGuideSection[];
 
-  DisplayOrder: number;
-
-  Active: boolean;
-
-  GuideType:
-    | "Download"
-    | "Register"
-    | "Deposit"
-    | "Withdrawal"
-    | "MultiCurrency"
-    | "Verification"
-    | "Bonus"
-    | "Tournament"
-    | "Security"
-    | "FAQ"
-    | "Other";
-
-  GuideSections: GuideSection[];
+  /**
+   * Optional single CTA displayed at
+   * the bottom of the guide detail page.
+   */
+  CTA?: TeachingGuideCTA | null;
 
   locale: string;
 }
@@ -73,15 +95,11 @@ export interface TeachingGuide {
 
 export interface TeachingCenterPage {
   id: number;
-
   documentId: string;
 
   HeroTitle: string;
 
-  HeroSubtitle: string;
-
   GuideSectionTitle: string;
-
   GuideSectionDescription: string;
 
   SEO?: SEO | null;

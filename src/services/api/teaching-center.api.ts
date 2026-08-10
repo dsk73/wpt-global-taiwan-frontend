@@ -6,24 +6,41 @@ import type { TeachingGuide } from "@/types/teaching-guide";
 
 const ENDPOINT = "/teaching-guides";
 
+/* ---------------------------------------
+ * Get all Teaching Guides
+ * ------------------------------------- */
+
 export async function getTeachingGuides(
   locale: Locale,
 ): Promise<TeachingGuide[]> {
   const query = buildQuery({
     locale,
-    sort: ["DisplayOrder:asc"],
+
     populate: {
       Thumbnail: true,
-      BannerImage: true,
-      GuideSections: {
-        populate: "*",
+
+      Sections: {
+        populate: {
+          Steps: {
+            populate: {
+              Image: true,
+            },
+          },
+        },
       },
+
+      CTA: true,
+
       localizations: true,
     },
   });
 
-  return fetcher.getCollection<TeachingGuide>(`${ENDPOINT}?${query}`);
+  return fetcher.getCollection(`${ENDPOINT}?${query}`);
 }
+
+/* ---------------------------------------
+ * Get Teaching Guide by Slug
+ * ------------------------------------- */
 
 export async function getTeachingGuide(
   slug: string,
@@ -31,20 +48,31 @@ export async function getTeachingGuide(
 ): Promise<TeachingGuide[]> {
   const query = buildQuery({
     locale,
+
     filters: {
       Slug: {
         $eq: slug,
       },
     },
+
     populate: {
       Thumbnail: true,
-      BannerImage: true,
-      GuideSections: {
-        populate: "*",
+
+      Sections: {
+        populate: {
+          Steps: {
+            populate: {
+              Image: true,
+            },
+          },
+        },
       },
+
+      CTA: true,
+
       localizations: true,
     },
   });
 
-  return fetcher.getCollection<TeachingGuide>(`${ENDPOINT}?${query}`);
+  return fetcher.getCollection(`${ENDPOINT}?${query}`);
 }

@@ -19,16 +19,14 @@ export default function TeachingCenterGrid({
   }
 
   return (
-    <section className="py-16">
-      <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-        {guides.map((guide) => (
-          <TeachingCenterCard
-            key={guide.documentId}
-            guide={guide}
-            locale={locale}
-          />
-        ))}
-      </div>
-    </section>
+    <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      {guides.map((guide) => (
+        <TeachingCenterCard
+          key={guide.documentId}
+          guide={guide}
+          locale={locale}
+        />
+      ))}
+    </div>
   );
 }

@@ -26,14 +26,38 @@ export const seoSchema = z.object({
 });
 
 /* ---------------------------------------
- * Guide Section
+ * Teaching Guide Step
  * ------------------------------------- */
 
-export const guideSectionSchema = z.object({
+export const teachingGuideStepSchema = z.object({
+  id: z.number(),
+  StepNumber: z.number(),
+  Content: z.string(),
+  Image: mediaSchema,
+  DisplayOrder: z.number(),
+});
+
+/* ---------------------------------------
+ * Teaching Guide Section
+ * ------------------------------------- */
+
+export const teachingGuideSectionSchema = z.object({
   id: z.number(),
   Title: z.string(),
-  Description: z.string(),
-  Image: mediaSchema,
+  Columns: z.number(),
+  DisplayOrder: z.number(),
+  Steps: z.array(teachingGuideStepSchema),
+});
+
+/* ---------------------------------------
+ * CTA Button
+ * ------------------------------------- */
+
+export const teachingGuideCTASchema = z.object({
+  id: z.number().optional(),
+  Label: z.string(),
+  URL: z.string(),
+  OpenInNewTab: z.boolean(),
 });
 
 /* ---------------------------------------
@@ -42,40 +66,28 @@ export const guideSectionSchema = z.object({
 
 export const teachingGuideSchema = z.object({
   id: z.number(),
-
   documentId: z.string(),
 
   Title: z.string(),
-
   Slug: z.string(),
 
-  Summary: z.string(),
-
-  Content: z.string(),
-
+  /**
+   * Dedicated thumbnail used on the
+   * Teaching Center guide card.
+   */
   Thumbnail: mediaSchema,
 
-  BannerImage: mediaSchema,
+  /**
+   * Guide sections containing
+   * instructional steps.
+   */
+  Sections: z.array(teachingGuideSectionSchema),
 
-  DisplayOrder: z.number(),
-
-  Active: z.boolean(),
-
-  GuideType: z.enum([
-    "Download",
-    "Register",
-    "Deposit",
-    "Withdrawal",
-    "MultiCurrency",
-    "Verification",
-    "Bonus",
-    "Tournament",
-    "Security",
-    "FAQ",
-    "Other",
-  ]),
-
-  GuideSections: z.array(guideSectionSchema),
+  /**
+   * Optional single CTA displayed
+   * at the bottom of the guide.
+   */
+  CTA: teachingGuideCTASchema.nullable().optional(),
 
   locale: z.string(),
 });
@@ -86,15 +98,11 @@ export const teachingGuideSchema = z.object({
 
 export const teachingCenterPageSchema = z.object({
   id: z.number(),
-
   documentId: z.string(),
 
   HeroTitle: z.string(),
 
-  HeroSubtitle: z.string(),
-
   GuideSectionTitle: z.string(),
-
   GuideSectionDescription: z.string(),
 
   SEO: seoSchema.nullable(),
@@ -108,8 +116,18 @@ export const teachingCenterPageSchema = z.object({
 
 export const teachingGuideListSchema = z.array(teachingGuideSchema);
 
+/* ---------------------------------------
+ * Inferred Types
+ * ------------------------------------- */
+
 export type TeachingGuideSchema = z.infer<typeof teachingGuideSchema>;
 
 export type TeachingCenterPageSchema = z.infer<typeof teachingCenterPageSchema>;
 
-export type GuideSectionSchema = z.infer<typeof guideSectionSchema>;
+export type TeachingGuideStepSchema = z.infer<typeof teachingGuideStepSchema>;
+
+export type TeachingGuideSectionSchema = z.infer<
+  typeof teachingGuideSectionSchema
+>;
+
+export type TeachingGuideCTASchema = z.infer<typeof teachingGuideCTASchema>;

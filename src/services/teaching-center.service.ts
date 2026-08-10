@@ -5,22 +5,22 @@ import { teachingGuideSchema } from "@/schemas/teaching-center.schema";
 import type { Locale } from "@/providers";
 import type { TeachingGuide } from "@/types/teaching-guide";
 
-/**
- * Get all active teaching guides
- */
+/* ---------------------------------------
+ * Get all Teaching Guides
+ * ------------------------------------- */
+
 export async function fetchTeachingGuides(
   locale: Locale,
 ): Promise<TeachingGuide[]> {
   const guides = await getTeachingGuides(locale);
 
-  return guides
-    .map((guide) => teachingGuideSchema.parse(guide))
-    .filter((guide) => guide.Active);
+  return guides.map((guide) => teachingGuideSchema.parse(guide));
 }
 
-/**
- * Get a single teaching guide by slug
- */
+/* ---------------------------------------
+ * Get a single Teaching Guide by slug
+ * ------------------------------------- */
+
 export async function fetchTeachingGuide(
   slug: string,
   locale: Locale,

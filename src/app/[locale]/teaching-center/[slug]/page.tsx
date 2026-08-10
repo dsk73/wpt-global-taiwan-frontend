@@ -1,15 +1,13 @@
 import { notFound } from "next/navigation";
 
 import { Footer } from "@/features/footer";
-import { Header } from "@/features/header";
+
 import {
   TeachingGuideHero,
-  TeachingGuideIntroduction,
   TeachingGuideSections,
 } from "@/features/teaching-center-detail";
-import TeachingCenterGrid from "@/features/teaching-center/components/TeachingCenterGrid";
 
-import { fetchTeachingGuide, fetchTeachingGuides } from "@/services";
+import { fetchTeachingGuide } from "@/services";
 
 import type { Locale } from "@/providers";
 
@@ -31,29 +29,74 @@ export default async function TeachingCenterDetailPage({
     notFound();
   }
 
-  const relatedGuides = (await fetchTeachingGuides(locale))
-    .filter((item) => item.documentId !== guide.documentId)
-    .slice(0, 3);
-
   return (
     <>
-      <Header />
+      <main className="min-h-screen bg-[#070B15] pt-32">
+        {/* -------------------------------------------------------
+         * Hero
+         * ----------------------------------------------------- */}
 
-      <main className="bg-[#070B15] pt-32">
         <TeachingGuideHero guide={guide} />
 
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <TeachingGuideIntroduction guide={guide} />
+        {/* -------------------------------------------------------
+         * Guide Sections
+         * ----------------------------------------------------- */}
 
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <TeachingGuideSections guide={guide} />
 
-          {relatedGuides.length > 0 && (
-            <section className="mt-24">
-              <h2 className="mb-10 text-3xl font-bold text-white">
-                Related Guides
-              </h2>
+          {/* -------------------------------------------------------
+           * CTA
+           * ----------------------------------------------------- */}
 
-              <TeachingCenterGrid guides={relatedGuides} locale={locale} />
+          {guide.CTA && (
+            <section className="mt-20 border-t border-white/10 pt-12">
+              <div
+                className="
+                  flex
+                  flex-col
+                  items-center
+                  justify-between
+                  gap-6
+                  rounded-3xl
+                  border
+                  border-white/10
+                  bg-white/5
+                  px-6
+                  py-8
+                  sm:flex-row
+                  sm:px-10
+                "
+              >
+                <p className="text-center text-lg font-medium text-white sm:text-left">
+                  Ready to get started?
+                </p>
+
+                <a
+                  href={guide.CTA.URL}
+                  target={guide.CTA.OpenInNewTab ? "_blank" : undefined}
+                  rel={
+                    guide.CTA.OpenInNewTab ? "noopener noreferrer" : undefined
+                  }
+                  className="
+                    inline-flex
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-(--primary)
+                    px-7
+                    py-3
+                    font-semibold
+                    text-black
+                    transition-all
+                    duration-300
+                    hover:scale-105
+                  "
+                >
+                  {guide.CTA.Label}
+                </a>
+              </div>
             </section>
           )}
         </div>
