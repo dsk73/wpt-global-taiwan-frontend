@@ -1,5 +1,3 @@
-//src/app/[locale]/community/page.tsx
-
 import { notFound } from "next/navigation";
 
 import CommunityFooterText from "@/features/community/components/CommunityFooterText";
@@ -37,12 +35,30 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
 
   return (
     <>
-      <main className="bg-background pt-32">
+      <main className="min-h-screen bg-[#070B15] pt-32">
+        {/* -------------------------------------------------------
+         * Community Hero
+         * ----------------------------------------------------- */}
+
         <CommunityHero page={page} />
 
-        {featuredSocial && <CommunityLineCTA social={featuredSocial} />}
+        {/* -------------------------------------------------------
+         * Official LINE CTA
+         * ----------------------------------------------------- */}
+
+        {featuredSocial && (
+          <CommunityLineCTA social={featuredSocial} locale={locale} />
+        )}
+
+        {/* -------------------------------------------------------
+         * Social Links
+         * ----------------------------------------------------- */}
 
         <CommunitySocialGrid socialLinks={remainingSocialLinks} />
+
+        {/* -------------------------------------------------------
+         * Footer Description
+         * ----------------------------------------------------- */}
 
         <CommunityFooterText content={page.BottomDescription} />
       </main>
