@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -14,35 +13,240 @@ interface ActivityContentProps {
 }
 
 /**
- * Converts the custom <nl> marker used in Strapi
- * into two HTML line breaks.
+ * Determines whether a Markdown line is a structural line.
  *
- * Example:
+ * Structural lines are kept together because they have special
+ * Markdown meaning:
  *
- * First paragraph.<nl>
- * Second paragraph.
+ * - headings
+ * - lists
+ * - tables
+ * - blockquotes
+ * - code fences
+ */
+function isStructuralLine(line: string): boolean {
+  const trimmed = line.trim();
+
+  if (!trimmed) return true;
+
+  /*
+   * Markdown headings
+   */
+
+  if (/^#{1,6}\s+/.test(trimmed)) {
+    return true;
+  }
+
+  /*
+   * Unordered lists
+   */
+
+  if (/^[-*+]\s+/.test(trimmed)) {
+    return true;
+  }
+
+  /*
+   * Ordered lists
+   */
+
+  if (/^\d+[.)]\s+/.test(trimmed)) {
+    return true;
+  }
+
+  /*
+   * Blockquotes
+   */
+
+  if (/^>\s?/.test(trimmed)) {
+    return true;
+  }
+
+  /*
+   * Tables
+   */
+
+  if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
+    return true;
+  }
+
+  /*
+   * Markdown table separator
+   */
+
+  if (/^\|?[\s:-]+(\|[\s:-]+)+\|?$/.test(trimmed)) {
+    return true;
+  }
+
+  /*
+   * Code fences
+   */
+
+  if (/^(```|~~~)/.test(trimmed)) {
+    return true;
+  }
+
+  /*
+   * Horizontal rules
+   */
+
+  if (/^([-*_])(?:\s*\1){2,}$/.test(trimmed)) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Normalizes Strapi Markdown without requiring custom [NL] or <nl>
+ * markers.
  *
- * becomes:
+ * The important behavior here is:
  *
- * First paragraph.<br /><br />
- * Second paragraph.
+ * Consecutive normal text lines are automatically separated into
+ * Markdown paragraphs.
  *
- * This gives a clear blank line between paragraphs
- * without depending on Markdown paragraph parsing.
+ * Structural Markdown such as lists, tables, headings and code
+ * blocks is preserved.
  */
 function normalizeMarkdown(content: string): string {
   if (!content) return "";
 
-  return content
-    // Normalize Windows line endings.
-    .replace(/\r\n/g, "\n")
+  const normalized = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
 
-    // Convert <nl>, <nl/>, and <nl /> into two line breaks.
-    .replace(/<nl\s*\/?>/gi, "<br /><br />")
+  if (!normalized) return "";
 
-    // Also support </nl> just in case.
-    .replace(/<\/nl>/gi, "<br /><br />")
+  const lines = normalized.split("\n");
 
+  const output: string[] = [];
+
+  let insideCodeBlock = false;
+  let previousWasProse = false;
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const rawLine = lines[index];
+    const line = rawLine.trimEnd();
+
+    const trimmed = line.trim();
+
+    /*
+     * ================================================================
+     * Code block handling
+     * ================================================================
+     */
+
+    if (/^(```|~~~)/.test(trimmed)) {
+      if (previousWasProse && output.length > 0) {
+        output.push("");
+      }
+
+      output.push(line);
+
+      insideCodeBlock = !insideCodeBlock;
+      previousWasProse = false;
+
+      continue;
+    }
+
+    /*
+     * Everything inside a code block must remain untouched.
+     */
+
+    if (insideCodeBlock) {
+      output.push(line);
+      previousWasProse = false;
+      continue;
+    }
+
+    /*
+     * ================================================================
+     * Existing blank line
+     * ================================================================
+     */
+
+    if (!trimmed) {
+      /*
+       * Avoid creating excessive blank lines.
+       */
+
+      if (output.length > 0 && output[output.length - 1] !== "") {
+        output.push("");
+      }
+
+      previousWasProse = false;
+
+      continue;
+    }
+
+    const structural = isStructuralLine(line);
+
+    /*
+     * ================================================================
+     * Structural Markdown
+     * ================================================================
+     *
+     * Headings, lists, tables, blockquotes etc. are kept as their
+     * own Markdown structures.
+     */
+
+    if (structural) {
+      /*
+       * If normal prose came immediately before a structural block,
+       * insert a blank line.
+       */
+
+      if (previousWasProse && output.length > 0) {
+        output.push("");
+      }
+
+      output.push(line);
+
+      previousWasProse = false;
+
+      continue;
+    }
+
+    /*
+     * ================================================================
+     * Normal prose
+     * ================================================================
+     *
+     * This is the important part.
+     *
+     * If Strapi gives us:
+     *
+     * Paragraph one
+     * Paragraph two
+     * Paragraph three
+     *
+     * we transform it into:
+     *
+     * Paragraph one
+     *
+     * Paragraph two
+     *
+     * Paragraph three
+     *
+     * so ReactMarkdown creates separate <p> elements.
+     */
+
+    if (previousWasProse) {
+      output.push("");
+    }
+
+    output.push(line);
+
+    previousWasProse = true;
+  }
+
+  /*
+   * ================================================================
+   * Cleanup
+   * ================================================================
+   */
+
+  return output
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
 
@@ -87,47 +291,12 @@ export default function ActivityContent({
           "sm:prose-p:text-base",
 
           /*
-           * Normal paragraph spacing.
+           * Separate paragraphs.
+           *
+           * The normalizer creates actual Markdown paragraph blocks.
            */
 
           "[&>p+p]:mt-6",
-
-          /*
-           * ============================================================
-           * <nl> Blank Line
-           * ============================================================
-           *
-           * <nl> is converted to:
-           *
-           * <br /><br />
-           *
-           * These rules make the generated breaks behave
-           * consistently inside the article.
-           */
-
-          "[&_br.nl-break]:block",
-
-          /*
-           * ============================================================
-           * Paragraph spacing after headings.
-           * ============================================================
-           */
-
-          "[&>h1+p]:mt-0",
-          "[&>h2+p]:mt-0",
-          "[&>h3+p]:mt-0",
-          "[&>h4+p]:mt-0",
-
-          /*
-           * ============================================================
-           * Paragraph spacing before other content blocks.
-           * ============================================================
-           */
-
-          "[&>p+ul]:mt-6",
-          "[&>p+ol]:mt-6",
-          "[&>p+blockquote]:mt-8",
-          "[&>p+table]:mt-8",
 
           /*
            * ============================================================
@@ -144,39 +313,39 @@ export default function ActivityContent({
            */
 
           "prose-h1:mt-0",
-          "prose-h1:mb-8",
-          "prose-h1:text-3xl",
+          "prose-h1:mb-6",
+          "prose-h1:text-2xl",
           "prose-h1:leading-tight",
-          "md:prose-h1:text-5xl",
+          "md:prose-h1:text-3xl",
 
           /*
            * H2
            */
 
-          "prose-h2:mt-14",
-          "prose-h2:mb-6",
-          "prose-h2:text-2xl",
+          "prose-h2:mt-8",
+          "prose-h2:mb-5",
+          "prose-h2:text-xl",
           "prose-h2:leading-tight",
-          "md:prose-h2:text-4xl",
+          "md:prose-h2:text-2xl",
 
           /*
            * H3
            */
 
-          "prose-h3:mt-10",
-          "prose-h3:mb-5",
-          "prose-h3:text-xl",
+          "prose-h3:mt-7",
+          "prose-h3:mb-4",
+          "prose-h3:text-lg",
           "prose-h3:leading-tight",
-          "md:prose-h3:text-2xl",
+          "md:prose-h3:text-xl",
 
           /*
            * H4
            */
 
-          "prose-h4:mt-8",
+          "prose-h4:mt-6",
           "prose-h4:mb-4",
-          "prose-h4:text-lg",
-          "md:prose-h4:text-xl",
+          "prose-h4:text-base",
+          "md:prose-h4:text-lg",
 
           /*
            * ============================================================
@@ -193,14 +362,32 @@ export default function ActivityContent({
            * ============================================================
            */
 
-          "prose-ul:my-7",
-          "prose-ol:my-7",
-          "prose-ul:pl-6",
-          "prose-ol:pl-6",
+          "prose-ul:my-5",
+          "prose-ol:my-5",
+
+          /*
+           * Keep bullet inside content area.
+           */
+
+          "[&>ul]:pl-5",
+          "[&>ol]:pl-5",
+
+          /*
+           * Always use disc bullets.
+           */
+
+          "[&_ul]:list-disc",
+          "[&_ol]:list-disc",
+
+          /*
+           * List items.
+           */
 
           "prose-li:my-2",
           "prose-li:leading-7",
+          "prose-li:text-[15px]",
           "prose-li:text-white/75",
+          "sm:prose-li:text-base",
           "prose-li:marker:text-(--primary)",
 
           /*
@@ -211,6 +398,23 @@ export default function ActivityContent({
           "[&_li>ol]:my-2",
           "[&_li>ul]:pl-5",
           "[&_li>ol]:pl-5",
+          "[&_li>ul]:list-disc",
+          "[&_li>ol]:list-disc",
+
+          /*
+           * ============================================================
+           * Spacing between blocks
+           * ============================================================
+           */
+
+          "[&>ul+h2]:mt-8",
+          "[&>ol+h2]:mt-8",
+
+          "[&>ul+h3]:mt-7",
+          "[&>ol+h3]:mt-7",
+
+          "[&>p+h2]:mt-8",
+          "[&>p+h3]:mt-7",
 
           /*
            * ============================================================
@@ -276,10 +480,8 @@ export default function ActivityContent({
            * ============================================================
            * TABLES
            * ============================================================
-           */
-
-          /*
-           * Tables stay inside their own scroll container on mobile.
+           *
+           * Existing table structure is preserved.
            */
 
           "[&_table]:w-full",
@@ -318,8 +520,7 @@ export default function ActivityContent({
           "md:[&_tbody_td]:px-5",
 
           /*
-           * Paragraphs inside table cells should NOT receive
-           * the large article paragraph spacing.
+           * Paragraphs inside table cells.
            */
 
           "[&_td_p]:my-0",
@@ -333,7 +534,7 @@ export default function ActivityContent({
           "hover:[&_tbody_tr]:bg-white/2.5",
 
           /*
-           * Make raw <br> line breaks look clean.
+           * <br> inside table cells.
            */
 
           "[&_td_br]:block",
@@ -341,7 +542,7 @@ export default function ActivityContent({
           "[&_td_br]:my-1",
 
           /*
-           * First and last table corners.
+           * Table corners.
            */
 
           "[&_thead_th:first-child]:rounded-tl-xl",
@@ -360,7 +561,7 @@ export default function ActivityContent({
            * ============================================================
            */
 
-          "prose-hr:my-12",
+          "prose-hr:my-10",
           "prose-hr:border-0",
           "prose-hr:border-t",
           "prose-hr:border-white/10",
@@ -430,11 +631,95 @@ export default function ActivityContent({
             /*
              * ==========================================================
              * Paragraph
-             * ============================================================
+             * ==========================================================
              */
 
             p: ({ children }) => (
-              <p className="leading-8 text-white/75">{children}</p>
+              <p className="my-0 text-[15px] leading-8 text-white/75 sm:text-base">
+                {children}
+              </p>
+            ),
+
+            /*
+             * ==========================================================
+             * H1
+             * ==========================================================
+             */
+
+            h1: ({ children }) => (
+              <h1 className="mt-0 mb-6 text-2xl font-bold leading-tight tracking-tight text-white md:text-3xl">
+                {children}
+              </h1>
+            ),
+
+            /*
+             * ==========================================================
+             * H2
+             * ==========================================================
+             */
+
+            h2: ({ children }) => (
+              <h2 className="mt-8! mb-5! text-xl font-bold leading-tight tracking-tight text-white md:text-2xl">
+                {children}
+              </h2>
+            ),
+
+            /*
+             * ==========================================================
+             * H3
+             * ==========================================================
+             */
+
+            h3: ({ children }) => (
+              <h3 className="mt-7 mb-4 text-lg font-bold leading-tight tracking-tight text-white md:text-xl">
+                {children}
+              </h3>
+            ),
+
+            /*
+             * ==========================================================
+             * H4
+             * ==========================================================
+             */
+
+            h4: ({ children }) => (
+              <h4 className="mt-6 mb-4 text-base font-bold leading-tight tracking-tight text-white md:text-lg">
+                {children}
+              </h4>
+            ),
+
+            /*
+             * ==========================================================
+             * Unordered List
+             * ==========================================================
+             */
+
+            ul: ({ children }) => (
+              <ul className="my-5 list-disc pl-5">{children}</ul>
+            ),
+
+            /*
+             * ==========================================================
+             * Ordered List
+             * ==========================================================
+             *
+             * Ordered Markdown lists intentionally become disc bullets.
+             */
+
+            ol: ({ children }) => (
+              <ul className="my-5 list-disc pl-5">{children}</ul>
+            ),
+
+            /*
+             * ==========================================================
+             * List Item
+             * ==========================================================
+             */
+
+            li: ({ children }) => (
+              <li className="my-2 pl-0 text-[15px] leading-7 text-white/75 sm:text-base">
+                {children}
+              </li>
             ),
 
             /*
@@ -444,7 +729,7 @@ export default function ActivityContent({
              */
 
             hr: () => (
-              <hr className="my-12 border-0 border-t border-white/10" />
+              <hr className="my-10 border-0 border-t border-white/10" />
             ),
 
             /*
@@ -452,15 +737,10 @@ export default function ActivityContent({
              * BR
              * ==========================================================
              *
-             * <nl> is converted to <br class="nl-break" />.
-             *
-             * The second <br> generated by normalizeMarkdown creates
-             * the visual blank line.
+             * Used mainly for <br> inside table cells.
              */
 
-            br: ({ className }) => (
-              <br className={className ?? undefined} />
-            ),
+            br: () => <br />,
           }}
         >
           {normalizedContent}
