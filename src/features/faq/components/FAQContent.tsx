@@ -66,17 +66,28 @@ export default function FAQContent({
   locale,
 }: FAQContentProps) {
   const faqs = [...(groupedFAQs[selectedCategory] ?? [])];
+
   const emptyMessage =
     EMPTY_MESSAGES[locale as keyof typeof EMPTY_MESSAGES] ?? EMPTY_MESSAGES.en;
 
+  const categoryLabel =
+    CATEGORY_LABELS[selectedCategory]?.[locale] ??
+    CATEGORY_LABELS[selectedCategory]?.en ??
+    selectedCategory;
+
   return (
-    <section className="rounded-3xl border border-white/10 bg-[#0D1424] p-8 md:p-10">
-      <h2 className="mb-8 text-2xl font-bold text-white md:text-3xl">
-        {CATEGORY_LABELS[selectedCategory][locale] ??
-          CATEGORY_LABELS[selectedCategory].en}
+    <section className="rounded-3xl border border-white/10 bg-white/3 p-6 md:p-8 lg:p-10">
+      {/* Category Title */}
+
+      <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+        {categoryLabel}
       </h2>
 
-      <FAQAccordion faqs={faqs} emptyMessage={emptyMessage} />
+      {/* Space between category title and FAQ list */}
+
+      <div className="mt-8 md:mt-10">
+        <FAQAccordion faqs={faqs} emptyMessage={emptyMessage} />
+      </div>
     </section>
   );
 }
