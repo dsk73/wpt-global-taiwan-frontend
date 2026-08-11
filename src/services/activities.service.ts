@@ -129,11 +129,6 @@ export async function getActivitySlugs(locale: Locale): Promise<string[]> {
   try {
     const activities = await getAllActivities(locale);
 
-    console.log(
-      `Activity Slugs (${locale}):`,
-      activities.map((a) => a.Slug),
-    );
-
     return activities.map((activity) => activity.Slug);
   } catch (error) {
     console.error(`Failed to load activity slugs for locale: ${locale}`, error);
