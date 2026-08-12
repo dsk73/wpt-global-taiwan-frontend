@@ -22,31 +22,46 @@ const DESCRIPTION: Record<Locale, string> = {
 
 const LEGAL: Record<Locale, { label: string; href: string }[]> = {
   "zh-Hant-TW": [
-    { label: "條款與條件", href: "#" },
-    { label: "隱私權政策", href: "#" },
-    { label: "Cookie 政策", href: "#" },
-    { label: "KYC 政策和程序", href: "#" },
-    { label: "客戶接受政策", href: "#" },
-    { label: "獎金政策", href: "#" },
-    { label: "客戶爭議解決", href: "#" },
+    { label: "條款與條件", href: "/zh-Hant-TW/legal/terms-and-conditions" },
+    { label: "隱私權政策", href: "/zh-Hant-TW/legal/privacy-policy" },
+    { label: "Cookie 政策", href: "/zh-Hant-TW/legal/cookie-policy" },
+    { label: "KYC 政策和程序", href: "/zh-Hant-TW/legal/kyc-policy" },
+    {
+      label: "客戶接受政策",
+      href: "/zh-Hant-TW/legal/customer-acceptance-policy",
+    },
+    { label: "獎金政策", href: "/zh-Hant-TW/legal/bonus-policy" },
+    { label: "客戶爭議解決", href: "/zh-Hant-TW/legal/customer-dispute-resolution" },
   ],
   en: [
-    { label: "Terms & Conditions", href: "#" },
-    { label: "Privacy Policy", href: "#" },
-    { label: "Cookie Policy", href: "#" },
-    { label: "KYC Policies and Procedures", href: "#" },
-    { label: "Customer Acceptance Policy", href: "#" },
-    { label: "Bonus Policy", href: "#" },
-    { label: "Complaint Dispute Resolution", href: "#" },
+    { label: "Terms & Conditions", href: "/en/legal/terms-and-conditions" },
+    { label: "Privacy Policy", href: "/en/legal/privacy-policy" },
+    { label: "Cookie Policy", href: "/en/legal/cookie-policy" },
+    { label: "KYC Policies and Procedures", href: "/en/legal/kyc-policy" },
+    {
+      label: "Customer Acceptance Policy",
+      href: "/en/legal/customer-acceptance-policy",
+    },
+    { label: "Bonus Policy", href: "/en/legal/bonus-policy" },
+    {
+      label: "Complaint Dispute Resolution",
+      href: "/en/legal/customer-dispute-resolution",
+    },
   ],
   "ms-MY": [
-    { label: "Terma & Syarat", href: "#" },
-    { label: "Dasar Privasi", href: "#" },
-    { label: "Dasar Cookie", href: "#" },
-    { label: "Dasar & Prosedur KYC", href: "#" },
-    { label: "Dasar Penerimaan Pelanggan", href: "#" },
-    { label: "Dasar Bonus", href: "#" },
-    { label: "Penyelesaian Aduan", href: "#" },
+    { label: "Terma & Syarat", href: "/ms-MY/legal/terms-and-conditions" },
+    { label: "Dasar Privasi", href: "/ms-MY/legal/privacy-policy" },
+    { label: "Dasar Cookie", href: "/ms-MY/legal/cookie-policy" },
+    { label: "Dasar & Prosedur KYC", href: "/ms-MY/legal/kyc-policy" },
+    {
+      label: "Dasar Penerimaan Pelanggan",
+      href: "/ms-MY/legal/customer-acceptance-policy",
+    },
+    { label: "Dasar Bonus", href: "/ms-MY/legal/bonus-policy" },
+    {
+      label: "Penyelesaian Aduan",
+      href: "/ms-MY/legal/customer-dispute-resolution",
+    },
   ],
 };
 
@@ -121,7 +136,6 @@ const COMMUNITY: Record<Locale, { label: string; href: string }[]> = {
   ],
 };
 
-
 export default function Footer({ locale }: FooterProps) {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-[#060B17]">
@@ -160,9 +174,7 @@ export default function Footer({ locale }: FooterProps) {
           {/* Legal */}
           <FooterColumn title="" items={LEGAL[locale]} />
           {/* Community */}
-          <SocialLinks
-            title="" links={COMMUNITY[locale]}
-          />
+          <SocialLinks title="" links={COMMUNITY[locale]} />
         </div>
 
         <FooterBottom locale={locale} />
