@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ArrowLeft, FileText } from "lucide-react";
 import Link from "next/link";
 
+import { Footer } from "@/features/footer";
+
 import LegalContent from "./LegalContent";
 
 import * as bonusEnModule from "./bonus-en";
@@ -146,191 +148,199 @@ export default async function BonusPolicyPage({ params }: PageProps) {
   const backHref = `/${locale}`;
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
-      {/* ======================================================
-          PAGE HEADER
-      ====================================================== */}
+    <>
+      <main className="min-h-screen bg-[#050505] text-white">
+        {/* ======================================================
+            PAGE HEADER
+        ====================================================== */}
 
-      <section
-        className="
-          border-b
-          border-white/10
-          bg-[#07090d]
-        "
-      >
-        <div
+        <section
           className="
-            mx-auto
-            w-full
-            max-w-375
-            px-5
-
-            /*
-             * More space above Back / Legal
-             */
-
-            pt-12
-            pb-7
-
-            sm:px-8
-            sm:pt-14
-            sm:pb-8
-
-            lg:px-10
-            lg:pt-16
-            lg:pb-9
-
-            xl:px-12
+            border-b
+            border-white/10
+            bg-[#07090d]
           "
         >
-          {/* ==================================================
-              BACK + LEGAL
-          ================================================== */}
-
           <div
             className="
-              flex
-              items-center
-              justify-between
-              gap-6
+              mx-auto
+              w-full
+              max-w-375
+              px-5
+
+              /*
+               * More space above Back / Legal
+               */
+
+              pt-12
+              pb-7
+
+              sm:px-8
+              sm:pt-14
+              sm:pb-8
+
+              lg:px-10
+              lg:pt-16
+              lg:pb-9
+
+              xl:px-12
             "
           >
             {/* ==================================================
-                BACK
-            ================================================== */}
-
-            <Link
-              href={backHref}
-              className="
-                group
-                inline-flex
-                items-center
-                gap-2
-                text-sm
-                font-medium
-                text-white/70
-                transition-colors
-                duration-200
-                hover:text-white
-              "
-            >
-              <ArrowLeft
-                className="
-                  h-4
-                  w-4
-                  transition-transform
-                  duration-200
-                  group-hover:-translate-x-1
-                "
-              />
-
-              <span>{text.back}</span>
-            </Link>
-
-            {/* ==================================================
-                LEGAL
+                BACK + LEGAL
             ================================================== */}
 
             <div
               className="
                 flex
                 items-center
-                gap-3
+                justify-between
+                gap-6
               "
             >
-              <div
+              {/* ==================================================
+                  BACK
+              ================================================== */}
+
+              <Link
+                href={backHref}
                 className="
-                  flex
-                  h-10
-                  w-10
-                  shrink-0
+                  group
+                  inline-flex
                   items-center
-                  justify-center
-                  rounded-lg
-                  border
-                  border-blue-500/30
-                  bg-blue-500/10
+                  gap-2
+                  text-sm
+                  font-medium
+                  text-white/70
+                  transition-colors
+                  duration-200
+                  hover:text-white
                 "
               >
-                <FileText
+                <ArrowLeft
                   className="
                     h-4
                     w-4
-                    text-blue-400
+                    transition-transform
+                    duration-200
+                    group-hover:-translate-x-1
                   "
                 />
-              </div>
 
-              <span
+                <span>{text.back}</span>
+              </Link>
+
+              {/* ==================================================
+                  LEGAL
+              ================================================== */}
+
+              <div
                 className="
-                  text-[11px]
-                  font-semibold
-                  uppercase
-                  tracking-[0.28em]
-                  text-blue-400
+                  flex
+                  items-center
+                  gap-3
                 "
               >
-                {text.legal}
-              </span>
+                <div
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-lg
+                    border
+                    border-blue-500/30
+                    bg-blue-500/10
+                  "
+                >
+                  <FileText
+                    className="
+                      h-4
+                      w-4
+                      text-blue-400
+                    "
+                  />
+                </div>
+
+                <span
+                  className="
+                    text-[11px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.28em]
+                    text-blue-400
+                  "
+                >
+                  {text.legal}
+                </span>
+              </div>
+            </div>
+
+            {/* ==================================================
+                PAGE TITLE
+            ================================================== */}
+
+            <div
+              className="
+                mt-2
+
+                sm:mt-2
+
+                lg:mt-4
+              "
+            >
+              <h1
+                className="
+                  m-0
+                  text-3xl
+                  font-bold
+                  leading-tight
+                  tracking-tight
+                  text-white
+
+                  sm:text-4xl
+
+                  md:text-5xl
+                "
+              >
+                {text.title}
+              </h1>
+
+              <p
+                className="
+                  m-0
+                  mt-2
+                  text-sm
+                  leading-6
+                  text-white/50
+
+                  sm:text-base
+                "
+              >
+                {text.lastUpdated}
+              </p>
             </div>
           </div>
+        </section>
 
-          {/* ==================================================
-              PAGE TITLE
-          ================================================== */}
+        {/* ======================================================
+            LEGAL CONTENT
 
-          <div
-            className="
-              mt-2
+            Reduced gap between header and content.
+        ====================================================== */}
 
-              sm:mt-2
-
-              lg:mt-4
-            "
-          >
-            <h1
-              className="
-                m-0
-                text-3xl
-                font-bold
-                leading-tight
-                tracking-tight
-                text-white
-
-                sm:text-4xl
-
-                md:text-5xl
-              "
-            >
-              {text.title}
-            </h1>
-
-            <p
-              className="
-                m-0
-                mt-2
-                text-sm
-                leading-6
-                text-white/50
-
-                sm:text-base
-              "
-            >
-              {text.lastUpdated}
-            </p>
-          </div>
+        <div className="-mt-10">
+          <LegalContent content={content} />
         </div>
-      </section>
+      </main>
 
       {/* ======================================================
-          LEGAL CONTENT
-
-          Reduced gap between header and content.
+          FOOTER
       ====================================================== */}
 
-      <div className="-mt-10">
-        <LegalContent content={content} />
-      </div>
-    </main>
+      <Footer locale={locale as "en" | "zh-Hant-TW" | "ms-MY"} />
+    </>
   );
 }

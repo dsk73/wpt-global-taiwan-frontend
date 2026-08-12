@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ArrowLeft, ArrowRight, FileText } from "lucide-react";
 import Link from "next/link";
 
+import { Footer } from "@/features/footer";
+
 /* ============================================================
    Locale
 ============================================================ */
@@ -221,343 +223,351 @@ export default async function LegalPage({ params }: PageProps) {
   const backHref = `/${locale}`;
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
-      {/* ======================================================
-          PAGE HEADER
-      ====================================================== */}
+    <>
+      <main className="min-h-screen bg-[#050505] text-white">
+        {/* ======================================================
+            PAGE HEADER
+        ====================================================== */}
 
-      <section
-        className="
-          border-b
-          border-white/10
-          bg-[#07090d]
-        "
-      >
-        <div
+        <section
           className="
-            mx-auto
-            w-full
-            max-w-375
-            px-5
-            pt-12
-            pb-8
-
-            sm:px-8
-            sm:pt-14
-            sm:pb-9
-
-            lg:px-10
-            lg:pt-16
-            lg:pb-10
-
-            xl:px-12
+            border-b
+            border-white/10
+            bg-[#07090d]
           "
         >
-          {/* ==================================================
-              BACK + LEGAL
-          ================================================== */}
-
           <div
             className="
-              flex
-              items-center
-              justify-between
-              gap-6
+              mx-auto
+              w-full
+              max-w-375
+              px-5
+              pt-12
+              pb-8
+
+              sm:px-8
+              sm:pt-14
+              sm:pb-9
+
+              lg:px-10
+              lg:pt-16
+              lg:pb-10
+
+              xl:px-12
             "
           >
             {/* ==================================================
-                BACK
-            ================================================== */}
-
-            <Link
-              href={backHref}
-              className="
-                group
-                inline-flex
-                items-center
-                gap-2
-                text-sm
-                font-medium
-                text-white/70
-                transition-colors
-                duration-200
-                hover:text-white
-              "
-            >
-              <ArrowLeft
-                className="
-                  h-4
-                  w-4
-                  transition-transform
-                  duration-200
-                  group-hover:-translate-x-1
-                "
-              />
-
-              <span>{text.back}</span>
-            </Link>
-
-            {/* ==================================================
-                LEGAL
+                BACK + LEGAL
             ================================================== */}
 
             <div
               className="
                 flex
                 items-center
-                gap-3
+                justify-between
+                gap-6
               "
             >
-              <div
+              {/* ==================================================
+                  BACK
+              ================================================== */}
+
+              <Link
+                href={backHref}
                 className="
-                  flex
-                  h-10
-                  w-10
-                  shrink-0
+                  group
+                  inline-flex
                   items-center
-                  justify-center
-                  rounded-lg
-                  border
-                  border-blue-500/30
-                  bg-blue-500/10
+                  gap-2
+                  text-sm
+                  font-medium
+                  text-white/70
+                  transition-colors
+                  duration-200
+                  hover:text-white
                 "
               >
-                <FileText
+                <ArrowLeft
                   className="
                     h-4
                     w-4
-                    text-blue-400
+                    transition-transform
+                    duration-200
+                    group-hover:-translate-x-1
                   "
                 />
-              </div>
 
-              <span
+                <span>{text.back}</span>
+              </Link>
+
+              {/* ==================================================
+                  LEGAL
+              ================================================== */}
+
+              <div
                 className="
-                  text-[11px]
-                  font-semibold
-                  uppercase
-                  tracking-[0.28em]
-                  text-blue-400
-                "
-              >
-                {text.legal}
-              </span>
-            </div>
-          </div>
-
-          {/* ==================================================
-              TITLE
-          ================================================== */}
-
-          <div
-            className="
-              mt-6
-
-              sm:mt-7
-
-              lg:mt-8
-            "
-          >
-            <h1
-              className="
-                m-0
-                text-3xl
-                font-bold
-                leading-tight
-                tracking-tight
-                text-white
-
-                sm:text-4xl
-
-                md:text-5xl
-              "
-            >
-              {text.title}
-            </h1>
-
-            <p
-              className="
-                m-0
-                mt-3
-                max-w-3xl
-                text-sm
-                leading-6
-                text-white/50
-
-                sm:text-base
-                sm:leading-7
-              "
-            >
-              {text.description}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ======================================================
-          LEGAL DOCUMENT LIST
-      ====================================================== */}
-
-      <section className="relative">
-        {/* ====================================================
-            BACKGROUND GLOW
-        ==================================================== */}
-
-        <div
-          className="
-            pointer-events-none
-            absolute
-            left-1/2
-            top-0
-            h-175
-            w-full
-            -translate-x-1/2
-            bg-blue-500/[0.008]
-            blur-3xl
-          "
-        />
-
-        {/* ====================================================
-            CONTENT CONTAINER
-        ==================================================== */}
-
-        <div
-          className="
-            relative
-            mx-auto
-            w-full
-            max-w-375
-            px-5
-            py-10
-
-            sm:px-8
-            sm:py-12
-
-            md:px-10
-            md:py-14
-
-            lg:px-12
-            lg:py-16
-
-            xl:px-14
-          "
-        >
-          {/* ==================================================
-              DOCUMENT LIST
-          ================================================== */}
-
-          <div
-            className="
-              grid
-              grid-cols-1
-              gap-3
-
-              md:grid-cols-2
-              md:gap-4
-            "
-          >
-            {legalPages.map((item, index) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="
-                  group
-                  relative
                   flex
-                  min-h-24
                   items-center
-                  justify-between
-                  gap-6
-                  rounded-2xl
-                  border
-                  border-white/10
-                  bg-white/2.5
-                  px-5
-                  py-5
-                  transition-all
-                  duration-200
-
-                  hover:border-blue-500/30
-                  hover:bg-white/4.5
-                  sm:px-6
-                  sm:py-6
+                  gap-3
                 "
               >
-                {/* ==================================================
-                    LEFT CONTENT
-                ================================================== */}
-
-                <div className="flex min-w-0 items-center gap-4">
-                  {/* Number */}
-
-                  <div
+                <div
+                  className="
+                    flex
+                    h-10
+                    w-10
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-lg
+                    border
+                    border-blue-500/30
+                    bg-blue-500/10
+                  "
+                >
+                  <FileText
                     className="
-                      flex
-                      h-10
-                      w-10
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-lg
-                      border
-                      border-white/10
-                      bg-white/2.5
-                      text-xs
-                      font-semibold
-                      text-white/40
-                      transition-colors
-                      duration-200
-
-                      group-hover:border-blue-500/30
-                      group-hover:bg-blue-500/10
-                      group-hover:text-blue-400
+                      h-4
+                      w-4
+                      text-blue-400
                     "
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </div>
-
-                  {/* Label */}
-
-                  <span
-                    className="
-                      text-sm
-                      font-semibold
-                      leading-6
-                      text-white/80
-                      transition-colors
-                      duration-200
-
-                      group-hover:text-white
-
-                      sm:text-base
-                    "
-                  >
-                    {item.label}
-                  </span>
+                  />
                 </div>
 
-                {/* ==================================================
-                    ARROW
-                ================================================== */}
-
-                <ArrowRight
+                <span
                   className="
-                    h-5
-                    w-5
-                    shrink-0
-                    text-white/30
+                    text-[11px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.28em]
+                    text-blue-400
+                  "
+                >
+                  {text.legal}
+                </span>
+              </div>
+            </div>
+
+            {/* ==================================================
+                TITLE
+            ================================================== */}
+
+            <div
+              className="
+                mt-6
+
+                sm:mt-7
+
+                lg:mt-8
+              "
+            >
+              <h1
+                className="
+                  m-0
+                  text-3xl
+                  font-bold
+                  leading-tight
+                  tracking-tight
+                  text-white
+
+                  sm:text-4xl
+
+                  md:text-5xl
+                "
+              >
+                {text.title}
+              </h1>
+
+              <p
+                className="
+                  m-0
+                  mt-3
+                  max-w-3xl
+                  text-sm
+                  leading-6
+                  text-white/50
+
+                  sm:text-base
+                  sm:leading-7
+                "
+              >
+                {text.description}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================
+            LEGAL DOCUMENT LIST
+        ====================================================== */}
+
+        <section className="relative">
+          {/* ====================================================
+              BACKGROUND GLOW
+          ==================================================== */}
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              left-1/2
+              top-0
+              h-175
+              w-full
+              -translate-x-1/2
+              bg-blue-500/[0.008]
+              blur-3xl
+            "
+          />
+
+          {/* ====================================================
+              CONTENT CONTAINER
+          ==================================================== */}
+
+          <div
+            className="
+              relative
+              mx-auto
+              w-full
+              max-w-375
+              px-5
+              py-10
+
+              sm:px-8
+              sm:py-12
+
+              md:px-10
+              md:py-14
+
+              lg:px-12
+              lg:py-16
+
+              xl:px-14
+            "
+          >
+            {/* ==================================================
+                DOCUMENT LIST
+            ================================================== */}
+
+            <div
+              className="
+                grid
+                grid-cols-1
+                gap-3
+
+                md:grid-cols-2
+                md:gap-4
+              "
+            >
+              {legalPages.map((item, index) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="
+                    group
+                    relative
+                    flex
+                    min-h-24
+                    items-center
+                    justify-between
+                    gap-6
+                    rounded-2xl
+                    border
+                    border-white/10
+                    bg-white/2.5
+                    px-5
+                    py-5
                     transition-all
                     duration-200
 
-                    group-hover:translate-x-1
-                    group-hover:text-blue-400
+                    hover:border-blue-500/30
+                    hover:bg-white/4.5
+                    sm:px-6
+                    sm:py-6
                   "
-                />
-              </Link>
-            ))}
+                >
+                  {/* ==================================================
+                      LEFT CONTENT
+                  ================================================== */}
+
+                  <div className="flex min-w-0 items-center gap-4">
+                    {/* Number */}
+
+                    <div
+                      className="
+                        flex
+                        h-10
+                        w-10
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-lg
+                        border
+                        border-white/10
+                        bg-white/2.5
+                        text-xs
+                        font-semibold
+                        text-white/40
+                        transition-colors
+                        duration-200
+
+                        group-hover:border-blue-500/30
+                        group-hover:bg-blue-500/10
+                        group-hover:text-blue-400
+                      "
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
+
+                    {/* Label */}
+
+                    <span
+                      className="
+                        text-sm
+                        font-semibold
+                        leading-6
+                        text-white/80
+                        transition-colors
+                        duration-200
+
+                        group-hover:text-white
+
+                        sm:text-base
+                      "
+                    >
+                      {item.label}
+                    </span>
+                  </div>
+
+                  {/* ==================================================
+                      ARROW
+                  ================================================== */}
+
+                  <ArrowRight
+                    className="
+                      h-5
+                      w-5
+                      shrink-0
+                      text-white/30
+                      transition-all
+                      duration-200
+
+                      group-hover:translate-x-1
+                      group-hover:text-blue-400
+                    "
+                  />
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+
+      {/* ======================================================
+          FOOTER
+      ====================================================== */}
+
+      <Footer locale={locale as Locale} />
+    </>
   );
 }
