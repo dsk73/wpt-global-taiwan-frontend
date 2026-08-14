@@ -112,9 +112,6 @@ export const heroSlideSchema = z.object({
   PrimaryButtonText: z.string().nullable(),
   PrimaryButtonURL: z.string().nullable(),
 
-  SecondaryButtonText: z.string().nullable(),
-  SecondaryButtonURL: z.string().nullable(),
-
   DisplayOrder: z.number(),
 
   Active: z.boolean(),

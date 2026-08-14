@@ -10,7 +10,6 @@ import {
   getLinkRel,
   getLinkTarget,
   hasPrimaryButton,
-  hasSecondaryButton,
 } from "../utils/hero.helpers";
 
 interface HeroButtonsProps {
@@ -20,37 +19,22 @@ interface HeroButtonsProps {
 
 export default function HeroButtons({ slide, className }: HeroButtonsProps) {
   const showPrimary = hasPrimaryButton(slide);
-  const showSecondary = hasSecondaryButton(slide);
 
-  if (!showPrimary && !showSecondary) {
+  if (!showPrimary) {
     return null;
   }
 
   return (
-    <div className={cn("flex flex-col gap-4 sm:flex-row", className)}>
-      {showPrimary && (
-        <Button asChild variant="primary" size="lg" className="min-w-45">
-          <Link
-            href={slide.PrimaryButtonURL!}
-            target={getLinkTarget(slide.PrimaryButtonURL!)}
-            rel={getLinkRel(slide.PrimaryButtonURL!)}
-          >
-            {slide.PrimaryButtonText}
-          </Link>
-        </Button>
-      )}
-
-      {showSecondary && (
-        <Button asChild variant="secondary" size="lg" className="min-w-45">
-          <Link
-            href={slide.SecondaryButtonURL!}
-            target={getLinkTarget(slide.SecondaryButtonURL!)}
-            rel={getLinkRel(slide.SecondaryButtonURL!)}
-          >
-            {slide.SecondaryButtonText}
-          </Link>
-        </Button>
-      )}
+    <div className={cn("flex", className)}>
+      <Button asChild variant="primary" size="lg" className="min-w-45">
+        <Link
+          href={slide.PrimaryButtonURL!}
+          target={getLinkTarget(slide.PrimaryButtonURL!)}
+          rel={getLinkRel(slide.PrimaryButtonURL!)}
+        >
+          {slide.PrimaryButtonText}
+        </Link>
+      </Button>
     </div>
   );
 }

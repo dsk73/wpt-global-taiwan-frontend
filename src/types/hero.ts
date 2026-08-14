@@ -109,9 +109,6 @@ export interface HeroSlide {
   PrimaryButtonText: string | null;
   PrimaryButtonURL: string | null;
 
-  SecondaryButtonText: string | null;
-  SecondaryButtonURL: string | null;
-
   DisplayOrder: number;
   Active: boolean;
 
