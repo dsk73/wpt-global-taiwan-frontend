@@ -1,5 +1,3 @@
-//src/features/community/components/CommunityFooterText.tsx
-
 "use client";
 
 import ReactMarkdown from "react-markdown";

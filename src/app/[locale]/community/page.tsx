@@ -26,11 +26,27 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
     notFound();
   }
 
-  const featuredSocial =
-    page.SocialLink.find((social) => social.DisplayOrder === 1) ?? null;
+  /*
+   * -----------------------------------------------------------
+   * Find the official LINE social link
+   * -----------------------------------------------------------
+   *
+   * The LINE CTA should specifically use the LINE social entry,
+   * rather than depending on DisplayOrder.
+   */
+  const lineSocial =
+    page.SocialLink.find((social) => social.Platform === "LINE") ?? null;
 
+  /*
+   * -----------------------------------------------------------
+   * Remaining Social Links
+   * -----------------------------------------------------------
+   *
+   * Keep LINE out of the social-card grid because it is already
+   * displayed separately in the dedicated LINE CTA.
+   */
   const remainingSocialLinks = page.SocialLink.filter(
-    (social) => social.DisplayOrder !== 1,
+    (social) => social.Platform !== "LINE",
   );
 
   return (
@@ -46,8 +62,14 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
          * Official LINE CTA
          * ----------------------------------------------------- */}
 
-        {featuredSocial && (
-          <CommunityLineCTA social={featuredSocial} locale={locale} />
+        {lineSocial && (
+          <CommunityLineCTA
+            social={lineSocial}
+            lineId={page.LINEID}
+            lineButtonText={page.LINEButtonText}
+            lineButtonURL={page.LINEButtonURL}
+            locale={locale}
+          />
         )}
 
         {/* -------------------------------------------------------

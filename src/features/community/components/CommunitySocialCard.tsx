@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
 
 import { getMediaUrl } from "@/lib/media";
 
@@ -152,7 +151,7 @@ export default function CommunitySocialCard({
         </div>
 
         {/* -----------------------------------------------------
-         * Right Side — Platform + Visit
+         * Right Side — Platform + Label
          * --------------------------------------------------- */}
 
         <div
@@ -184,42 +183,38 @@ export default function CommunitySocialCard({
             {social.Platform}
           </h3>
 
-          {/* Visit Button */}
+          {/* Label */}
 
-          <span
-            className="
-              mt-4
-              inline-flex
-              items-center
-              gap-2
-              rounded-xl
-              border
-              border-white/10
-              bg-white/5
-              px-4
-              py-2
-              text-sm
-              font-semibold
-              text-white/70
-              transition-all
-              duration-300
-              group-hover:border-(--primary)/40
-              group-hover:bg-(--primary)
-              group-hover:text-black
-            "
-          >
-            <span>Visit</span>
-
-            <ExternalLink
-              size={15}
+          {social.Label && (
+            <span
               className="
-                transition-transform
+                mt-3
+                inline-flex
+                max-w-full
+                items-center
+                rounded-lg
+                border
+                border-(--primary)/30
+                bg-(--primary)/10
+                px-3
+                py-1.5
+                text-sm
+                font-semibold
+                leading-5
+                tracking-wide
+                text-(--primary)
+                shadow-sm
+                transition-all
                 duration-300
-                group-hover:translate-x-0.5
-                group-hover:-translate-y-0.5
+                group-hover:border-(--primary)/50
+                group-hover:bg-(--primary)/15
+                group-hover:text-(--primary)
+                sm:text-base
               "
-            />
-          </span>
+            >
+              {social.Label}
+            </span>
+          )}
         </div>
       </div>
 

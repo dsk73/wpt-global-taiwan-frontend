@@ -1,5 +1,3 @@
-//src/features/community/components/CommunitySocialGrid.tsx
-
 "use client";
 
 import CommunitySocialCard from "./CommunitySocialCard";

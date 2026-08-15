@@ -11,6 +11,9 @@ import type { Locale } from "@/providers";
 
 interface CommunityLineCTAProps {
   social: CommunitySocialLink;
+  lineId: string;
+  lineButtonText: string;
+  lineButtonURL: string;
   locale: Locale;
 }
 
@@ -19,32 +22,31 @@ const CONTENT: Record<
   {
     title: string;
     description: string;
-    button: string;
   }
 > = {
   "zh-Hant-TW": {
     title: "需要協助？立即聯繫我們",
     description: "加入官方 LINE，真人客服即時為您服務",
-    button: "立即聯繫客服",
   },
 
   en: {
     title: "Need help? Contact us now",
     description:
       "Join our official LINE for real-time assistance from our customer support team.",
-    button: "Contact Support",
   },
 
   "ms-MY": {
     title: "Perlukan bantuan? Hubungi kami sekarang",
     description:
       "Sertai LINE rasmi kami untuk mendapatkan bantuan segera daripada pasukan khidmat pelanggan kami.",
-    button: "Hubungi Sokongan",
   },
 };
 
 export default function CommunityLineCTA({
   social,
+  lineId,
+  lineButtonText,
+  lineButtonURL,
   locale,
 }: CommunityLineCTAProps) {
   const content = CONTENT[locale];
@@ -179,46 +181,79 @@ export default function CommunityLineCTA({
                 <p className="mt-2 text-sm leading-6 text-white/60 md:text-base">
                   {content.description}
                 </p>
+
+                {/* LINE ID */}
+
+                {lineId && (
+                  <div
+                    className="
+                      mt-3
+                      inline-flex
+                      items-center
+                      rounded-lg
+                      border
+                      border-(--primary)/30
+                      bg-(--primary)/10
+                      px-3
+                      py-1.5
+                      shadow-sm
+                      transition-all
+                      duration-300
+                      group-hover:border-(--primary)/50
+                      group-hover:bg-(--primary)/15
+                    "
+                  >
+                    <span className="text-xs font-semibold uppercase tracking-wider text-(--primary) md:text-sm">
+                      LINE ID:
+                    </span>
+
+                    <span className="ml-2 text-sm font-bold tracking-wide text-white md:text-base">
+                      {lineId}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* -------------------------------------------------
              * Official LINE Button
-             * ----------------------------------------------- */}
+             * ------------------------------------------------- */}
 
-            <Link
-              href={social.URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
-                inline-flex
-                shrink-0
-                items-center
-                justify-center
-                gap-2
-                rounded-xl
-                bg-(--primary)
-                px-6
-                py-3
-                font-semibold
-                text-black
-                transition-all
-                duration-300
-                hover:scale-105
-              "
-            >
-              {content.button}
-
-              <ArrowRight
+            {lineButtonText && lineButtonURL && (
+              <Link
+                href={lineButtonURL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="
-                  h-5
-                  w-5
-                  transition-transform
+                  inline-flex
+                  shrink-0
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  bg-(--primary)
+                  px-6
+                  py-3
+                  font-semibold
+                  text-black
+                  transition-all
                   duration-300
-                  group-hover:translate-x-1
+                  hover:scale-105
                 "
-              />
-            </Link>
+              >
+                {lineButtonText}
+
+                <ArrowRight
+                  className="
+                    h-5
+                    w-5
+                    transition-transform
+                    duration-300
+                    group-hover:translate-x-1
+                  "
+                />
+              </Link>
+            )}
           </div>
 
           {/* Bottom Accent */}

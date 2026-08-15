@@ -1,4 +1,4 @@
-//src/services/api/community-page.api.ts
+// src/services/api/community-page.api.ts
 
 import { buildQuery } from "@/lib/query-builder";
 import { ENDPOINTS } from "@/lib/endpoints";

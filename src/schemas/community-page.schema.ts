@@ -1,4 +1,4 @@
-//src/schemas/community-page.schema.ts
+// src/schemas/community-page.schema.ts
 
 import { z } from "zod";
 
@@ -86,6 +86,9 @@ export const communityPageSchema = z.object({
   HeroTitle: z.string(),
 
   HeroDescription: z.string(),
+
+  // LINE
+  LINEID: z.string(),
 
   LINEButtonText: z.string(),
 

@@ -1,4 +1,4 @@
-//src/types/community-page.ts
+// src/types/community-page.ts
 
 import type { Media } from "./media";
 
@@ -30,6 +30,8 @@ export interface CommunityPage {
   HeroTitle: string;
   HeroDescription: string;
 
+  // LINE
+  LINEID: string;
   LINEButtonText: string;
   LINEButtonURL: string;
 

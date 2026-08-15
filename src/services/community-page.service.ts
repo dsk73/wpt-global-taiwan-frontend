@@ -1,4 +1,4 @@
-//src/services/community-page.service.ts
+// src/services/community-page.service.ts
 
 import { getCommunityPage as fetchCommunityPage } from "@/services/api/community-page.api";
 
