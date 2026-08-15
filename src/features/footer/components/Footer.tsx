@@ -22,42 +22,92 @@ const DESCRIPTION: Record<Locale, string> = {
 
 const LEGAL: Record<Locale, { label: string; href: string }[]> = {
   "zh-Hant-TW": [
-    { label: "條款與條件", href: "/zh-Hant-TW/legal/terms-and-conditions" },
-    { label: "隱私權政策", href: "/zh-Hant-TW/legal/privacy-policy" },
-    { label: "Cookie 政策", href: "/zh-Hant-TW/legal/cookie-policy" },
-    { label: "KYC 政策和程序", href: "/zh-Hant-TW/legal/kyc-policy" },
+    {
+      label: "條款與條件",
+      href: "/zh-Hant-TW/legal/terms-and-conditions",
+    },
+    {
+      label: "隱私權政策",
+      href: "/zh-Hant-TW/legal/privacy-policy",
+    },
+    {
+      label: "Cookie 政策",
+      href: "/zh-Hant-TW/legal/cookie-policy",
+    },
+    {
+      label: "KYC 政策和程序",
+      href: "/zh-Hant-TW/legal/kyc-policy",
+    },
     {
       label: "客戶接受政策",
       href: "/zh-Hant-TW/legal/customer-acceptance-policy",
     },
-    { label: "獎金政策", href: "/zh-Hant-TW/legal/bonus-policy" },
-    { label: "客戶爭議解決", href: "/zh-Hant-TW/legal/customer-dispute-resolution" },
+    {
+      label: "獎金政策",
+      href: "/zh-Hant-TW/legal/bonus-policy",
+    },
+    {
+      label: "客戶爭議解決",
+      href: "/zh-Hant-TW/legal/customer-dispute-resolution",
+    },
   ],
+
   en: [
-    { label: "Terms & Conditions", href: "/en/legal/terms-and-conditions" },
-    { label: "Privacy Policy", href: "/en/legal/privacy-policy" },
-    { label: "Cookie Policy", href: "/en/legal/cookie-policy" },
-    { label: "KYC Policies and Procedures", href: "/en/legal/kyc-policy" },
+    {
+      label: "Terms & Conditions",
+      href: "/en/legal/terms-and-conditions",
+    },
+    {
+      label: "Privacy Policy",
+      href: "/en/legal/privacy-policy",
+    },
+    {
+      label: "Cookie Policy",
+      href: "/en/legal/cookie-policy",
+    },
+    {
+      label: "KYC Policies and Procedures",
+      href: "/en/legal/kyc-policy",
+    },
     {
       label: "Customer Acceptance Policy",
       href: "/en/legal/customer-acceptance-policy",
     },
-    { label: "Bonus Policy", href: "/en/legal/bonus-policy" },
+    {
+      label: "Bonus Policy",
+      href: "/en/legal/bonus-policy",
+    },
     {
       label: "Complaint Dispute Resolution",
       href: "/en/legal/customer-dispute-resolution",
     },
   ],
+
   "ms-MY": [
-    { label: "Terma & Syarat", href: "/ms-MY/legal/terms-and-conditions" },
-    { label: "Dasar Privasi", href: "/ms-MY/legal/privacy-policy" },
-    { label: "Dasar Cookie", href: "/ms-MY/legal/cookie-policy" },
-    { label: "Dasar & Prosedur KYC", href: "/ms-MY/legal/kyc-policy" },
+    {
+      label: "Terma & Syarat",
+      href: "/ms-MY/legal/terms-and-conditions",
+    },
+    {
+      label: "Dasar Privasi",
+      href: "/ms-MY/legal/privacy-policy",
+    },
+    {
+      label: "Dasar Cookie",
+      href: "/ms-MY/legal/cookie-policy",
+    },
+    {
+      label: "Dasar & Prosedur KYC",
+      href: "/ms-MY/legal/kyc-policy",
+    },
     {
       label: "Dasar Penerimaan Pelanggan",
       href: "/ms-MY/legal/customer-acceptance-policy",
     },
-    { label: "Dasar Bonus", href: "/ms-MY/legal/bonus-policy" },
+    {
+      label: "Dasar Bonus",
+      href: "/ms-MY/legal/bonus-policy",
+    },
     {
       label: "Penyelesaian Aduan",
       href: "/ms-MY/legal/customer-dispute-resolution",
@@ -144,23 +194,44 @@ export default function Footer({ locale }: FooterProps) {
         <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-18">
+        <div
+          className="
+            grid grid-cols-1
+            gap-10
+            sm:grid-cols-2
+            lg:grid-cols-3
+            lg:gap-x-20
+            lg:gap-y-0
+          "
+        >
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.45 }}
+            className="self-start"
           >
-            <Link href="/">
+            <Link
+              href="/"
+              className="group block -mt-4"
+              aria-label="WPT Global Taiwan"
+            >
               <Image
                 src="/logos/wpt-logo.png"
                 alt="WPT Global Taiwan"
                 width={180}
                 height={55}
                 priority
-                className="h-auto w-auto"
+                className="
+                  block
+                  h-auto
+                  w-auto
+                  transition-opacity
+                  duration-300
+                  group-hover:opacity-80
+                "
               />
             </Link>
 
@@ -171,10 +242,15 @@ export default function Footer({ locale }: FooterProps) {
             )}
           </motion.div>
 
-          {/* Legal */}
-          <FooterColumn title="" items={LEGAL[locale]} />
-          {/* Community */}
-          <SocialLinks title="" links={COMMUNITY[locale]} />
+          {/* Legal Links */}
+          <div className="self-start">
+            <FooterColumn title="" items={LEGAL[locale]} />
+          </div>
+
+          {/* Community Links */}
+          <div className="self-start">
+            <SocialLinks title="" links={COMMUNITY[locale]} />
+          </div>
         </div>
 
         <FooterBottom locale={locale} />
