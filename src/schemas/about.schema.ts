@@ -28,8 +28,6 @@ const aboutFeatureSchema = z.object({
   Title: z.string(),
   Description: z.string(),
   Image: mediaSchema,
-  ButtonText: z.string().nullable().optional(),
-  ButtonURL: z.string().nullable().optional(),
   DisplayOrder: z.number(),
   Active: z.boolean(),
 });

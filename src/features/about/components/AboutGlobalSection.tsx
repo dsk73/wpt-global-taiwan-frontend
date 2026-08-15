@@ -1,7 +1,6 @@
 // src/features/about/components/AboutGlobalSection.tsx
 
 import Image from "next/image";
-import Link from "next/link";
 
 import { getMediaURL } from "@/config";
 
@@ -25,8 +24,6 @@ export function AboutGlobalSection({ about }: AboutGlobalSectionProps) {
 
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0D1424] shadow-2xl">
           <div className="grid items-center lg:grid-cols-2">
-            {/* Left Image */}
-
             {/* Left Image */}
 
             <div className="p-8 lg:p-10">
@@ -103,15 +100,6 @@ export function AboutGlobalSection({ about }: AboutGlobalSectionProps) {
                 <div className="mt-8 space-y-6 text-lg leading-9 whitespace-pre-line text-white/75">
                   {feature.Description}
                 </div>
-
-                {feature.ButtonText && feature.ButtonURL && (
-                  <Link
-                    href={feature.ButtonURL}
-                    className="mt-10 inline-flex rounded-xl bg-linear-to-r from-blue-600 to-cyan-500 px-7 py-3 font-semibold text-white transition-all duration-300 hover:scale-105"
-                  >
-                    {feature.ButtonText}
-                  </Link>
-                )}
               </div>
             </div>
           ))}

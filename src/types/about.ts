@@ -7,8 +7,6 @@ export interface AboutFeature {
   Title: string;
   Description: string;
   Image?: Media | null;
-  ButtonText: string;
-  ButtonURL: string;
   DisplayOrder: number;
   Active: boolean;
 }
