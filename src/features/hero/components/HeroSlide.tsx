@@ -45,17 +45,23 @@ export default function HeroSlide({
     >
       {/* ======================================================
           MOBILE
-      ====================================================== */}
+          ====================================================== */}
 
       <div className="block md:hidden">
-        <div className="relative h-72 w-full">
+        {/* ====================================================
+            MOBILE HERO IMAGE + CONTENT
+            ==================================================== */}
+
+        <div className="relative aspect-square w-full overflow-hidden">
+          {/* Mobile Image */}
+
           {slide.MobileImage ? (
             <Image
               src={getMediaUrl(slide.MobileImage.url)}
               alt={getHeroImageAlt(slide)}
               fill
               priority
-              sizes="(max-width: 768px) 100vw, 768px"
+              sizes="100vw"
               className="object-cover"
             />
           ) : (
@@ -65,47 +71,65 @@ export default function HeroSlide({
                 alt={getHeroImageAlt(slide)}
                 fill
                 priority
-                sizes="(max-width: 768px) 100vw, 768px"
+                sizes="100vw"
                 className="object-cover"
               />
             )
           )}
 
           {/* Dark Overlay */}
+
           <div className="absolute inset-0 bg-black/45" />
 
-          {/* Gradient */}
-          <div className="absolute inset-0 bg-linear-to-t from-black via-black/30 to-transparent" />
+          {/* Bottom Gradient */}
+
+          <div className="absolute inset-0 bg-linear-to-t from-black via-black/45 to-transparent" />
+
+          {/* ==================================================
+              MOBILE CONTENT OVER IMAGE
+              ================================================== */}
+
+          <div className="absolute inset-x-5 bottom-7 z-10">
+            {/* Subtitle */}
+
+            {slide.Subtitle && (
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.12em] text-(--primary)">
+                {slide.Subtitle}
+              </p>
+            )}
+
+            {/* Title */}
+
+            <h1 className="text-4xl font-extrabold leading-[1.08] text-white">
+              {getHeroTitle(slide)}
+            </h1>
+
+            {/* Description */}
+
+            {slide.Description && (
+              <p className="mt-3 text-base leading-6 text-white/80">
+                {getHeroDescription(slide)}
+              </p>
+            )}
+
+            {/* Primary CTA */}
+
+            <HeroButtons slide={slide} className="mt-5" />
+          </div>
         </div>
 
-        <div className="bg-background px-5 py-8">
-          {slide.Subtitle && (
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-(--primary)">
-              {slide.Subtitle}
-            </p>
-          )}
+        {/* ====================================================
+            MOBILE PROMOTION CARD
+            ==================================================== */}
 
-          <h1 className="text-3xl font-extrabold leading-tight text-white">
-            {getHeroTitle(slide)}
-          </h1>
-
-          {slide.Description && (
-            <p className="mt-4 text-sm leading-6 text-white/80">
-              {getHeroDescription(slide)}
-            </p>
-          )}
-
-          <HeroButtons slide={slide} className="mt-6" />
-
-          <div className="mt-8">
-            <HeroPromotionCard promotion={promotionCard} />
-          </div>
+        <div className="bg-background px-5 py-6">
+          <HeroPromotionCard promotion={promotionCard} />
         </div>
       </div>
 
       {/* ======================================================
           DESKTOP
-      ====================================================== */}
+          ====================================================== */}
 
       <div className="relative hidden h-full md:block">
         {slide.DesktopImage && (
