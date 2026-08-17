@@ -124,7 +124,7 @@ export default function HeroPromotionCard({
 
         {/* Title */}
 
-        <h3 className="text-[2rem] font-bold leading-[1.15] text-white">
+        <h3 className="text-[1.5rem] font-bold leading-[1.15] text-white">
           {promotion.CardTitle}
         </h3>
 

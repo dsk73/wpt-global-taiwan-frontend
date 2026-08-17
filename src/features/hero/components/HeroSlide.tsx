@@ -79,7 +79,7 @@ export default function HeroSlide({
 
           {/* Dark Overlay */}
 
-          <div className="absolute inset-0 bg-black/45" />
+          <div className="absolute inset-0 bg-black/60" />
 
           {/* Bottom Gradient */}
 
@@ -93,7 +93,7 @@ export default function HeroSlide({
             {/* Subtitle */}
 
             {slide.Subtitle && (
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.12em] text-(--primary)">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.12em] leading-[1.15] text-(--primary)">
                 {slide.Subtitle}
               </p>
             )}
@@ -106,12 +106,10 @@ export default function HeroSlide({
 
             {/* Description */}
 
-            {slide.Description && (
-              <p className="mt-3 text-base leading-6 text-white/80">
-                {getHeroDescription(slide)}
-              </p>
-            )}
-
+            <p className="mt-3 whitespace-pre-line text-base leading-none text-white/80">
+              {getHeroDescription(slide)}
+            </p>
+            
             {/* Primary CTA */}
 
             <HeroButtons slide={slide} className="mt-5" />
