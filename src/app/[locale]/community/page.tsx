@@ -31,27 +31,36 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
    * Find the official LINE social link
    * -----------------------------------------------------------
    *
-   * Platform is now localized text, so we must NOT check:
+   * Platform is localized text, so we must NOT identify LINE
+   * using the Platform field.
    *
-   * social.Platform === "LINE"
-   *
-   * Instead, use the LINE CTA URL as the stable identifier.
+   * The LINE CTA uses LINEButtonURL as the stable identifier.
    */
   const lineSocial =
     page.SocialLink.find((social) => social.URL === page.LINEButtonURL) ?? null;
 
   /*
    * -----------------------------------------------------------
-   * Remaining Social Links
+   * All Social Links
    * -----------------------------------------------------------
    *
-   * Keep the LINE social entry out of the social-card grid
-   * because it is already displayed separately in the
-   * dedicated LINE CTA.
+   * IMPORTANT:
+   *
+   * The social-card grid must display EVERY SocialLink entry
+   * received from Strapi.
+   *
+   * There is:
+   * - No URL filtering
+   * - No Platform filtering
+   * - No deduplication
+   * - No maximum number of cards
+   *
+   * If the same social entry appears multiple times in Strapi,
+   * it will also appear multiple times on the page.
+   *
+   * DisplayOrder and Active are handled by the service layer.
    */
-  const remainingSocialLinks = page.SocialLink.filter(
-    (social) => social.URL !== page.LINEButtonURL,
-  );
+  const socialLinks = page.SocialLink;
 
   return (
     <>
@@ -77,10 +86,10 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
         )}
 
         {/* -------------------------------------------------------
-         * Social Links
+         * ALL Social Links
          * ----------------------------------------------------- */}
 
-        <CommunitySocialGrid socialLinks={remainingSocialLinks} />
+        <CommunitySocialGrid socialLinks={socialLinks} />
 
         {/* -------------------------------------------------------
          * Footer Description

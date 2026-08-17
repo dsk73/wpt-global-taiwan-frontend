@@ -16,9 +16,9 @@ export default function CommunitySocialGrid({
   }
 
   return (
-    <section className="px-6 py-12 md:px-8 md:py-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <section className="px-4 py-12 sm:px-6 md:px-8 md:py-16">
+      <div className="mx-auto max-w-350">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {socialLinks.map((social) => (
             <CommunitySocialCard key={social.id} social={social} />
           ))}

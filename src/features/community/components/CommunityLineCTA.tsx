@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -76,8 +75,8 @@ export default function CommunityLineCTA({
             border
             border-white/10
             bg-white/[0.035]
-            px-6
-            py-7
+            px-5
+            py-6
             backdrop-blur-xl
             transition-all
             duration-500
@@ -118,25 +117,33 @@ export default function CommunityLineCTA({
               flex
               flex-col
               gap-6
-              md:grid
-              md:grid-cols-[minmax(0,1fr)_auto_auto]
-              md:items-center
-              md:gap-8
-              lg:gap-10
+              lg:grid
+              lg:grid-cols-[minmax(0,1fr)_auto_auto]
+              lg:items-center
+              lg:gap-8
+              xl:gap-10
             "
           >
             {/* -------------------------------------------------
              * Icon + Text
              * ----------------------------------------------- */}
 
-            <div className="flex min-w-0 items-center gap-5">
+            <div
+              className="
+                flex
+                min-w-0
+                items-center
+                gap-3
+                sm:gap-5
+              "
+            >
               {/* LINE Icon */}
 
               <div
                 className="
                   flex
-                  h-20
-                  w-20
+                  h-18
+                  w-18
                   shrink-0
                   items-center
                   justify-center
@@ -145,12 +152,15 @@ export default function CommunityLineCTA({
                   border
                   border-white/10
                   bg-white/5
-                  p-2.5
+                  p-2
                   transition-all
                   duration-500
                   group-hover:scale-105
                   group-hover:border-white/20
                   group-hover:bg-white/10
+                  sm:h-20
+                  sm:w-20
+                  sm:p-2.5
                   md:h-24
                   md:w-24
                   md:rounded-3xl
@@ -178,7 +188,7 @@ export default function CommunityLineCTA({
                     "
                   />
                 ) : (
-                  <span className="text-3xl font-bold text-white md:text-4xl">
+                  <span className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">
                     {social.Platform?.charAt(0)}
                   </span>
                 )}
@@ -186,23 +196,43 @@ export default function CommunityLineCTA({
 
               {/* Text */}
 
-              <div className="min-w-0">
-                <h2 className="text-xl font-bold text-white md:text-2xl">
+              <div className="min-w-0 flex-1">
+                <h2
+                  className="
+                    text-lg
+                    font-bold
+                    leading-tight
+                    text-white
+                    sm:text-xl
+                    md:text-2xl
+                  "
+                >
                   {content.title}
                 </h2>
 
-                <p className="mt-2 text-sm leading-6 text-white/60 md:text-base">
+                <p
+                  className="
+                    mt-2
+                    max-w-2xl
+                    text-sm
+                    leading-6
+                    text-white/60
+                    sm:text-base
+                  "
+                >
                   {content.description}
                 </p>
 
-                {/* LINE ID — Mobile */}
+                {/* LINE ID — Mobile / Tablet */}
 
                 {lineId && (
                   <div
                     className="
                       mt-3
                       inline-flex
+                      max-w-full
                       items-center
+                      overflow-hidden
                       rounded-lg
                       border
                       border-(--primary)/30
@@ -214,14 +244,34 @@ export default function CommunityLineCTA({
                       duration-300
                       group-hover:border-(--primary)/50
                       group-hover:bg-(--primary)/15
-                      md:hidden
+                      lg:hidden
                     "
                   >
-                    <span className="text-xs font-semibold uppercase tracking-wider text-(--primary)">
+                    <span
+                      className="
+                        shrink-0
+                        text-xs
+                        font-semibold
+                        uppercase
+                        tracking-wider
+                        text-(--primary)
+                        sm:text-sm
+                      "
+                    >
                       LINE ID:
                     </span>
 
-                    <span className="ml-2 text-sm font-bold tracking-wide text-white">
+                    <span
+                      className="
+                        ml-2
+                        truncate
+                        text-sm
+                        font-bold
+                        tracking-wide
+                        text-white
+                        sm:text-base
+                      "
+                    >
                       {lineId}
                     </span>
                   </div>
@@ -230,7 +280,7 @@ export default function CommunityLineCTA({
             </div>
 
             {/* -------------------------------------------------
-             * LINE ID — Desktop / Tablet
+             * LINE ID — Desktop
              * ------------------------------------------------- */}
 
             {lineId && (
@@ -238,6 +288,7 @@ export default function CommunityLineCTA({
                 className="
                   hidden
                   items-center
+                  whitespace-nowrap
                   rounded-lg
                   border
                   border-(--primary)/30
@@ -249,7 +300,7 @@ export default function CommunityLineCTA({
                   duration-300
                   group-hover:border-(--primary)/50
                   group-hover:bg-(--primary)/15
-                  md:inline-flex
+                  lg:inline-flex
                 "
               >
                 <span className="text-sm font-semibold uppercase tracking-wider text-(--primary)">
@@ -273,6 +324,7 @@ export default function CommunityLineCTA({
                 rel="noopener noreferrer"
                 className="
                   inline-flex
+                  w-full
                   shrink-0
                   items-center
                   justify-center
@@ -286,6 +338,7 @@ export default function CommunityLineCTA({
                   transition-all
                   duration-300
                   hover:scale-105
+                  sm:w-auto
                   md:px-7
                   md:py-3.5
                 "
@@ -312,12 +365,14 @@ export default function CommunityLineCTA({
               pointer-events-none
               absolute
               bottom-0
-              left-8
-              right-8
+              left-6
+              right-6
               h-px
               bg-white/10
               transition-colors
               duration-500
+              sm:left-8
+              sm:right-8
               group-hover:bg-(--primary)/40
             "
           />

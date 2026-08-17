@@ -28,7 +28,7 @@ export default function CommunitySocialCard({
         border
         border-white/10
         bg-white/[0.035]
-        p-4
+        p-5
         backdrop-blur-xl
         transition-all
         duration-500
@@ -36,7 +36,7 @@ export default function CommunitySocialCard({
         hover:border-white/20
         hover:bg-white/6
         hover:shadow-2xl
-        sm:p-5
+        sm:p-6
       "
     >
       {/* -------------------------------------------------------
@@ -67,111 +67,107 @@ export default function CommunitySocialCard({
       <div
         className="
           relative
-          grid
+          flex
           min-h-32
-          grid-cols-[40%_60%]
           items-center
+          gap-5
         "
       >
         {/* -----------------------------------------------------
-         * Left Side — Icon
+         * Social Icon
          * --------------------------------------------------- */}
 
-        <div className="flex items-center justify-center pr-3 sm:pr-4">
+        <div
+          className="
+            relative
+            flex
+            h-24
+            w-24
+            shrink-0
+            items-center
+            justify-center
+            overflow-hidden
+            rounded-3xl
+            border
+            border-white/10
+            bg-white/5
+            p-4
+            shadow-lg
+            transition-all
+            duration-500
+            group-hover:scale-105
+            group-hover:border-white/20
+            group-hover:bg-white/10
+            group-hover:shadow-xl
+          "
+        >
+          {/* Icon Glow */}
+
           <div
             className="
-              relative
-              flex
-              aspect-square
-              w-full
-              max-w-24
-              items-center
-              justify-center
-              overflow-hidden
-              rounded-2xl
-              border
-              border-white/10
-              bg-white/5
-              p-3
-              shadow-lg
-              transition-all
+              pointer-events-none
+              absolute
+              inset-0
+              rounded-3xl
+              bg-(--primary)/10
+              opacity-0
+              blur-xl
+              transition-opacity
               duration-500
-              group-hover:border-white/20
-              group-hover:bg-white/10
-              group-hover:shadow-xl
-              sm:rounded-3xl
-              sm:p-4
+              group-hover:opacity-100
             "
-          >
-            {/* Icon Glow */}
+          />
 
-            <div
+          {social.Icon ? (
+            <Image
+              src={getMediaUrl(social.Icon.url)}
+              alt={
+                social.Icon.alternativeText ||
+                social.Label ||
+                social.Platform ||
+                "Community social icon"
+              }
+              width={96}
+              height={96}
               className="
-                pointer-events-none
-                absolute
-                inset-0
-                rounded-2xl
-                bg-(--primary)/10
-                opacity-0
-                blur-xl
-                transition-opacity
+                relative
+                h-full
+                w-full
+                object-contain
+                transition-transform
                 duration-500
-                group-hover:opacity-100
-                sm:rounded-3xl
+                group-hover:scale-110
               "
             />
-
-            {social.Icon ? (
-              <Image
-                src={getMediaUrl(social.Icon.url)}
-                alt={
-                  social.Icon.alternativeText ||
-                  social.Label ||
-                  social.Platform ||
-                  "Community social icon"
-                }
-                width={96}
-                height={96}
-                className="
-                  relative
-                  h-full
-                  w-full
-                  object-contain
-                  transition-transform
-                  duration-500
-                  group-hover:scale-110
-                "
-              />
-            ) : (
-              <span className="relative text-3xl font-bold text-white">
-                {social.Platform?.charAt(0)}
-              </span>
-            )}
-          </div>
+          ) : (
+            <span className="relative text-3xl font-bold text-white">
+              {social.Platform?.charAt(0)}
+            </span>
+          )}
         </div>
 
         {/* -----------------------------------------------------
-         * Right Side — Platform + Label
+         * Platform + Username
          * --------------------------------------------------- */}
 
         <div
           className="
             flex
             min-w-0
+            flex-1
             flex-col
             items-start
             justify-center
-            pl-3
-            sm:pl-5
           "
         >
           {/* Platform */}
 
           <h3
             className="
+              max-w-full
               text-lg
               font-bold
-              uppercase
+              leading-snug
               tracking-wide
               text-white
               transition-colors
@@ -183,7 +179,7 @@ export default function CommunitySocialCard({
             {social.Platform}
           </h3>
 
-          {/* Label */}
+          {/* Username / Label */}
 
           {social.Label && (
             <span
@@ -192,6 +188,7 @@ export default function CommunitySocialCard({
                 inline-flex
                 max-w-full
                 items-center
+                overflow-hidden
                 rounded-lg
                 border
                 border-(--primary)/30
@@ -208,11 +205,10 @@ export default function CommunitySocialCard({
                 duration-300
                 group-hover:border-(--primary)/50
                 group-hover:bg-(--primary)/15
-                group-hover:text-(--primary)
                 sm:text-base
               "
             >
-              {social.Label}
+              <span className="truncate">{social.Label}</span>
             </span>
           )}
         </div>
