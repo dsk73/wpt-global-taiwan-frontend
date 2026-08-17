@@ -81,6 +81,7 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
             lineId={page.LINEID}
             lineButtonText={page.LINEButtonText}
             lineButtonURL={page.LINEButtonURL}
+            lineImage={page.LINEImage}
             locale={locale}
           />
         )}

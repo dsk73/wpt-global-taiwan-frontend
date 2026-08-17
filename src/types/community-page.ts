@@ -23,6 +23,7 @@ export interface CommunityPage {
   LINEID: string;
   LINEButtonText: string;
   LINEButtonURL: string;
+  LINEImage: Media | null;
 
   BottomDescription: string;
 

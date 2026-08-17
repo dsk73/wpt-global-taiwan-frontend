@@ -77,6 +77,8 @@ export const communityPageSchema = z.object({
 
   LINEButtonURL: z.string(),
 
+  LINEImage: communityIconSchema.nullable(),
+
   BottomDescription: z.string(),
 
   SocialLink: z.array(communitySocialLinkSchema),

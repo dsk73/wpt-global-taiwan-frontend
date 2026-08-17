@@ -38,6 +38,10 @@ export async function getCommunityPage(locale: Locale): Promise<CommunityPage> {
   const query = buildQuery({
     locale,
     populate: {
+      // Dedicated LINE CTA image
+      LINEImage: true,
+
+      // Social card icons
       SocialLink: {
         populate: {
           Icon: true,
