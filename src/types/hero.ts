@@ -1,3 +1,5 @@
+//src/types/hero.ts
+
 /**
  * ============================================================
  * Hero Types (Strapi DTO)
@@ -80,10 +82,9 @@ export interface HeroPromotionCard {
   Badge: string | null;
 
   ReferralCode: string | null;
-  ReferralURL: string | null;
 
-  ShowCountdown: boolean;
-  CountdownText: string | null;
+  CommunityButtonText: string | null;
+  CommunityButtonURL: string | null;
 
   Benefits: HeroPromotionBenefit[];
 

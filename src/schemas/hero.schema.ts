@@ -80,11 +80,9 @@ export const heroPromotionCardSchema = z.object({
   Badge: z.string().nullable(),
 
   ReferralCode: z.string().nullable(),
-  ReferralURL: z.string().nullable(),
 
-  ShowCountdown: z.boolean(),
-
-  CountdownText: z.string().nullable(),
+  CommunityButtonText: z.string().nullable(),
+  CommunityButtonURL: z.string().nullable(),
 
   Benefits: z.array(heroPromotionBenefitSchema),
 

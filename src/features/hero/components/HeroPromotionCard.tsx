@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
-import { Check, CheckCircle2, Copy, Gift, Sparkles } from "lucide-react";
+import { Check, Copy, Gift, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui";
 import { getMediaUrl } from "@/lib/media";
@@ -13,6 +14,38 @@ interface HeroPromotionCardProps {
   promotion: HeroPromotionCardType | null;
   className?: string;
 }
+
+/**
+ * ============================================================
+ * Hero Promotion Card
+ * ============================================================
+ *
+ * Referral label and copy text are intentionally hardcoded
+ * because they are UI labels and should remain consistent
+ * across all Hero Promotion Card entries.
+ * ============================================================
+ */
+
+const referralLabels = {
+  "zh-Hant-TW": "紅利優惠碼",
+  en: "Bonus Coupon Code",
+  "ms-MY": "Kod Kupon Bonus",
+} as const;
+
+const copyLabels = {
+  "zh-Hant-TW": {
+    copy: "複製",
+    copied: "已複製",
+  },
+  en: {
+    copy: "Copy",
+    copied: "Copied",
+  },
+  "ms-MY": {
+    copy: "Salin",
+    copied: "Disalin",
+  },
+} as const;
 
 export default function HeroPromotionCard({
   promotion,
@@ -34,6 +67,16 @@ export default function HeroPromotionCard({
 
   // Safe after the null check above.
   const referralCode = promotion.ReferralCode ?? "";
+
+  const locale =
+    promotion.locale === "zh-Hant-TW" ||
+    promotion.locale === "en" ||
+    promotion.locale === "ms-MY"
+      ? promotion.locale
+      : "en";
+
+  const referralLabel = referralLabels[locale];
+  const copyLabel = copyLabels[locale];
 
   async function handleCopy() {
     if (!referralCode) return;
@@ -87,10 +130,10 @@ export default function HeroPromotionCard({
 
         {/* Referral Code */}
 
-        <div className="mt-4 mb-4 rounded-2xl border border-cyan-500/25 bg-[#0B1222] p-5">
-          <p className="mb-2 text-[11px] uppercase tracking-[0.25em] text-slate-400">
-            Referral Code
-          </p>
+        <fieldset className="relative mt-4 mb-4 rounded-2xl border border-cyan-500/25 bg-[#0B1222] px-5 pb-5 pt-4">
+          <legend className="rounded-full bg-cyan-500/15 px-3 py-1 text-[11px] font-semibold tracking-wider text-cyan-300">
+            {referralLabel}
+          </legend>
 
           <div className="flex items-center justify-between gap-4">
             <span className="truncate text-3xl font-black tracking-widest text-cyan-300">
@@ -109,17 +152,17 @@ export default function HeroPromotionCard({
               {copied ? (
                 <>
                   <Check className="mr-2 h-4 w-4" />
-                  Copied
+                  {copyLabel.copied}
                 </>
               ) : (
                 <>
                   <Copy className="mr-2 h-4 w-4" />
-                  Copy
+                  {copyLabel.copy}
                 </>
               )}
             </Button>
           </div>
-        </div>
+        </fieldset>
 
         {/* Benefits */}
 
@@ -146,8 +189,8 @@ export default function HeroPromotionCard({
                       {benefit.Title}
                     </h4>
 
-                    <p className="mt-1 text-sm leading-5 text-slate-400">
-                      {benefit.Description}
+                    <p className="mt-1 min-h-5 text-sm leading-5 text-slate-400">
+                      {benefit.Description ?? "\u00A0"}
                     </p>
                   </div>
                 </div>
@@ -160,13 +203,16 @@ export default function HeroPromotionCard({
           </div>
         )}
 
-        {/* Countdown */}
+        {/* Community CTA */}
 
-        {promotion.ShowCountdown && (
-          <div className="mt-4 flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-900/20 px-4 py-3 text-sm text-emerald-300">
-            <CheckCircle2 className="h-4 w-4 shrink-0" />
-            <span>{promotion.CountdownText}</span>
-          </div>
+        {promotion.CommunityButtonText && promotion.CommunityButtonURL && (
+          <Link
+            href={promotion.CommunityButtonURL}
+            className="mt-4 flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-900/20 px-4 py-3 text-sm text-emerald-300 transition-colors hover:bg-emerald-900/30"
+          >
+            <Check className="h-4 w-4 shrink-0" />
+            <span>{promotion.CommunityButtonText}</span>
+          </Link>
         )}
       </div>
     </aside>
