@@ -7,11 +7,9 @@ import { ArrowRight } from "lucide-react";
 import { getMediaUrl } from "@/lib/media";
 
 import type { Media } from "@/types/media";
-import type { CommunitySocialLink } from "@/types/community-page";
 import type { Locale } from "@/providers";
 
 interface CommunityLineCTAProps {
-  social: CommunitySocialLink;
   lineId: string;
   lineButtonText: string;
   lineButtonURL: string;
@@ -45,7 +43,6 @@ const CONTENT: Record<
 };
 
 export default function CommunityLineCTA({
-  social,
   lineId,
   lineButtonText,
   lineButtonURL,
@@ -128,7 +125,7 @@ export default function CommunityLineCTA({
             "
           >
             {/* -------------------------------------------------
-             * Icon + Text
+             * LINE Image + Text
              * ----------------------------------------------- */}
 
             <div
@@ -173,12 +170,7 @@ export default function CommunityLineCTA({
                 {lineImage ? (
                   <Image
                     src={getMediaUrl(lineImage.url)}
-                    alt={
-                      lineImage.alternativeText ||
-                      social.Label ||
-                      social.Platform ||
-                      "Official LINE"
-                    }
+                    alt={lineImage.alternativeText || "Official LINE"}
                     width={96}
                     height={96}
                     className="
@@ -192,7 +184,7 @@ export default function CommunityLineCTA({
                   />
                 ) : (
                   <span className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-                    {social.Platform?.charAt(0) || "L"}
+                    L
                   </span>
                 )}
               </div>

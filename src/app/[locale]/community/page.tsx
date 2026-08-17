@@ -28,37 +28,24 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
 
   /*
    * -----------------------------------------------------------
-   * Find the official LINE social link
-   * -----------------------------------------------------------
-   *
-   * Platform is localized text, so we must NOT identify LINE
-   * using the Platform field.
-   *
-   * The LINE CTA uses LINEButtonURL as the stable identifier.
-   */
-  const lineSocial =
-    page.SocialLink.find((social) => social.URL === page.LINEButtonURL) ?? null;
-
-  /*
-   * -----------------------------------------------------------
    * All Social Links
    * -----------------------------------------------------------
    *
-   * IMPORTANT:
-   *
-   * The social-card grid must display EVERY SocialLink entry
-   * received from Strapi.
+   * The social-card grid displays EVERY active SocialLink
+   * entry received from Strapi.
    *
    * There is:
    * - No URL filtering
    * - No Platform filtering
+   * - No LINE filtering
    * - No deduplication
    * - No maximum number of cards
    *
    * If the same social entry appears multiple times in Strapi,
    * it will also appear multiple times on the page.
    *
-   * DisplayOrder and Active are handled by the service layer.
+   * Active filtering and DisplayOrder sorting are handled by
+   * community-page.service.ts.
    */
   const socialLinks = page.SocialLink;
 
@@ -73,18 +60,28 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
 
         {/* -------------------------------------------------------
          * Official LINE CTA
-         * ----------------------------------------------------- */}
+         * -----------------------------------------------------
+         *
+         * IMPORTANT:
+         *
+         * The LINE CTA uses ONLY the dedicated Community Page
+         * fields:
+         *
+         * - LINEID
+         * - LINEButtonText
+         * - LINEButtonURL
+         * - LINEImage
+         *
+         * It does NOT use SocialLink.
+         */}
 
-        {lineSocial && (
-          <CommunityLineCTA
-            social={lineSocial}
-            lineId={page.LINEID}
-            lineButtonText={page.LINEButtonText}
-            lineButtonURL={page.LINEButtonURL}
-            lineImage={page.LINEImage}
-            locale={locale}
-          />
-        )}
+        <CommunityLineCTA
+          lineId={page.LINEID}
+          lineButtonText={page.LINEButtonText}
+          lineButtonURL={page.LINEButtonURL}
+          lineImage={page.LINEImage}
+          locale={locale}
+        />
 
         {/* -------------------------------------------------------
          * ALL Social Links
