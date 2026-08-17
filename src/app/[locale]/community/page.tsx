@@ -31,22 +31,26 @@ export default async function CommunityPage({ params }: CommunityPageProps) {
    * Find the official LINE social link
    * -----------------------------------------------------------
    *
-   * The LINE CTA should specifically use the LINE social entry,
-   * rather than depending on DisplayOrder.
+   * Platform is now localized text, so we must NOT check:
+   *
+   * social.Platform === "LINE"
+   *
+   * Instead, use the LINE CTA URL as the stable identifier.
    */
   const lineSocial =
-    page.SocialLink.find((social) => social.Platform === "LINE") ?? null;
+    page.SocialLink.find((social) => social.URL === page.LINEButtonURL) ?? null;
 
   /*
    * -----------------------------------------------------------
    * Remaining Social Links
    * -----------------------------------------------------------
    *
-   * Keep LINE out of the social-card grid because it is already
-   * displayed separately in the dedicated LINE CTA.
+   * Keep the LINE social entry out of the social-card grid
+   * because it is already displayed separately in the
+   * dedicated LINE CTA.
    */
   const remainingSocialLinks = page.SocialLink.filter(
-    (social) => social.Platform !== "LINE",
+    (social) => social.URL !== page.LINEButtonURL,
   );
 
   return (

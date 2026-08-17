@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -58,10 +59,10 @@ export default function CommunityLineCTA({
   return (
     <section className="py-10 sm:py-12">
       {/* -------------------------------------------------------
-       * Same Container Width as Community Social Grid
+       * Wider Container
        * ----------------------------------------------------- */}
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-350 px-4 sm:px-6 lg:px-8">
         {/* -----------------------------------------------------
          * LINE CTA Card
          * --------------------------------------------------- */}
@@ -116,11 +117,12 @@ export default function CommunityLineCTA({
               relative
               flex
               flex-col
-              items-start
-              justify-between
               gap-6
-              sm:flex-row
-              sm:items-center
+              md:grid
+              md:grid-cols-[minmax(0,1fr)_auto_auto]
+              md:items-center
+              md:gap-8
+              lg:gap-10
             "
           >
             {/* -------------------------------------------------
@@ -133,8 +135,8 @@ export default function CommunityLineCTA({
               <div
                 className="
                   flex
-                  h-16
-                  w-16
+                  h-20
+                  w-20
                   shrink-0
                   items-center
                   justify-center
@@ -143,12 +145,16 @@ export default function CommunityLineCTA({
                   border
                   border-white/10
                   bg-white/5
-                  p-3
+                  p-2.5
                   transition-all
                   duration-500
+                  group-hover:scale-105
                   group-hover:border-white/20
                   group-hover:bg-white/10
-                  group-hover:scale-105
+                  md:h-24
+                  md:w-24
+                  md:rounded-3xl
+                  md:p-3
                 "
               >
                 {social.Icon ? (
@@ -160,12 +166,19 @@ export default function CommunityLineCTA({
                       social.Platform ||
                       "Community social icon"
                     }
-                    width={64}
-                    height={64}
-                    className="h-full w-full object-contain"
+                    width={96}
+                    height={96}
+                    className="
+                      h-full
+                      w-full
+                      object-contain
+                      transition-transform
+                      duration-500
+                      group-hover:scale-110
+                    "
                   />
                 ) : (
-                  <span className="text-2xl font-bold text-white">
+                  <span className="text-3xl font-bold text-white md:text-4xl">
                     {social.Platform?.charAt(0)}
                   </span>
                 )}
@@ -182,7 +195,7 @@ export default function CommunityLineCTA({
                   {content.description}
                 </p>
 
-                {/* LINE ID */}
+                {/* LINE ID — Mobile */}
 
                 {lineId && (
                   <div
@@ -201,19 +214,53 @@ export default function CommunityLineCTA({
                       duration-300
                       group-hover:border-(--primary)/50
                       group-hover:bg-(--primary)/15
+                      md:hidden
                     "
                   >
-                    <span className="text-xs font-semibold uppercase tracking-wider text-(--primary) md:text-sm">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-(--primary)">
                       LINE ID:
                     </span>
 
-                    <span className="ml-2 text-sm font-bold tracking-wide text-white md:text-base">
+                    <span className="ml-2 text-sm font-bold tracking-wide text-white">
                       {lineId}
                     </span>
                   </div>
                 )}
               </div>
             </div>
+
+            {/* -------------------------------------------------
+             * LINE ID — Desktop / Tablet
+             * ------------------------------------------------- */}
+
+            {lineId && (
+              <div
+                className="
+                  hidden
+                  items-center
+                  rounded-lg
+                  border
+                  border-(--primary)/30
+                  bg-(--primary)/10
+                  px-4
+                  py-2
+                  shadow-sm
+                  transition-all
+                  duration-300
+                  group-hover:border-(--primary)/50
+                  group-hover:bg-(--primary)/15
+                  md:inline-flex
+                "
+              >
+                <span className="text-sm font-semibold uppercase tracking-wider text-(--primary)">
+                  LINE ID:
+                </span>
+
+                <span className="ml-2 text-base font-bold tracking-wide text-white">
+                  {lineId}
+                </span>
+              </div>
+            )}
 
             {/* -------------------------------------------------
              * Official LINE Button
@@ -239,6 +286,8 @@ export default function CommunityLineCTA({
                   transition-all
                   duration-300
                   hover:scale-105
+                  md:px-7
+                  md:py-3.5
                 "
               >
                 {lineButtonText}

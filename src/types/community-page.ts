@@ -2,20 +2,9 @@
 
 import type { Media } from "./media";
 
-export type CommunityPlatform =
-  | "LINE"
-  | "Instagram"
-  | "Facebook"
-  | "Telegram"
-  | "Discord"
-  | "YouTube"
-  | "TikTok"
-  | "Threads"
-  | "X";
-
 export interface CommunitySocialLink {
   id: number;
-  Platform: CommunityPlatform;
+  Platform: string;
   Label: string;
   Icon: Media | null;
   URL: string;

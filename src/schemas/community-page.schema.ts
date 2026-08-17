@@ -35,24 +35,6 @@ export const communityIconSchema = z.object({
 
 /**
  * ============================================================
- * Community Platform Schema
- * ============================================================
- */
-
-export const communityPlatformSchema = z.enum([
-  "LINE",
-  "Instagram",
-  "Facebook",
-  "Telegram",
-  "Discord",
-  "YouTube",
-  "TikTok",
-  "Threads",
-  "X",
-]);
-
-/**
- * ============================================================
  * Social Link Schema
  * ============================================================
  */
@@ -60,7 +42,8 @@ export const communityPlatformSchema = z.enum([
 export const communitySocialLinkSchema = z.object({
   id: z.number(),
 
-  Platform: communityPlatformSchema,
+  // Platform is now a localized text field in Strapi
+  Platform: z.string(),
 
   Label: z.string(),
 

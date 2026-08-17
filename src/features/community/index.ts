@@ -1,5 +1,3 @@
-//src/featureds/community/index.ts
-
 export * from "./components/CommunitySocialCard";
 export * from "./components/CommunitySocialGrid";
 export * from "./components/CommunityHero";
