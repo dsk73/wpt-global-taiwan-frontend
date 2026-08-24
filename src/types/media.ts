@@ -4,8 +4,7 @@ export interface MediaFormat {
   name: string;
   hash: string;
   ext: string;
-  mime: string;
-
+  mime?: string | null;
   path?: string | null;
 
   width: number | null;
@@ -39,7 +38,7 @@ export interface Media {
   height?: number | null;
 
   ext?: string;
-  mime?: string;
+  mime?: string | null;
 
   size?: number;
 

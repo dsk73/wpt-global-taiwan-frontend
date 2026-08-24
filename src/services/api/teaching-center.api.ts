@@ -19,6 +19,12 @@ export async function getTeachingGuides(
     populate: {
       Thumbnail: true,
 
+      MediaSection: {
+        populate: {
+          Media: true,
+        },
+      },
+
       Sections: {
         populate: {
           Steps: {
@@ -57,6 +63,12 @@ export async function getTeachingGuide(
 
     populate: {
       Thumbnail: true,
+
+      MediaSection: {
+        populate: {
+          Media: true,
+        },
+      },
 
       Sections: {
         populate: {

@@ -47,6 +47,25 @@ export interface TeachingGuideSection {
 }
 
 /* ---------------------------------------
+ * Teaching Guide Media Section
+ * ------------------------------------- */
+
+export interface TeachingGuideMediaSection {
+  id?: number;
+
+  /**
+   * Optional title displayed above the media.
+   */
+  Title?: string | null;
+
+  /**
+   * Media can be either an image or a video.
+   * If null, the media section will not be rendered.
+   */
+  Media?: Media | null;
+}
+
+/* ---------------------------------------
  * CTA Button
  * ------------------------------------- */
 
@@ -73,6 +92,20 @@ export interface TeachingGuide {
    * Teaching Center guide card.
    */
   Thumbnail?: Media | null;
+
+  /**
+   * Optional repeatable media sections.
+   *
+   * Each media section can contain:
+   * - A title
+   * - An image
+   * - A video
+   * - Or no media
+   *
+   * If empty, the detail page simply
+   * skips this section.
+   */
+  MediaSection?: TeachingGuideMediaSection[] | null;
 
   /**
    * Guide sections containing the

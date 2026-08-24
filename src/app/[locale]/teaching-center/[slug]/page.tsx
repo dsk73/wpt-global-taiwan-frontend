@@ -4,6 +4,7 @@ import { Footer } from "@/features/footer";
 
 import {
   TeachingGuideHero,
+  TeachingGuideMedia,
   TeachingGuideSections,
 } from "@/features/teaching-center-detail";
 
@@ -37,6 +38,14 @@ export default async function TeachingCenterDetailPage({
          * ----------------------------------------------------- */}
 
         <TeachingGuideHero guide={guide} />
+
+        {/* -------------------------------------------------------
+         * Guide Media
+         * ----------------------------------------------------- */}
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <TeachingGuideMedia guide={guide} />
+        </div>
 
         {/* -------------------------------------------------------
          * Guide Sections

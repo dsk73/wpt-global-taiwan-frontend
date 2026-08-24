@@ -12,6 +12,7 @@ export const mediaSchema = z
     alternativeText: z.string().nullable().optional(),
     width: z.number().nullable().optional(),
     height: z.number().nullable().optional(),
+    mime: z.string().nullable().optional(),
   })
   .nullable()
   .optional();
@@ -50,6 +51,27 @@ export const teachingGuideSectionSchema = z.object({
 });
 
 /* ---------------------------------------
+ * Teaching Guide Media Section
+ * ------------------------------------- */
+
+export const teachingGuideMediaSectionSchema = z.object({
+  id: z.number().optional(),
+
+  /**
+   * Optional title displayed above the media.
+   */
+  Title: z.string().nullable().optional(),
+
+  /**
+   * Media can be either an image or a video.
+   *
+   * The mime field is used by the frontend
+   * to determine which renderer to use.
+   */
+  Media: mediaSchema,
+});
+
+/* ---------------------------------------
  * CTA Button
  * ------------------------------------- */
 
@@ -76,6 +98,20 @@ export const teachingGuideSchema = z.object({
    * Teaching Center guide card.
    */
   Thumbnail: mediaSchema,
+
+  /**
+   * Optional repeatable media sections.
+   *
+   * Each section can contain:
+   * - A title
+   * - An image
+   * - A video
+   * - Or no media
+   *
+   * If no media section is configured,
+   * the detail page will skip it.
+   */
+  MediaSection: z.array(teachingGuideMediaSectionSchema).nullable().optional(),
 
   /**
    * Guide sections containing
@@ -128,6 +164,10 @@ export type TeachingGuideStepSchema = z.infer<typeof teachingGuideStepSchema>;
 
 export type TeachingGuideSectionSchema = z.infer<
   typeof teachingGuideSectionSchema
+>;
+
+export type TeachingGuideMediaSectionSchema = z.infer<
+  typeof teachingGuideMediaSectionSchema
 >;
 
 export type TeachingGuideCTASchema = z.infer<typeof teachingGuideCTASchema>;
