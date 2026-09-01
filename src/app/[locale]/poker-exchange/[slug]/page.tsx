@@ -1,3 +1,6 @@
+// src/app/[locale]/poker-exchange/[slug]/page.tsx
+
+import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { CalendarDays, Clock } from "lucide-react";
@@ -7,11 +10,25 @@ import PokerExchangeCard from "@/features/poker-exchange/components/PokerExchang
 import { getMediaUrl } from "@/lib/media";
 
 import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildSEOImageUrl,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
+
+import {
   getPokerExchangeArticleBySlug,
   getRelatedPokerExchangeArticles,
 } from "@/services";
 
 import type { Locale } from "@/providers";
+
+import { isValidLocale } from "@/config/languages";
+
+/* ============================================================
+   Props
+============================================================ */
 
 interface PokerExchangeDetailPageProps {
   params: Promise<{
@@ -20,10 +37,83 @@ interface PokerExchangeDetailPageProps {
   }>;
 }
 
+/* ============================================================
+   Metadata
+============================================================ */
+
+export async function generateMetadata({
+  params,
+}: PokerExchangeDetailPageProps): Promise<Metadata> {
+  const { locale, slug } = await params;
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
+
+  const article = await getPokerExchangeArticleBySlug(slug, locale);
+
+  if (!article) {
+    return {
+      title: "Article Not Found",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const title = article.SEO?.MetaTitle ?? article.Title;
+
+  const description = article.SEO?.MetaDescription ?? article.Summary ?? "";
+
+  const image = buildSEOImageUrl(
+    article.SEO?.OGImage?.url ??
+      article.BannerImage?.url ??
+      article.Thumbnail?.url,
+  );
+
+  const canonical =
+    article.SEO?.CanonicalURL ??
+    buildCanonical(locale, `/poker-exchange/${article.Slug}`);
+
+  const languages = buildLanguageAlternates(`/poker-exchange/${article.Slug}`);
+
+  return createMetadata({
+    title,
+
+    description,
+
+    keywords: article.SEO?.Keywords ?? undefined,
+
+    robots: article.SEO?.Robots ?? undefined,
+
+    canonical,
+
+    image,
+
+    locale: getOpenGraphLocale(locale),
+
+    type: "article",
+
+    alternates: {
+      canonical,
+      languages,
+    },
+  });
+}
+
+/* ============================================================
+   PAGE
+============================================================ */
+
 export default async function PokerExchangeDetailPage({
   params,
 }: PokerExchangeDetailPageProps) {
   const { locale, slug } = await params;
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
 
   const article = await getPokerExchangeArticleBySlug(slug, locale);
 
@@ -41,7 +131,7 @@ export default async function PokerExchangeDetailPage({
       {article.BannerImage && (
         <div className="relative mb-10 aspect-16/7 overflow-hidden rounded-3xl">
           <Image
-            src={getMediaUrl(article.BannerImage?.url)}
+            src={getMediaUrl(article.BannerImage.url)}
             alt={article.Title}
             fill
             priority

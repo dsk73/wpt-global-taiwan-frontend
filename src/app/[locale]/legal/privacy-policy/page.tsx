@@ -1,10 +1,10 @@
-// src/app/[locale]/legal/privacy-policy/page.tsx
-
 import type { Metadata } from "next";
 import { ArrowLeft, FileText } from "lucide-react";
 import Link from "next/link";
 
 import { Footer } from "@/features/footer";
+
+import { buildCanonical, buildPageTitle, createMetadata } from "@/lib/metadata";
 
 import LegalContent from "./LegalContent";
 
@@ -15,6 +15,8 @@ import * as privacyMsModule from "./privacy-ms";
 /* ============================================================
    Locale
 ============================================================ */
+
+type Locale = "en" | "zh-Hant-TW" | "ms-MY";
 
 interface PageProps {
   params: Promise<{
@@ -73,23 +75,38 @@ const privacyContent = {
    Page Text
 ============================================================ */
 
-const pageText = {
+const pageText: Record<
+  Locale,
+  {
+    title: string;
+    description: string;
+    lastUpdated: string;
+    back: string;
+    legal: string;
+  }
+> = {
   en: {
     title: "Privacy Policy",
+    description:
+      "Read the WPT Global Privacy Policy to learn how we collect, use, protect and manage your personal information.",
     lastUpdated: "Last Updated: February 18, 2022",
     back: "Back",
     legal: "Legal",
   },
 
-  zh: {
+  "zh-Hant-TW": {
     title: "隱私權政策",
+    description:
+      "查看 WPT Global 隱私權政策，了解我們如何收集、使用、保護及管理您的個人資料。",
     lastUpdated: "最後更新：2022年2月18日",
     back: "返回",
     legal: "法律",
   },
 
-  ms: {
+  "ms-MY": {
     title: "Dasar Privasi",
+    description:
+      "Baca Dasar Privasi WPT Global untuk mengetahui cara kami mengumpul, menggunakan, melindungi dan mengurus maklumat peribadi anda.",
     lastUpdated: "Kemas Kini Terakhir: 18 Februari 2022",
     back: "Kembali",
     legal: "Undang-undang",
@@ -100,17 +117,17 @@ const pageText = {
    Locale Resolver
 ============================================================ */
 
-function resolveLanguage(locale: string): "en" | "zh" | "ms" {
+function resolveLocale(locale: string): Locale {
   if (
     locale === "zh-Hant-TW" ||
     locale === "zh-TW" ||
     locale.startsWith("zh")
   ) {
-    return "zh";
+    return "zh-Hant-TW";
   }
 
   if (locale === "ms-MY" || locale === "ms" || locale.startsWith("ms")) {
-    return "ms";
+    return "ms-MY";
   }
 
   return "en";
@@ -125,14 +142,21 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { locale } = await params;
 
-  const language = resolveLanguage(locale);
+  /*
+   * Resolve the incoming string into our supported
+   * Locale type before passing it to metadata helpers.
+   */
+  const language = resolveLocale(locale);
 
   const text = pageText[language];
 
-  return {
-    title: `${text.title} | WPT Global`,
-    description: text.title,
-  };
+  const canonical = buildCanonical(language, "legal/privacy-policy");
+
+  return createMetadata({
+    title: buildPageTitle(text.title),
+    description: text.description,
+    canonical,
+  });
 }
 
 /* ============================================================
@@ -142,11 +166,14 @@ export async function generateMetadata({
 export default async function PrivacyPolicyPage({ params }: PageProps) {
   const { locale } = await params;
 
-  const language = resolveLanguage(locale);
+  const language = resolveLocale(locale);
 
   const text = pageText[language];
 
-  const content = privacyContent[language];
+  const content =
+    privacyContent[
+      language === "zh-Hant-TW" ? "zh" : language === "ms-MY" ? "ms" : "en"
+    ];
 
   /* ==========================================================
      Safety fallback
@@ -182,10 +209,6 @@ export default async function PrivacyPolicyPage({ params }: PageProps) {
               w-full
               max-w-375
               px-5
-
-              /*
-               * More space above Back / Legal
-               */
 
               pt-12
               pb-7
@@ -355,7 +378,7 @@ export default async function PrivacyPolicyPage({ params }: PageProps) {
           FOOTER
       ====================================================== */}
 
-      <Footer locale={locale as "en" | "zh-Hant-TW" | "ms-MY"} />
+      <Footer locale={language} />
     </>
   );
 }

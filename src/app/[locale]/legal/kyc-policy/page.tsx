@@ -63,6 +63,8 @@ const kycContent = {
 const pageText = {
   en: {
     title: "KYC Policy",
+    description:
+      "Learn about WPT Global's KYC policy, identity verification requirements and procedures for poker players.",
     lastUpdated: "Last Updated: August 12, 2026",
     back: "Back",
     legal: "Legal",
@@ -70,6 +72,8 @@ const pageText = {
 
   zh: {
     title: "KYC 政策",
+    description:
+      "了解 WPT Global 的 KYC 政策、身分驗證要求及撲克玩家相關的身份認證程序。",
     lastUpdated: "最後更新：2026年8月12日",
     back: "返回",
     legal: "法律",
@@ -77,6 +81,8 @@ const pageText = {
 
   ms: {
     title: "Dasar KYC",
+    description:
+      "Ketahui tentang dasar KYC WPT Global, keperluan pengesahan identiti dan prosedur untuk pemain poker.",
     lastUpdated: "Kemas Kini Terakhir: 12 Ogos 2026",
     back: "Kembali",
     legal: "Undang-undang",
@@ -118,7 +124,7 @@ export async function generateMetadata({
 
   return {
     title: `${text.title} | WPT Global`,
-    description: text.title,
+    description: text.description,
   };
 }
 

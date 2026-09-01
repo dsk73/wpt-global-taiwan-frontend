@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Footer } from "@/features/footer";
@@ -17,6 +18,24 @@ interface TeachingCenterDetailPageProps {
     locale: Locale;
     slug: string;
   }>;
+}
+
+export async function generateMetadata({
+  params,
+}: TeachingCenterDetailPageProps): Promise<Metadata> {
+  const { locale, slug } = await params;
+
+  const guide = await fetchTeachingGuide(slug, locale);
+
+  if (!guide) {
+    return {
+      title: "Teaching Guide",
+    };
+  }
+
+  return {
+    title: guide.Title,
+  };
 }
 
 export default async function TeachingCenterDetailPage({

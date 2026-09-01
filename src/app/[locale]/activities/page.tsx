@@ -1,4 +1,7 @@
-//src/app/[locale]/activities/page.tsx
+// src/app/[locale]/activities/page.tsx
+
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { Header } from "@/features/header";
 import { Footer } from "@/features/footer";
@@ -9,11 +12,29 @@ import { getAllActivities } from "@/services/activities.service";
 
 import type { Locale } from "@/providers";
 
+import { isValidLocale } from "@/config/languages";
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildPageTitle,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
+
+/* ============================================================
+   Props
+============================================================ */
+
 interface ActivitiesPageProps {
   params: Promise<{
     locale: Locale;
   }>;
 }
+
+/* ============================================================
+   PAGE CONTENT
+============================================================ */
 
 const PAGE_TITLE: Record<Locale, string> = {
   "zh-Hant-TW": "最新活動與優惠",
@@ -28,8 +49,87 @@ const PAGE_DESCRIPTION: Record<Locale, string> = {
     "Ikuti perkembangan terkini mengenai aktiviti, promosi dan pengumuman WPT Global Taiwan.",
 };
 
+/* ============================================================
+   SEO
+============================================================ */
+
+const PAGE_KEYWORDS: Record<Locale, string[]> = {
+  "zh-Hant-TW": [
+    "WPT Global Taiwan",
+    "WPT Global 活動",
+    "WPT Global 優惠",
+    "撲克活動",
+    "撲克優惠",
+    "撲克賽事",
+    "線上撲克活動",
+  ],
+
+  en: [
+    "WPT Global Taiwan",
+    "WPT Global activities",
+    "WPT Global promotions",
+    "poker promotions",
+    "poker tournaments",
+    "online poker promotions",
+    "poker events",
+  ],
+
+  "ms-MY": [
+    "WPT Global Taiwan",
+    "aktiviti WPT Global",
+    "promosi WPT Global",
+    "promosi poker",
+    "kejohanan poker",
+    "poker online",
+    "aktiviti poker",
+  ],
+};
+
+/* ============================================================
+   Metadata
+============================================================ */
+
+export async function generateMetadata({
+  params,
+}: ActivitiesPageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
+
+  const canonical = buildCanonical(locale, "/activities");
+
+  const languages = buildLanguageAlternates("/activities");
+
+  return createMetadata({
+    title: buildPageTitle(PAGE_TITLE[locale]),
+
+    description: PAGE_DESCRIPTION[locale],
+
+    keywords: PAGE_KEYWORDS[locale],
+
+    canonical,
+
+    locale: getOpenGraphLocale(locale),
+
+    alternates: {
+      canonical,
+      languages,
+    },
+  });
+}
+
+/* ============================================================
+   Page
+============================================================ */
+
 export default async function ActivitiesPage({ params }: ActivitiesPageProps) {
   const { locale } = await params;
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
 
   const activities = await getAllActivities(locale);
 

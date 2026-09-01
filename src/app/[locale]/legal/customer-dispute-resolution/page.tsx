@@ -63,6 +63,8 @@ const disputeContent = {
 const pageText = {
   en: {
     title: "Customer Dispute Resolution",
+    description:
+      "Learn how WPT Global handles customer complaints, disputes and resolution procedures for its poker services.",
     lastUpdated: "Last Updated: August 12, 2026",
     back: "Back",
     legal: "Legal",
@@ -70,6 +72,8 @@ const pageText = {
 
   zh: {
     title: "客戶爭議解決",
+    description:
+      "了解 WPT Global 如何處理客戶投訴、爭議及撲克服務相關的爭議解決程序。",
     lastUpdated: "最後更新：2026年8月12日",
     back: "返回",
     legal: "法律",
@@ -77,6 +81,8 @@ const pageText = {
 
   ms: {
     title: "Penyelesaian Pertikaian Pelanggan",
+    description:
+      "Ketahui cara WPT Global mengendalikan aduan pelanggan, pertikaian dan prosedur penyelesaian untuk perkhidmatan poker.",
     lastUpdated: "Kemas Kini Terakhir: 12 Ogos 2026",
     back: "Kembali",
     legal: "Undang-undang",
@@ -118,7 +124,7 @@ export async function generateMetadata({
 
   return {
     title: `${text.title} | WPT Global`,
-    description: text.title,
+    description: text.description,
   };
 }
 

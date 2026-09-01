@@ -4,6 +4,8 @@ import Link from "next/link";
 
 import { Footer } from "@/features/footer";
 
+import type { Locale } from "@/providers";
+
 import LegalContent from "./LegalContent";
 
 import * as cookieEnModule from "./cookie-en";
@@ -11,7 +13,7 @@ import * as cookieZhModule from "./cookie-zh";
 import * as cookieMsModule from "./cookie-ms";
 
 /* ============================================================
-   Locale
+   Page Props
 ============================================================ */
 
 interface PageProps {
@@ -61,22 +63,40 @@ const cookieContent = {
 const pageText = {
   en: {
     title: "Cookie Policy",
+
+    description:
+      "Learn how WPT Global uses cookies and similar technologies to operate, improve and personalize your website experience.",
+
     lastUpdated: "Last Updated: August 12, 2026",
+
     back: "Back",
+
     legal: "Legal",
   },
 
   zh: {
     title: "Cookie 政策",
+
+    description:
+      "了解 WPT Global 如何使用 Cookie 及類似技術，以運作、改善及個人化您的網站使用體驗。",
+
     lastUpdated: "最後更新：2026年8月12日",
+
     back: "返回",
+
     legal: "法律",
   },
 
   ms: {
     title: "Dasar Cookie",
+
+    description:
+      "Ketahui cara WPT Global menggunakan kuki dan teknologi serupa untuk mengendalikan, menambah baik dan memperibadikan pengalaman anda di laman web.",
+
     lastUpdated: "Kemas Kini Terakhir: 12 Ogos 2026",
+
     back: "Kembali",
+
     legal: "Undang-undang",
   },
 };
@@ -116,7 +136,7 @@ export async function generateMetadata({
 
   return {
     title: `${text.title} | WPT Global`,
-    description: text.title,
+    description: text.description,
   };
 }
 
@@ -167,10 +187,6 @@ export default async function CookiePolicyPage({ params }: PageProps) {
               w-full
               max-w-375
               px-5
-
-              /*
-               * More space above Back / Legal
-               */
 
               pt-12
               pb-7
@@ -327,8 +343,6 @@ export default async function CookiePolicyPage({ params }: PageProps) {
 
         {/* ======================================================
             COOKIE CONTENT
-
-            Reduced gap between header and content.
         ====================================================== */}
 
         <div className="-mt-10">
@@ -340,7 +354,7 @@ export default async function CookiePolicyPage({ params }: PageProps) {
           FOOTER
       ====================================================== */}
 
-      <Footer locale={locale as "en" | "zh-Hant-TW" | "ms-MY"} />
+      <Footer locale={locale as Locale} />
     </>
   );
 }

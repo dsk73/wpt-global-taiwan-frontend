@@ -1,3 +1,8 @@
+// src/app/[locale]/poker-exchange/page.tsx
+
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
 import { Header } from "@/features/header";
 import { Footer } from "@/features/footer";
 
@@ -8,11 +13,29 @@ import { getAllPokerExchangeArticles } from "@/services/poker-exchange.service";
 
 import type { Locale } from "@/providers";
 
+import { isValidLocale } from "@/config/languages";
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildPageTitle,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
+
+/* ============================================================
+   Props
+============================================================ */
+
 interface PokerExchangePageProps {
   params: Promise<{
     locale: Locale;
   }>;
 }
+
+/* ============================================================
+   PAGE CONTENT
+============================================================ */
 
 const PAGE_TITLE: Record<Locale, string> = {
   "zh-Hant-TW": "撲克交流站",
@@ -28,10 +51,92 @@ const PAGE_DESCRIPTION: Record<Locale, string> = {
     "Terokai strategi Poker Exchange terkini, berita kejohanan, perkembangan industri dan artikel pakar daripada WPT Global Taiwan.",
 };
 
+/* ============================================================
+   SEO KEYWORDS
+============================================================ */
+
+const PAGE_KEYWORDS: Record<Locale, string[]> = {
+  "zh-Hant-TW": [
+    "WPT Global Taiwan",
+    "Poker Exchange",
+    "撲克交流站",
+    "撲克策略",
+    "撲克新聞",
+    "撲克賽事",
+    "線上撲克",
+    "德州撲克",
+  ],
+
+  en: [
+    "WPT Global Taiwan",
+    "Poker Exchange",
+    "poker strategy",
+    "poker news",
+    "poker tournament news",
+    "online poker",
+    "Texas Hold'em",
+    "poker tips",
+  ],
+
+  "ms-MY": [
+    "WPT Global Taiwan",
+    "Poker Exchange",
+    "strategi poker",
+    "berita poker",
+    "kejohanan poker",
+    "poker online",
+    "Texas Hold'em",
+    "tips poker",
+  ],
+};
+
+/* ============================================================
+   METADATA
+============================================================ */
+
+export async function generateMetadata({
+  params,
+}: PokerExchangePageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
+
+  const canonical = buildCanonical(locale, "/poker-exchange");
+
+  const languages = buildLanguageAlternates("/poker-exchange");
+
+  return createMetadata({
+    title: buildPageTitle(PAGE_TITLE[locale]),
+
+    description: PAGE_DESCRIPTION[locale],
+
+    keywords: PAGE_KEYWORDS[locale],
+
+    canonical,
+
+    locale: getOpenGraphLocale(locale),
+
+    alternates: {
+      canonical,
+      languages,
+    },
+  });
+}
+
+/* ============================================================
+   PAGE
+============================================================ */
+
 export default async function PokerExchangePage({
   params,
 }: PokerExchangePageProps) {
   const { locale } = await params;
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
 
   const articles = await getAllPokerExchangeArticles(locale);
 

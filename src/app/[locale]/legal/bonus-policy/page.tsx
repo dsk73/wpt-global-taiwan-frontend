@@ -4,6 +4,8 @@ import Link from "next/link";
 
 import { Footer } from "@/features/footer";
 
+import type { Locale } from "@/providers";
+
 import LegalContent from "./LegalContent";
 
 import * as bonusEnModule from "./bonus-en";
@@ -11,7 +13,7 @@ import * as bonusZhModule from "./bonus-zh";
 import * as bonusMsModule from "./bonus-ms";
 
 /* ============================================================
-   Locale
+   Page Props
 ============================================================ */
 
 interface PageProps {
@@ -61,22 +63,39 @@ const bonusContent = {
 const pageText = {
   en: {
     title: "Bonus Policy",
+
+    description:
+      "Learn about the bonus terms, conditions and requirements that apply to promotional bonuses offered by WPT Global.",
+
     lastUpdated: "Last Updated: August 12, 2026",
+
     back: "Back",
+
     legal: "Legal",
   },
 
   zh: {
     title: "獎勵政策",
+
+    description: "了解 WPT Global 提供的促銷獎勵所適用的條款、條件及相關要求。",
+
     lastUpdated: "最後更新：2026年8月12日",
+
     back: "返回",
+
     legal: "法律",
   },
 
   ms: {
     title: "Polisi Bonus",
+
+    description:
+      "Ketahui terma, syarat dan keperluan bonus promosi yang ditawarkan oleh WPT Global.",
+
     lastUpdated: "Kemas Kini Terakhir: 12 Ogos 2026",
+
     back: "Kembali",
+
     legal: "Undang-undang",
   },
 };
@@ -116,7 +135,7 @@ export async function generateMetadata({
 
   return {
     title: `${text.title} | WPT Global`,
-    description: text.title,
+    description: text.description,
   };
 }
 
@@ -167,10 +186,6 @@ export default async function BonusPolicyPage({ params }: PageProps) {
               w-full
               max-w-375
               px-5
-
-              /*
-               * More space above Back / Legal
-               */
 
               pt-12
               pb-7
@@ -327,8 +342,6 @@ export default async function BonusPolicyPage({ params }: PageProps) {
 
         {/* ======================================================
             LEGAL CONTENT
-
-            Reduced gap between header and content.
         ====================================================== */}
 
         <div className="-mt-10">
@@ -340,7 +353,7 @@ export default async function BonusPolicyPage({ params }: PageProps) {
           FOOTER
       ====================================================== */}
 
-      <Footer locale={locale as "en" | "zh-Hant-TW" | "ms-MY"} />
+      <Footer locale={locale as Locale} />
     </>
   );
 }

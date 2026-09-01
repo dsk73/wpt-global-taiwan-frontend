@@ -7,12 +7,6 @@ export const routes = {
   activity: (locale: string, slug: string) =>
     `/${locale}/activities/${slug}`,
 
-  tutorials: (locale: string) =>
-    `/${locale}/tutorials`,
-
-  tutorial: (locale: string, slug: string) =>
-    `/${locale}/tutorials/${slug}`,
-
   community: (locale: string) =>
     `/${locale}/community`,
 

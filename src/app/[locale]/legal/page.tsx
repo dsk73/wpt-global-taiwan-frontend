@@ -1,3 +1,5 @@
+// src/app/[locale]/legal/page.tsx
+
 import type { Metadata } from "next";
 import { ArrowLeft, ArrowRight, FileText } from "lucide-react";
 import Link from "next/link";
@@ -160,6 +162,7 @@ function resolveLocale(locale: string): Locale {
   if (
     locale === "zh-Hant-TW" ||
     locale === "zh-TW" ||
+    locale === "zh" ||
     locale.startsWith("zh")
   ) {
     return "zh-Hant-TW";
@@ -203,22 +206,15 @@ export default async function LegalPage({ params }: PageProps) {
   const text = pageText[language];
 
   /*
-   * Keep the actual URL locale.
+   * Always use the normalized locale for legal-page links.
    *
-   * This allows the page to work correctly even if
-   * the resolver maps zh-TW -> zh-Hant-TW internally.
+   * Examples:
+   * zh-TW -> zh-Hant-TW
+   * zh    -> zh-Hant-TW
+   * ms    -> ms-MY
    */
 
-  const currentLocale =
-    locale === "zh-TW"
-      ? "zh-Hant-TW"
-      : locale === "zh"
-        ? "zh-Hant-TW"
-        : locale === "ms"
-          ? "ms-MY"
-          : locale;
-
-  const legalPages = LEGAL[currentLocale as Locale] ?? LEGAL.en;
+  const legalPages = LEGAL[language];
 
   const backHref = `/${locale}`;
 
@@ -482,6 +478,7 @@ export default async function LegalPage({ params }: PageProps) {
 
                     hover:border-blue-500/30
                     hover:bg-white/4.5
+
                     sm:px-6
                     sm:py-6
                   "
@@ -567,7 +564,7 @@ export default async function LegalPage({ params }: PageProps) {
           FOOTER
       ====================================================== */}
 
-      <Footer locale={locale as Locale} />
+      <Footer locale={language} />
     </>
   );
 }

@@ -61,6 +61,8 @@ const acceptanceContent = {
 const pageText = {
   en: {
     title: "Customer Acceptance Policy",
+    description:
+      "Learn about the customer acceptance requirements and eligibility criteria for using WPT Global poker services.",
     lastUpdated: "Last Updated: August 12, 2026",
     back: "Back",
     legal: "Legal",
@@ -68,6 +70,8 @@ const pageText = {
 
   zh: {
     title: "客戶接受政策",
+    description:
+      "了解使用 WPT Global 撲克服務的客戶接受要求、資格條件及相關政策。",
     lastUpdated: "最後更新：2026年8月12日",
     back: "返回",
     legal: "法律",
@@ -75,6 +79,8 @@ const pageText = {
 
   ms: {
     title: "Polisi Penerimaan Pelanggan",
+    description:
+      "Ketahui keperluan penerimaan pelanggan dan kriteria kelayakan untuk menggunakan perkhidmatan poker WPT Global.",
     lastUpdated: "Kemas Kini Terakhir: 12 Ogos 2026",
     back: "Kembali",
     legal: "Undang-undang",
@@ -116,7 +122,7 @@ export async function generateMetadata({
 
   return {
     title: `${text.title} | WPT Global`,
-    description: text.title,
+    description: text.description,
   };
 }
 

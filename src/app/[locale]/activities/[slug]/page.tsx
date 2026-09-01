@@ -1,3 +1,5 @@
+// src/app/[locale]/activities/[slug]/page.tsx
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -17,6 +19,20 @@ import {
 
 import type { Locale } from "@/providers";
 
+import { isValidLocale } from "@/config/languages";
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildSEOImageUrl,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
+
+/* ============================================================
+   Props
+============================================================ */
+
 interface ActivityPageProps {
   params: Promise<{
     locale: Locale;
@@ -24,68 +40,78 @@ interface ActivityPageProps {
   }>;
 }
 
+/* ============================================================
+   Metadata
+============================================================ */
+
+/**
+ * Generate SEO metadata from the activity's Strapi SEO fields.
+ *
+ * CMS SEO fields take priority over the activity's normal
+ * content fields.
+ */
 export async function generateMetadata({
   params,
 }: ActivityPageProps): Promise<Metadata> {
   const { locale, slug } = await params;
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
 
   const activity = await getActivity(locale, slug);
 
   if (!activity) {
     return {
       title: "Activity Not Found",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
-  const image = activity.BannerImage?.url ?? activity.Thumbnail?.url;
+  const title = activity.SEO?.MetaTitle ?? activity.Title;
 
-  return {
-    title: activity.SEO?.MetaTitle ?? activity.Title,
+  const description = activity.SEO?.MetaDescription ?? activity.Summary ?? "";
 
-    description: activity.SEO?.MetaDescription ?? activity.Summary,
+  const image = buildSEOImageUrl(
+    activity.BannerImage?.url ?? activity.Thumbnail?.url,
+  );
 
-    keywords: activity.SEO?.Keywords,
+  const canonical =
+    activity.SEO?.CanonicalURL ||
+    buildCanonical(locale, `/activities/${activity.Slug}`);
 
-    robots: activity.SEO?.Robots,
+  const languages = buildLanguageAlternates(`/activities/${activity.Slug}`);
+
+  return createMetadata({
+    title,
+
+    description,
+
+    keywords: activity.SEO?.Keywords ?? undefined,
+
+    robots: activity.SEO?.Robots ?? undefined,
+
+    canonical,
+
+    image,
+
+    locale: getOpenGraphLocale(locale),
+
+    type: "article",
 
     alternates: {
-      canonical:
-        activity.SEO?.CanonicalURL ||
-        `https://wptglobal.com.tw/${locale}/activities/${activity.Slug}`,
+      canonical,
+      languages,
     },
-
-    openGraph: {
-      title: activity.SEO?.MetaTitle ?? activity.Title,
-
-      description: activity.SEO?.MetaDescription ?? activity.Summary,
-
-      type: "article",
-
-      publishedTime: activity.PublishDate,
-
-      locale,
-
-      images: image
-        ? [
-            {
-              url: image,
-              alt: activity.Title,
-            },
-          ]
-        : [],
-    },
-
-    twitter: {
-      card: "summary_large_image",
-
-      title: activity.SEO?.MetaTitle ?? activity.Title,
-
-      description: activity.SEO?.MetaDescription ?? activity.Summary,
-
-      images: image ? [image] : [],
-    },
-  };
+  });
 }
+
+/* ============================================================
+   Static Params
+============================================================ */
 
 export async function generateStaticParams() {
   const locales: Locale[] = ["zh-Hant-TW", "en", "ms-MY"];
@@ -104,8 +130,16 @@ export async function generateStaticParams() {
   return params.flat();
 }
 
+/* ============================================================
+   Page
+============================================================ */
+
 export default async function ActivityPage({ params }: ActivityPageProps) {
   const { locale, slug } = await params;
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
 
   const activity = await getActivity(locale, slug);
 
