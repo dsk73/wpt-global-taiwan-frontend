@@ -37,7 +37,6 @@ const STATIC_ROUTES = [
   "/register",
   "/resources",
   "/teaching-center",
-  "/tutorials",
   "/poker-exchange",
 ] as const;
 
@@ -45,13 +44,6 @@ const STATIC_ROUTES = [
    PRIORITY
 ============================================================ */
 
-/**
- * Defines the relative SEO importance of each static route.
- *
- * These values are intentionally conservative. Sitemap
- * priority is only a hint to search engines, not a ranking
- * factor that guarantees crawling or ranking behavior.
- */
 function getPriority(route: string): number {
   if (route === "") {
     return 1;
@@ -64,7 +56,6 @@ function getPriority(route: string): number {
   if (
     route === "/activities" ||
     route === "/teaching-center" ||
-    route === "/tutorials" ||
     route === "/poker-exchange"
   ) {
     return 0.8;
@@ -81,9 +72,6 @@ function getPriority(route: string): number {
    CHANGE FREQUENCY
 ============================================================ */
 
-/**
- * Defines how frequently the content is expected to change.
- */
 function getChangeFrequency(
   route: string,
 ): MetadataRoute.Sitemap[number]["changeFrequency"] {
@@ -94,7 +82,6 @@ function getChangeFrequency(
   if (
     route === "/activities" ||
     route === "/teaching-center" ||
-    route === "/tutorials" ||
     route === "/poker-exchange"
   ) {
     return "weekly";
@@ -115,18 +102,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
   for (const locale of SUPPORTED_LOCALES) {
-    for (const route of STATIC_ROUTES) {
-      const currentLocale = locale as Locale;
+    const currentLocale = locale as Locale;
 
+    for (const route of STATIC_ROUTES) {
       const url = buildCanonical(currentLocale, route);
 
-      const alternates = buildLanguageAlternates(route);
+      const languages = buildLanguageAlternates(route);
 
       entries.push({
         url,
 
         alternates: {
-          languages: alternates,
+          languages,
         },
 
         changeFrequency: getChangeFrequency(route),

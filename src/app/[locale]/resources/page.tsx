@@ -3,6 +3,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { Footer } from "@/features/footer";
+import { Header } from "@/features/header";
+
 import type { Locale } from "@/providers";
 
 import { isValidLocale } from "@/config/languages";
@@ -134,16 +137,44 @@ export default async function ResourcesPage({ params }: ResourcesPageProps) {
   const seo = RESOURCES_SEO[locale];
 
   return (
-    <main className="min-h-screen pt-32">
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <h1 className="text-5xl font-bold text-white md:text-6xl">
-          {seo.title}
-        </h1>
+    <>
+      <Header />
 
-        <p className="mt-6 max-w-3xl text-lg leading-8 text-white/70">
-          {seo.description}
-        </p>
-      </section>
-    </main>
+      <main className="min-h-screen bg-[#070B15] pt-32">
+        {/* ======================================================
+            HERO
+        ====================================================== */}
+
+        <section className="border-b border-white/10">
+          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+            <h1 className="text-5xl font-bold text-white md:text-6xl">
+              {seo.title}
+            </h1>
+
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-white/70">
+              {seo.description}
+            </p>
+          </div>
+        </section>
+
+        {/* ======================================================
+            RESOURCES CONTENT
+        ====================================================== */}
+
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-10 text-center">
+            <p className="text-lg text-white/60">
+              {locale === "zh-Hant-TW"
+                ? "目前沒有可用的資源。"
+                : locale === "ms-MY"
+                  ? "Tiada sumber tersedia pada masa ini."
+                  : "No resources are currently available."}
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <Footer locale={locale} />
+    </>
   );
 }

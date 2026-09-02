@@ -30,7 +30,7 @@ import {
 } from "@/lib/metadata";
 
 /* ============================================================
-   Props
+   PROPS
 ============================================================ */
 
 interface ActivityPageProps {
@@ -41,14 +41,20 @@ interface ActivityPageProps {
 }
 
 /* ============================================================
-   Metadata
+   METADATA
 ============================================================ */
 
 /**
- * Generate SEO metadata from the activity's Strapi SEO fields.
+ * Generates SEO metadata for an individual activity page.
  *
- * CMS SEO fields take priority over the activity's normal
- * content fields.
+ * SEO priority:
+ *
+ * 1. Strapi SEO fields
+ * 2. Activity content fields
+ * 3. Locale-aware URL information
+ *
+ * The activity's CMS SEO configuration remains the source
+ * of truth whenever those fields are available.
  */
 export async function generateMetadata({
   params,
@@ -61,9 +67,13 @@ export async function generateMetadata({
 
   const activity = await getActivity(locale, slug);
 
+  /**
+   * Prevent non-existent activity pages from being indexed.
+   */
   if (!activity) {
     return {
       title: "Activity Not Found",
+
       robots: {
         index: false,
         follow: false,
@@ -71,32 +81,51 @@ export async function generateMetadata({
     };
   }
 
-  const title = activity.SEO?.MetaTitle ?? activity.Title;
+  /* ==========================================================
+     SEO VALUES
+  ========================================================== */
 
-  const description = activity.SEO?.MetaDescription ?? activity.Summary ?? "";
+  const seoTitle =
+    activity.SEO?.MetaTitle?.trim() || activity.Title?.trim() || "Activity";
 
-  const image = buildSEOImageUrl(
+  const seoDescription =
+    activity.SEO?.MetaDescription?.trim() || activity.Summary?.trim() || "";
+
+  const seoImage = buildSEOImageUrl(
     activity.BannerImage?.url ?? activity.Thumbnail?.url,
   );
 
-  const canonical =
-    activity.SEO?.CanonicalURL ||
-    buildCanonical(locale, `/activities/${activity.Slug}`);
+  /* ==========================================================
+     URLS
+  ========================================================== */
 
-  const languages = buildLanguageAlternates(`/activities/${activity.Slug}`);
+  const activitySlug = activity.Slug || slug;
+
+  const canonical =
+    activity.SEO?.CanonicalURL?.trim() ||
+    buildCanonical(locale, `/activities/${activitySlug}`);
+
+  const languages = buildLanguageAlternates(`/activities/${activitySlug}`);
+
+  /* ==========================================================
+     METADATA
+  ========================================================== */
 
   return createMetadata({
-    title,
+    title: seoTitle,
 
-    description,
+    description: seoDescription,
 
-    keywords: activity.SEO?.Keywords ?? undefined,
+    keywords:
+      activity.SEO?.Keywords && activity.SEO.Keywords.length > 0
+        ? activity.SEO.Keywords
+        : undefined,
 
     robots: activity.SEO?.Robots ?? undefined,
 
     canonical,
 
-    image,
+    image: seoImage,
 
     locale: getOpenGraphLocale(locale),
 
@@ -104,15 +133,22 @@ export async function generateMetadata({
 
     alternates: {
       canonical,
+
       languages,
     },
   });
 }
 
 /* ============================================================
-   Static Params
+   STATIC PARAMS
 ============================================================ */
 
+/**
+ * Pre-generates all known activity detail pages for each
+ * supported locale.
+ *
+ * Existing Strapi-driven routing behavior is preserved.
+ */
 export async function generateStaticParams() {
   const locales: Locale[] = ["zh-Hant-TW", "en", "ms-MY"];
 
@@ -122,6 +158,7 @@ export async function generateStaticParams() {
 
       return slugs.map((slug) => ({
         locale,
+
         slug,
       }));
     }),
@@ -131,7 +168,7 @@ export async function generateStaticParams() {
 }
 
 /* ============================================================
-   Page
+   PAGE
 ============================================================ */
 
 export default async function ActivityPage({ params }: ActivityPageProps) {

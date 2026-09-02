@@ -1,17 +1,29 @@
+// src/app/[locale]/legal/customer-acceptance-policy/page.tsx
+
 import type { Metadata } from "next";
 import { ArrowLeft, FileText } from "lucide-react";
 import Link from "next/link";
 
 import { Footer } from "@/features/footer";
 
+import type { Locale } from "@/providers";
+
 import LegalContent from "./LegalContent";
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildPageTitle,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
 
 import * as acceptanceEnModule from "./acceptance-en";
 import * as acceptanceZhModule from "./acceptance-zh";
 import * as acceptanceMsModule from "./acceptance-ms";
 
 /* ============================================================
-   Locale
+   Page Props
 ============================================================ */
 
 interface PageProps {
@@ -61,29 +73,71 @@ const acceptanceContent = {
 const pageText = {
   en: {
     title: "Customer Acceptance Policy",
+
     description:
       "Learn about the customer acceptance requirements and eligibility criteria for using WPT Global poker services.",
+
     lastUpdated: "Last Updated: August 12, 2026",
+
     back: "Back",
+
     legal: "Legal",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "WPT Global Customer Acceptance Policy",
+      "WPT Global customer acceptance",
+      "WPT Global eligibility",
+      "WPT Global account requirements",
+      "WPT Global player eligibility",
+      "WPT Global poker services",
+    ],
   },
 
   zh: {
     title: "客戶接受政策",
+
     description:
       "了解使用 WPT Global 撲克服務的客戶接受要求、資格條件及相關政策。",
+
     lastUpdated: "最後更新：2026年8月12日",
+
     back: "返回",
+
     legal: "法律",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "WPT Global 客戶接受政策",
+      "WPT Global 客戶資格",
+      "WPT Global 資格條件",
+      "WPT Global 帳戶要求",
+      "WPT Global 玩家資格",
+      "WPT Global 撲克服務",
+    ],
   },
 
   ms: {
     title: "Polisi Penerimaan Pelanggan",
+
     description:
       "Ketahui keperluan penerimaan pelanggan dan kriteria kelayakan untuk menggunakan perkhidmatan poker WPT Global.",
+
     lastUpdated: "Kemas Kini Terakhir: 12 Ogos 2026",
+
     back: "Kembali",
+
     legal: "Undang-undang",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "Polisi Penerimaan Pelanggan WPT Global",
+      "penerimaan pelanggan WPT Global",
+      "kelayakan WPT Global",
+      "keperluan akaun WPT Global",
+      "kelayakan pemain WPT Global",
+      "perkhidmatan poker WPT Global",
+    ],
   },
 };
 
@@ -95,6 +149,7 @@ function resolveLanguage(locale: string): "en" | "zh" | "ms" {
   if (
     locale === "zh-Hant-TW" ||
     locale === "zh-TW" ||
+    locale === "zh" ||
     locale.startsWith("zh")
   ) {
     return "zh";
@@ -102,6 +157,27 @@ function resolveLanguage(locale: string): "en" | "zh" | "ms" {
 
   if (locale === "ms-MY" || locale === "ms" || locale.startsWith("ms")) {
     return "ms";
+  }
+
+  return "en";
+}
+
+/* ============================================================
+   Canonical Locale Resolver
+============================================================ */
+
+function resolveCanonicalLocale(locale: string): Locale {
+  if (
+    locale === "zh-Hant-TW" ||
+    locale === "zh-TW" ||
+    locale === "zh" ||
+    locale.startsWith("zh")
+  ) {
+    return "zh-Hant-TW";
+  }
+
+  if (locale === "ms-MY" || locale === "ms" || locale.startsWith("ms")) {
+    return "ms-MY";
   }
 
   return "en";
@@ -118,12 +194,48 @@ export async function generateMetadata({
 
   const language = resolveLanguage(locale);
 
+  const canonicalLocale = resolveCanonicalLocale(locale);
+
   const text = pageText[language];
 
-  return {
-    title: `${text.title} | WPT Global`,
+  /* ==========================================================
+     Canonical URL
+  ========================================================== */
+
+  const canonical = buildCanonical(
+    canonicalLocale,
+    "/legal/customer-acceptance-policy",
+  );
+
+  /* ==========================================================
+     Hreflang URLs
+  ========================================================== */
+
+  const languages = buildLanguageAlternates(
+    "/legal/customer-acceptance-policy",
+  );
+
+  /* ==========================================================
+     Metadata
+  ========================================================== */
+
+  return createMetadata({
+    title: buildPageTitle(text.title),
+
     description: text.description,
-  };
+
+    keywords: text.keywords,
+
+    canonical,
+
+    locale: getOpenGraphLocale(canonicalLocale),
+
+    alternates: {
+      canonical,
+
+      languages,
+    },
+  });
 }
 
 /* ============================================================
@@ -136,6 +248,8 @@ export default async function CustomerAcceptancePolicyPage({
   const { locale } = await params;
 
   const language = resolveLanguage(locale);
+
+  const canonicalLocale = resolveCanonicalLocale(locale);
 
   const text = pageText[language];
 
@@ -155,7 +269,7 @@ export default async function CustomerAcceptancePolicyPage({
      Back URL
   ========================================================== */
 
-  const backHref = `/${locale}`;
+  const backHref = `/${canonicalLocale}`;
 
   return (
     <>
@@ -333,8 +447,6 @@ export default async function CustomerAcceptancePolicyPage({
 
         {/* ======================================================
             LEGAL CONTENT
-
-            Reduced gap between header and content.
         ====================================================== */}
 
         <div className="-mt-10">
@@ -346,7 +458,7 @@ export default async function CustomerAcceptancePolicyPage({
           FOOTER
       ====================================================== */}
 
-      <Footer locale={locale as "en" | "zh-Hant-TW" | "ms-MY"} />
+      <Footer locale={canonicalLocale} />
     </>
   );
 }

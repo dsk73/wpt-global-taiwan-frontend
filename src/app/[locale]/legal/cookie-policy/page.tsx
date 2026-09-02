@@ -1,3 +1,5 @@
+// src/app/[locale]/legal/cookie-policy/page.tsx
+
 import type { Metadata } from "next";
 import { ArrowLeft, FileText } from "lucide-react";
 import Link from "next/link";
@@ -5,6 +7,14 @@ import Link from "next/link";
 import { Footer } from "@/features/footer";
 
 import type { Locale } from "@/providers";
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildPageTitle,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
 
 import LegalContent from "./LegalContent";
 
@@ -72,6 +82,16 @@ const pageText = {
     back: "Back",
 
     legal: "Legal",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "WPT Global Cookie Policy",
+      "WPT Global cookies",
+      "WPT Global privacy",
+      "WPT Global website cookies",
+      "WPT Global data privacy",
+      "WPT Global Taiwan Cookie Policy",
+    ],
   },
 
   zh: {
@@ -85,6 +105,16 @@ const pageText = {
     back: "返回",
 
     legal: "法律",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "WPT Global Cookie 政策",
+      "WPT Global Cookie",
+      "WPT Global 隱私",
+      "WPT Global 網站 Cookie",
+      "WPT Global 資料隱私",
+      "WPT Global Taiwan Cookie 政策",
+    ],
   },
 
   ms: {
@@ -98,6 +128,16 @@ const pageText = {
     back: "Kembali",
 
     legal: "Undang-undang",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "Dasar Cookie WPT Global",
+      "kuki WPT Global",
+      "privasi WPT Global",
+      "kuki laman web WPT Global",
+      "privasi data WPT Global",
+      "Dasar Cookie WPT Global Taiwan",
+    ],
   },
 };
 
@@ -122,6 +162,27 @@ function resolveLanguage(locale: string): "en" | "zh" | "ms" {
 }
 
 /* ============================================================
+   Canonical Locale Resolver
+============================================================ */
+
+function resolveCanonicalLocale(locale: string): Locale {
+  if (
+    locale === "zh-Hant-TW" ||
+    locale === "zh-TW" ||
+    locale === "zh" ||
+    locale.startsWith("zh")
+  ) {
+    return "zh-Hant-TW";
+  }
+
+  if (locale === "ms-MY" || locale === "ms" || locale.startsWith("ms")) {
+    return "ms-MY";
+  }
+
+  return "en";
+}
+
+/* ============================================================
    Metadata
 ============================================================ */
 
@@ -132,12 +193,47 @@ export async function generateMetadata({
 
   const language = resolveLanguage(locale);
 
+  const canonicalLocale = resolveCanonicalLocale(locale);
+
   const text = pageText[language];
 
-  return {
-    title: `${text.title} | WPT Global`,
+  /*
+   * -----------------------------------------------------------
+   * Canonical
+   * -----------------------------------------------------------
+   *
+   * Always use the normalized supported locale in canonical
+   * URLs so that alternate locale aliases do not create
+   * duplicate canonical URLs.
+   */
+
+  const canonical = buildCanonical(canonicalLocale, "/legal/cookie-policy");
+
+  /*
+   * -----------------------------------------------------------
+   * Hreflang
+   * -----------------------------------------------------------
+   */
+
+  const languages = buildLanguageAlternates("/legal/cookie-policy");
+
+  return createMetadata({
+    title: buildPageTitle(text.title),
+
     description: text.description,
-  };
+
+    keywords: text.keywords,
+
+    canonical,
+
+    locale: getOpenGraphLocale(canonicalLocale),
+
+    alternates: {
+      canonical,
+
+      languages,
+    },
+  });
 }
 
 /* ============================================================
@@ -148,6 +244,8 @@ export default async function CookiePolicyPage({ params }: PageProps) {
   const { locale } = await params;
 
   const language = resolveLanguage(locale);
+
+  const canonicalLocale = resolveCanonicalLocale(locale);
 
   const text = pageText[language];
 
@@ -165,7 +263,7 @@ export default async function CookiePolicyPage({ params }: PageProps) {
      Back URL
   ========================================================== */
 
-  const backHref = `/${locale}`;
+  const backHref = `/${canonicalLocale}`;
 
   return (
     <>
@@ -354,7 +452,7 @@ export default async function CookiePolicyPage({ params }: PageProps) {
           FOOTER
       ====================================================== */}
 
-      <Footer locale={locale as Locale} />
+      <Footer locale={canonicalLocale} />
     </>
   );
 }

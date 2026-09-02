@@ -4,37 +4,81 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
+import { SITE_NAME, SITE_URL } from "@/lib/metadata";
+
 /* ============================================================
-   Global SEO Metadata
+   GLOBAL SEO CONFIG
+============================================================ */
+
+const GLOBAL_TITLE = "WPT Global Taiwan | WPTG Official Portal";
+
+const GLOBAL_DESCRIPTION =
+  "WPT Global Taiwan official portal for WPTG Taiwan. Find WPTG registration, download, deposit and top-up tutorials, online poker, Texas Hold'em, latest offers, teaching resources and more.";
+
+/* ============================================================
+   GLOBAL SEO METADATA
 ============================================================ */
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.wptglobal.com.tw"),
+  metadataBase: new URL(SITE_URL),
+
+  applicationName: SITE_NAME,
 
   title: {
-    default: "WPT Global Taiwan",
+    default: GLOBAL_TITLE,
     template: "%s | WPT Global Taiwan",
   },
 
-  description:
-    "Official WPT Global Taiwan website featuring poker tournaments, poker strategy, teaching resources, community content and more.",
+  description: GLOBAL_DESCRIPTION,
 
   keywords: [
-    "WPT Global Taiwan",
+    /* Core brand keywords */
+    "WPT",
+    "WPTG",
     "WPT Global",
-    "poker Taiwan",
+    "WPT Global Taiwan",
+    "WPTG Taiwan",
+
+    /* Registration */
+    "WPT Global Registration",
+    "WPTG Registration",
+
+    /* Download */
+    "WPT Global Download",
+    "WPTG Download",
+
+    /* Deposit / Stored Value / Top-up */
+    "WPT Global deposit",
+    "WPT Global Stored Value",
+    "WPTG stored value",
+
+    /* Offers / Referral */
+    "WPT Global Offers",
+    "WPT Global Referral Code",
+
+    /* Teaching */
+    "WPT Global Teaching",
+    "WPTG Teaching",
+
+    /* Poker */
+    "WPT Texas Hold'em",
+    "WPT Online Poker",
+    "WPT Online",
+
+    /* Taiwan search intent */
     "online poker Taiwan",
-    "poker tournaments Taiwan",
-    "poker strategy",
-    "poker community",
+    "poker Taiwan",
+    "Texas Hold'em Taiwan",
   ],
 
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,
+
       "max-image-preview": "large",
       "max-snippet": -1,
       "max-video-preview": -1,
@@ -43,23 +87,35 @@ export const metadata: Metadata = {
 
   openGraph: {
     type: "website",
-    siteName: "WPT Global Taiwan",
-    title: "WPT Global Taiwan",
-    description:
-      "Official WPT Global Taiwan website featuring poker tournaments, poker strategy, teaching resources, community content and more.",
+
+    siteName: SITE_NAME,
+
+    title: GLOBAL_TITLE,
+
+    description: GLOBAL_DESCRIPTION,
+
+    url: SITE_URL,
+
     locale: "zh_TW",
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "WPT Global Taiwan",
-    description:
-      "Official WPT Global Taiwan website featuring poker tournaments, poker strategy, teaching resources, community content and more.",
+
+    title: GLOBAL_TITLE,
+
+    description: GLOBAL_DESCRIPTION,
+  },
+
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
   },
 };
 
 /* ============================================================
-   Root Layout
+   ROOT LAYOUT
 ============================================================ */
 
 export default function RootLayout({

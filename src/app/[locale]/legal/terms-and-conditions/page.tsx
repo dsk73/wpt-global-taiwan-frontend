@@ -1,10 +1,20 @@
+// src/app/[locale]/legal/terms-and-conditions/page.tsx
+
 import type { Metadata } from "next";
 import { ArrowLeft, FileText } from "lucide-react";
 import Link from "next/link";
 
 import { Footer } from "@/features/footer";
 
-import { buildCanonical, buildPageTitle, createMetadata } from "@/lib/metadata";
+import type { Locale } from "@/providers";
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildPageTitle,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
 
 import LegalContent from "./LegalContent";
 
@@ -13,10 +23,8 @@ import * as termsZhModule from "./terms-zh";
 import * as termsMsModule from "./terms-ms";
 
 /* ============================================================
-   Locale
+   Page Props
 ============================================================ */
-
-type Locale = "en" | "zh-Hant-TW" | "ms-MY";
 
 interface PageProps {
   params: Promise<{
@@ -27,6 +35,19 @@ interface PageProps {
 /* ============================================================
    Content Helper
 ============================================================ */
+
+/*
+ * Supports either:
+ *
+ * export default termsEn
+ *
+ * OR
+ *
+ * export const termsEn = ...
+ *
+ * This keeps the page independent from one specific
+ * export style in the locale content modules.
+ */
 
 function getModuleContent(module: Record<string, unknown>): string {
   const defaultExport = module.default;
@@ -67,6 +88,7 @@ const pageText: Record<
   {
     title: string;
     description: string;
+    keywords: string[];
     lastUpdated: string;
     back: string;
     legal: string;
@@ -74,28 +96,73 @@ const pageText: Record<
 > = {
   en: {
     title: "Terms & Conditions",
+
     description:
-      "Read the WPT Global Terms & Conditions governing your use of our website, services and platform.",
+      "Read the WPT Global Terms & Conditions governing your use of our website, poker services and platform.",
+
+    keywords: [
+      "WPT Global",
+      "WPT Global Taiwan",
+      "WPT Global Terms and Conditions",
+      "WPT Global terms",
+      "WPT Global rules",
+      "WPT Global poker terms",
+      "online poker terms and conditions",
+      "poker terms and conditions",
+    ],
+
     lastUpdated: "Last Updated: August 12, 2026",
+
     back: "Back",
+
     legal: "Legal",
   },
 
   "zh-Hant-TW": {
     title: "條款與細則",
+
     description:
-      "查看 WPT Global 條款與細則，了解使用我們網站、服務及平台時所適用的相關條款。",
+      "查看 WPT Global 條款與細則，了解使用我們網站、撲克服務及平台時所適用的相關條款。",
+
+    keywords: [
+      "WPT Global",
+      "WPT Global Taiwan",
+      "WPT Global 條款與細則",
+      "WPT Global 條款",
+      "WPT Global 規則",
+      "WPT Global 撲克條款",
+      "線上撲克條款與細則",
+      "撲克服務條款",
+    ],
+
     lastUpdated: "最後更新：2026年8月12日",
+
     back: "返回",
+
     legal: "法律",
   },
 
   "ms-MY": {
     title: "Terma & Syarat",
+
     description:
-      "Baca Terma & Syarat WPT Global yang mengawal penggunaan laman web, perkhidmatan dan platform kami.",
+      "Baca Terma & Syarat WPT Global yang mengawal penggunaan laman web, perkhidmatan poker dan platform kami.",
+
+    keywords: [
+      "WPT Global",
+      "WPT Global Taiwan",
+      "Terma dan Syarat WPT Global",
+      "terma WPT Global",
+      "peraturan WPT Global",
+      "terma poker WPT Global",
+      "terma dan syarat poker dalam talian",
+      "terma perkhidmatan poker",
+    ],
+
     lastUpdated: "Kemas Kini Terakhir: 12 Ogos 2026",
+
     back: "Kembali",
+
     legal: "Undang-undang",
   },
 };
@@ -108,6 +175,7 @@ function resolveLocale(locale: string): Locale {
   if (
     locale === "zh-Hant-TW" ||
     locale === "zh-TW" ||
+    locale === "zh" ||
     locale.startsWith("zh")
   ) {
     return "zh-Hant-TW";
@@ -115,6 +183,22 @@ function resolveLocale(locale: string): Locale {
 
   if (locale === "ms-MY" || locale === "ms" || locale.startsWith("ms")) {
     return "ms-MY";
+  }
+
+  return "en";
+}
+
+/* ============================================================
+   Content Language Resolver
+============================================================ */
+
+function getContentLanguage(locale: Locale): "en" | "zh" | "ms" {
+  if (locale === "zh-Hant-TW") {
+    return "zh";
+  }
+
+  if (locale === "ms-MY") {
+    return "ms";
   }
 
   return "en";
@@ -130,19 +214,48 @@ export async function generateMetadata({
   const { locale } = await params;
 
   /*
-   * Resolve the incoming string into our supported
-   * Locale type before passing it to metadata helpers.
+   * Normalize the incoming locale before using it
+   * with the metadata helpers.
    */
+
   const language = resolveLocale(locale);
 
   const text = pageText[language];
 
-  const canonical = buildCanonical(language, "legal/terms-and-conditions");
+  /*
+   * Localized canonical URL.
+   *
+   * Examples:
+   *
+   * /en/legal/terms-and-conditions
+   * /zh-Hant-TW/legal/terms-and-conditions
+   * /ms-MY/legal/terms-and-conditions
+   */
+
+  const canonical = buildCanonical(language, "/legal/terms-and-conditions");
+
+  /*
+   * Localized hreflang alternates for the same
+   * Terms & Conditions page.
+   */
+
+  const languages = buildLanguageAlternates("/legal/terms-and-conditions");
 
   return createMetadata({
     title: buildPageTitle(text.title),
+
     description: text.description,
+
+    keywords: text.keywords,
+
     canonical,
+
+    locale: getOpenGraphLocale(language),
+
+    alternates: {
+      canonical,
+      languages,
+    },
   });
 }
 
@@ -157,10 +270,9 @@ export default async function TermsAndConditionsPage({ params }: PageProps) {
 
   const text = pageText[language];
 
-  const content =
-    termsContent[
-      language === "zh-Hant-TW" ? "zh" : language === "ms-MY" ? "ms" : "en"
-    ];
+  const contentLanguage = getContentLanguage(language);
+
+  const content = termsContent[contentLanguage];
 
   /* ==========================================================
      Safety fallback

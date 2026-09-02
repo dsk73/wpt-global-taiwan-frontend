@@ -12,8 +12,18 @@ import * as disputeEnModule from "./dispute-en";
 import * as disputeZhModule from "./dispute-zh";
 import * as disputeMsModule from "./dispute-ms";
 
+import type { Locale } from "@/providers";
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildPageTitle,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
+
 /* ============================================================
-   Locale
+   Page Props
 ============================================================ */
 
 interface PageProps {
@@ -57,34 +67,82 @@ const disputeContent = {
 };
 
 /* ============================================================
-   Page Text
+   Page Text + SEO
 ============================================================ */
 
 const pageText = {
   en: {
     title: "Customer Dispute Resolution",
+
     description:
       "Learn how WPT Global handles customer complaints, disputes and resolution procedures for its poker services.",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "WPT Global dispute resolution",
+      "WPT Global customer dispute",
+      "WPT Global complaints",
+      "WPT Global customer complaints",
+      "WPT Global support",
+      "poker dispute resolution",
+      "poker complaints",
+      "WPT Global legal",
+    ],
+
     lastUpdated: "Last Updated: August 12, 2026",
+
     back: "Back",
+
     legal: "Legal",
   },
 
   zh: {
     title: "客戶爭議解決",
+
     description:
       "了解 WPT Global 如何處理客戶投訴、爭議及撲克服務相關的爭議解決程序。",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "WPT Global 客戶爭議",
+      "WPT Global 爭議解決",
+      "WPT Global 客戶投訴",
+      "WPT Global 投訴",
+      "WPT Global 客服",
+      "撲克爭議解決",
+      "撲克客戶服務",
+      "WPT Global 法律",
+    ],
+
     lastUpdated: "最後更新：2026年8月12日",
+
     back: "返回",
+
     legal: "法律",
   },
 
   ms: {
     title: "Penyelesaian Pertikaian Pelanggan",
+
     description:
       "Ketahui cara WPT Global mengendalikan aduan pelanggan, pertikaian dan prosedur penyelesaian untuk perkhidmatan poker.",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "penyelesaian pertikaian WPT Global",
+      "pertikaian pelanggan WPT Global",
+      "aduan pelanggan WPT Global",
+      "aduan WPT Global",
+      "sokongan WPT Global",
+      "penyelesaian pertikaian poker",
+      "aduan poker",
+      "undang-undang WPT Global",
+    ],
+
     lastUpdated: "Kemas Kini Terakhir: 12 Ogos 2026",
+
     back: "Kembali",
+
     legal: "Undang-undang",
   },
 };
@@ -97,6 +155,7 @@ function resolveLanguage(locale: string): "en" | "zh" | "ms" {
   if (
     locale === "zh-Hant-TW" ||
     locale === "zh-TW" ||
+    locale === "zh" ||
     locale.startsWith("zh")
   ) {
     return "zh";
@@ -122,10 +181,43 @@ export async function generateMetadata({
 
   const text = pageText[language];
 
-  return {
-    title: `${text.title} | WPT Global`,
+  /*
+   * Canonical URL must always use the actual locale route.
+   *
+   * Example:
+   * /en/legal/customer-dispute-resolution
+   * /zh-Hant-TW/legal/customer-dispute-resolution
+   * /ms-MY/legal/customer-dispute-resolution
+   */
+  const canonical = buildCanonical(
+    locale as Locale,
+    "/legal/customer-dispute-resolution",
+  );
+
+  /*
+   * Generate hreflang alternatives for all supported locales.
+   */
+  const languages = buildLanguageAlternates(
+    "/legal/customer-dispute-resolution",
+  );
+
+  return createMetadata({
+    title: buildPageTitle(text.title),
+
     description: text.description,
-  };
+
+    keywords: text.keywords,
+
+    canonical,
+
+    locale: getOpenGraphLocale(locale as Locale),
+
+    alternates: {
+      canonical,
+
+      languages,
+    },
+  });
 }
 
 /* ============================================================
@@ -348,7 +440,7 @@ export default async function CustomerDisputeResolutionPage({
           FOOTER
       ====================================================== */}
 
-      <Footer locale={locale as "en" | "zh-Hant-TW" | "ms-MY"} />
+      <Footer locale={locale as Locale} />
     </>
   );
 }

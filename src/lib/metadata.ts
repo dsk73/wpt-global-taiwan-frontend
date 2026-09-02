@@ -10,33 +10,123 @@ import type { Locale } from "@/providers";
 
 const SITE_NAME = "WPT Global Taiwan";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://wptglobal-asia.com";
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://wptglobal-asia.com"
+).replace(/\/+$/, "");
+
+/* ============================================================
+   SUPPORTED LOCALES
+============================================================ */
+
+const DEFAULT_LOCALE: Locale = "zh-Hant-TW";
 
 /* ============================================================
    SEO DATA
 ============================================================ */
 
 export interface SEOData {
+  /**
+   * Page title.
+   *
+   * The global title template in app/layout.tsx automatically
+   * appends "| WPT Global Taiwan".
+   */
   title: string;
+
+  /**
+   * Search-engine description and social sharing description.
+   */
   description: string;
 
+  /**
+   * Optional Open Graph / Twitter image.
+   *
+   * Can be:
+   * - Absolute URL
+   * - Relative path such as /uploads/og-image.jpg
+   */
   image?: string | null;
 
+  /**
+   * Optional page-specific SEO keywords.
+   */
   keywords?: string[] | null;
 
+  /**
+   * Optional robots directive from CMS.
+   *
+   * Examples:
+   * - index, follow
+   * - noindex, nofollow
+   * - index, nofollow
+   * - noindex, follow
+   */
   robots?: string | null;
 
+  /**
+   * Canonical URL.
+   *
+   * Should normally be an absolute URL.
+   */
   canonical?: string | null;
 
+  /**
+   * Open Graph locale.
+   *
+   * Examples:
+   * - zh_TW
+   * - en_US
+   * - ms_MY
+   */
   locale?: string;
 
+  /**
+   * Open Graph content type.
+   */
   type?: "website" | "article";
 
+  /**
+   * Optional alternate URLs.
+   */
   alternates?: {
     canonical?: string | null;
+
     languages?: Record<string, string>;
   };
+}
+
+/* ============================================================
+   URL HELPERS
+============================================================ */
+
+/**
+ * Normalizes a path so it always starts with "/".
+ *
+ * Examples:
+ *
+ * normalizePath("")
+ * => ""
+ *
+ * normalizePath("about")
+ * => "/about"
+ *
+ * normalizePath("/about")
+ * => "/about"
+ */
+function normalizePath(path = ""): string {
+  if (!path) {
+    return "";
+  }
+
+  return path.startsWith("/") ? path : `/${path}`;
+}
+
+/**
+ * Removes duplicate trailing slashes from a URL while preserving
+ * the root URL.
+ */
+function normalizeUrl(url: string): string {
+  return url.replace(/([^:]\/)\/+/g, "$1").replace(/\/+$/, "");
 }
 
 /* ============================================================
@@ -53,13 +143,18 @@ export interface SEOData {
  *
  * buildSiteUrl("/en/about")
  * => https://wptglobal-asia.com/en/about
+ *
+ * buildSiteUrl("en/about")
+ * => https://wptglobal-asia.com/en/about
  */
 export function buildSiteUrl(path = ""): string {
-  if (!path) {
+  const normalizedPath = normalizePath(path);
+
+  if (!normalizedPath) {
     return SITE_URL;
   }
 
-  return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+  return `${SITE_URL}${normalizedPath}`;
 }
 
 /* ============================================================
@@ -69,16 +164,18 @@ export function buildSiteUrl(path = ""): string {
 /**
  * Builds a locale-aware canonical URL.
  *
+ * IMPORTANT:
  * The supplied path must NOT contain a locale prefix.
  *
  * Example:
  *
  * buildCanonical("zh-Hant-TW", "/about")
  *
- * => https://wptglobal-asia.com/zh-Hant-TW/about
+ * =>
+ * https://wptglobal-asia.com/zh-Hant-TW/about
  */
 export function buildCanonical(locale: Locale, path = ""): string {
-  const normalizedPath = path ? (path.startsWith("/") ? path : `/${path}`) : "";
+  const normalizedPath = normalizePath(path);
 
   return `${SITE_URL}/${locale}${normalizedPath}`;
 }
@@ -99,19 +196,29 @@ export function buildCanonical(locale: Locale, path = ""): string {
  *
  * =>
  * {
- *   "zh-Hant-TW": "https://wptglobal-asia.com/zh-Hant-TW/about",
- *   "en": "https://wptglobal-asia.com/en/about",
- *   "ms-MY": "https://wptglobal-asia.com/ms-MY/about",
- *   "x-default": "https://wptglobal-asia.com/zh-Hant-TW/about"
+ *   "zh-Hant-TW":
+ *     "https://wptglobal-asia.com/zh-Hant-TW/about",
+ *
+ *   "en":
+ *     "https://wptglobal-asia.com/en/about",
+ *
+ *   "ms-MY":
+ *     "https://wptglobal-asia.com/ms-MY/about",
+ *
+ *   "x-default":
+ *     "https://wptglobal-asia.com/zh-Hant-TW/about"
  * }
  */
 export function buildLanguageAlternates(path = ""): Record<string, string> {
-  const normalizedPath = path ? (path.startsWith("/") ? path : `/${path}`) : "";
+  const normalizedPath = normalizePath(path);
 
   return {
     "zh-Hant-TW": `${SITE_URL}/zh-Hant-TW${normalizedPath}`,
+
     en: `${SITE_URL}/en${normalizedPath}`,
+
     "ms-MY": `${SITE_URL}/ms-MY${normalizedPath}`,
+
     "x-default": `${SITE_URL}/zh-Hant-TW${normalizedPath}`,
   };
 }
@@ -128,17 +235,28 @@ export function buildLanguageAlternates(path = ""): Record<string, string> {
  * /uploads/og-image.jpg
  *
  * while SEO metadata requires an absolute URL.
+ *
+ * Absolute URLs are returned unchanged.
  */
 export function buildSEOImageUrl(image?: string | null): string | undefined {
   if (!image) {
     return undefined;
   }
 
-  if (image.startsWith("http://") || image.startsWith("https://")) {
-    return image;
+  const trimmedImage = image.trim();
+
+  if (!trimmedImage) {
+    return undefined;
   }
 
-  return buildSiteUrl(image);
+  if (
+    trimmedImage.startsWith("http://") ||
+    trimmedImage.startsWith("https://")
+  ) {
+    return trimmedImage;
+  }
+
+  return buildSiteUrl(trimmedImage);
 }
 
 /* ============================================================
@@ -146,14 +264,22 @@ export function buildSEOImageUrl(image?: string | null): string | undefined {
 ============================================================ */
 
 /**
- * Normalizes a Strapi robots value.
+ * Normalizes a Strapi robots value into the Next.js Metadata
+ * robots format.
  *
  * Examples:
  *
  * "index, follow"
+ * => { index: true, follow: true }
+ *
  * "noindex, nofollow"
+ * => { index: false, follow: false }
+ *
  * "index, nofollow"
+ * => { index: true, follow: false }
+ *
  * "noindex, follow"
+ * => { index: false, follow: true }
  */
 export function buildRobots(
   robots?: string | null,
@@ -168,8 +294,13 @@ export function buildRobots(
     .map((value) => value.trim())
     .filter(Boolean);
 
+  if (normalized.length === 0) {
+    return undefined;
+  }
+
   return {
     index: !normalized.includes("noindex"),
+
     follow: !normalized.includes("nofollow"),
   };
 }
@@ -183,6 +314,20 @@ export function buildRobots(
  *
  * This is the central SEO metadata helper used throughout
  * the application.
+ *
+ * SEO features handled here:
+ *
+ * - Page title
+ * - Meta description
+ * - Keywords
+ * - Robots
+ * - Canonical URL
+ * - Hreflang
+ * - Open Graph
+ * - Twitter Card
+ * - Locale
+ * - Social sharing image
+ * - Metadata base URL
  */
 export function createMetadata({
   title,
@@ -191,16 +336,53 @@ export function createMetadata({
   keywords,
   robots,
   canonical,
-  locale = "zh-Hant-TW",
+  locale = "zh-TW",
   type = "website",
   alternates,
 }: SEOData): Metadata {
   const absoluteImage = buildSEOImageUrl(image);
 
-  const resolvedCanonical = canonical ?? undefined;
+  /**
+   * Canonical URLs should be absolute URLs.
+   *
+   * If a relative canonical is supplied by existing page code,
+   * convert it into an absolute URL instead of generating an
+   * invalid/incomplete canonical reference.
+   */
+  const resolvedCanonical = canonical
+    ? canonical.startsWith("http://") || canonical.startsWith("https://")
+      ? normalizeUrl(canonical)
+      : buildSiteUrl(canonical)
+    : undefined;
+
+  /**
+   * Normalize alternate URLs so relative URLs cannot accidentally
+   * produce incomplete hreflang references.
+   */
+  const resolvedLanguages = alternates?.languages
+    ? Object.fromEntries(
+        Object.entries(alternates.languages).map(([language, url]) => [
+          language,
+          url.startsWith("http://") || url.startsWith("https://")
+            ? normalizeUrl(url)
+            : buildSiteUrl(url),
+        ]),
+      )
+    : undefined;
+
+  const resolvedAlternates =
+    resolvedCanonical || resolvedLanguages
+      ? {
+          canonical: resolvedCanonical,
+
+          languages: resolvedLanguages,
+        }
+      : undefined;
 
   return {
     metadataBase: new URL(SITE_URL),
+
+    applicationName: SITE_NAME,
 
     title,
 
@@ -210,13 +392,7 @@ export function createMetadata({
 
     robots: buildRobots(robots),
 
-    alternates:
-      resolvedCanonical || alternates?.languages
-        ? {
-            canonical: resolvedCanonical,
-            languages: alternates?.languages,
-          }
-        : undefined,
+    alternates: resolvedAlternates,
 
     openGraph: {
       type,
@@ -235,8 +411,11 @@ export function createMetadata({
         ? [
             {
               url: absoluteImage,
+
               width: 1200,
+
               height: 630,
+
               alt: title,
             },
           ]
@@ -260,16 +439,25 @@ export function createMetadata({
 ============================================================ */
 
 /**
- * Builds the standard SEO title format.
+ * Returns the page title only.
+ *
+ * The global Next.js title template in app/layout.tsx
+ * automatically adds:
+ *
+ * | WPT Global Taiwan
  *
  * Example:
  *
  * buildPageTitle("Teaching Center")
  *
- * => Teaching Center | WPT Global Taiwan
+ * => "Teaching Center"
+ *
+ * Final browser title:
+ *
+ * Teaching Center | WPT Global Taiwan
  */
 export function buildPageTitle(title: string): string {
-  return `${title} | ${SITE_NAME}`;
+  return title;
 }
 
 /* ============================================================
@@ -278,6 +466,12 @@ export function buildPageTitle(title: string): string {
 
 /**
  * Returns the locale-specific Open Graph locale.
+ *
+ * Supported website locales:
+ *
+ * zh-Hant-TW => zh_TW
+ * en        => en_US
+ * ms-MY     => ms_MY
  */
 export function getOpenGraphLocale(locale: Locale): string {
   switch (locale) {
@@ -293,6 +487,20 @@ export function getOpenGraphLocale(locale: Locale): string {
     default:
       return "zh_TW";
   }
+}
+
+/* ============================================================
+   SEO LOCALE HELPER
+============================================================ */
+
+/**
+ * Returns the Open Graph locale for a website locale.
+ *
+ * This helper provides a safe default for pages where the locale
+ * may be optional.
+ */
+export function getSEOLocale(locale: Locale = DEFAULT_LOCALE): string {
+  return getOpenGraphLocale(locale);
 }
 
 /* ============================================================

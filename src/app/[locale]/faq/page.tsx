@@ -34,6 +34,27 @@ interface FAQPageProps {
    SEO
 ============================================================ */
 
+/**
+ * SEO metadata is focused on the client's priority WPT/WPTG
+ * brand terms together with FAQ and player-support search
+ * intent relevant to this page.
+ *
+ * Primary brand intent:
+ * - WPT Global Taiwan
+ * - WPTG Taiwan
+ * - WPT Global
+ * - WPTG
+ *
+ * Supporting FAQ intent:
+ * - WPT Global FAQ
+ * - WPTG FAQ
+ * - WPT Global payments
+ * - WPT Global withdrawal
+ * - WPT Global KYC
+ * - WPT Global promotions
+ * - WPT Global account
+ * - WPT Global registration
+ */
 const FAQ_SEO: Record<
   Locale,
   {
@@ -43,50 +64,77 @@ const FAQ_SEO: Record<
   }
 > = {
   "zh-Hant-TW": {
-    title: "常見問題",
+    title: "WPT Global Taiwan｜WPTG 常見問題",
     description:
-      "查看有關 WPT Global Taiwan、付款方式、提款、KYC、優惠活動、帳戶及更多資訊的常見問題與解答。",
+      "查看 WPT Global Taiwan｜WPTG 常見問題與解答，了解 WPT Global 付款、提款、KYC、優惠、帳戶、註冊及玩家支援等資訊。",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
+      "WPT Global",
+      "WPTG",
+      "WPT Global FAQ",
+      "WPTG FAQ",
       "WPT Global 常見問題",
       "WPTG 常見問題",
-      "WPT Global FAQ",
-      "撲克常見問題",
       "WPT Global 付款",
+      "WPT Global 提款",
       "WPT Global KYC",
       "WPT Global 優惠",
+      "WPT Global 帳戶",
+      "WPT Global 註冊",
+      "WPTG 註冊",
+      "WPT Global 玩家支援",
+      "撲克常見問題",
     ],
   },
 
   en: {
-    title: "Frequently Asked Questions",
+    title: "WPT Global Taiwan | WPTG Frequently Asked Questions",
     description:
-      "Find answers to frequently asked questions about WPT Global Taiwan, payments, withdrawals, KYC, promotions, accounts and more.",
+      "Find answers to frequently asked questions about WPT Global Taiwan | WPTG, including WPT Global payments, withdrawals, KYC, promotions, accounts, registration and player support.",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
+      "WPT Global",
+      "WPTG",
       "WPT Global FAQ",
       "WPTG FAQ",
-      "poker FAQ",
+      "WPT Global Taiwan FAQ",
+      "WPTG Taiwan FAQ",
       "WPT Global payments",
+      "WPT Global withdrawal",
       "WPT Global KYC",
       "WPT Global promotions",
       "WPT Global account",
+      "WPT Global registration",
+      "WPTG registration",
+      "WPT Global player support",
+      "poker FAQ",
     ],
   },
 
   "ms-MY": {
-    title: "Soalan Lazim",
+    title: "WPT Global Taiwan | Soalan Lazim WPTG",
     description:
-      "Cari jawapan kepada soalan lazim mengenai WPT Global Taiwan, pembayaran, pengeluaran, KYC, promosi, akaun dan banyak lagi.",
+      "Cari jawapan kepada soalan lazim mengenai WPT Global Taiwan | WPTG, termasuk pembayaran, pengeluaran, KYC, promosi, akaun, pendaftaran dan sokongan pemain WPT Global.",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
+      "WPT Global",
+      "WPTG",
       "WPT Global FAQ",
-      "FAQ WPTG",
-      "soalan lazim poker",
+      "WPTG FAQ",
+      "FAQ WPT Global Taiwan",
+      "FAQ WPTG Taiwan",
       "pembayaran WPT Global",
+      "pengeluaran WPT Global",
       "KYC WPT Global",
       "promosi WPT Global",
       "akaun WPT Global",
+      "pendaftaran WPT Global",
+      "pendaftaran WPTG",
+      "sokongan pemain WPT Global",
+      "soalan lazim poker",
     ],
   },
 };

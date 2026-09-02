@@ -21,8 +21,8 @@ import { fetchRegisterPage } from "@/services";
 import {
   buildCanonical,
   buildLanguageAlternates,
-  buildSEOImageUrl,
   buildPageTitle,
+  buildSEOImageUrl,
   createMetadata,
   getOpenGraphLocale,
 } from "@/lib/metadata";
@@ -49,6 +49,10 @@ const REGISTER_SEO: Record<
     keywords: string[];
   }
 > = {
+  /* ----------------------------------------------------------
+     Traditional Chinese
+  ---------------------------------------------------------- */
+
   "zh-Hant-TW": {
     title: "註冊 WPT Global Taiwan",
     description:
@@ -61,8 +65,13 @@ const REGISTER_SEO: Record<
       "撲克平台",
       "德州撲克",
       "線上撲克",
+      "撲克賽事",
     ],
   },
+
+  /* ----------------------------------------------------------
+     English
+  ---------------------------------------------------------- */
 
   en: {
     title: "Register | WPT Global Taiwan",
@@ -76,8 +85,13 @@ const REGISTER_SEO: Record<
       "poker platform",
       "Texas Hold'em",
       "online poker",
+      "poker tournaments",
     ],
   },
+
+  /* ----------------------------------------------------------
+     Malay
+  ---------------------------------------------------------- */
 
   "ms-MY": {
     title: "Daftar WPT Global Taiwan",
@@ -91,6 +105,7 @@ const REGISTER_SEO: Record<
       "platform poker",
       "Texas Hold'em",
       "poker online",
+      "kejohanan poker",
     ],
   },
 };
@@ -104,23 +119,57 @@ export async function generateMetadata({
 }: RegisterPageProps): Promise<Metadata> {
   const { locale } = await params;
 
+  /* ----------------------------------------------------------
+     Validate locale
+  ---------------------------------------------------------- */
+
   if (!isValidLocale(locale)) {
     notFound();
   }
 
+  /* ----------------------------------------------------------
+     Fetch CMS Register Page
+  ---------------------------------------------------------- */
+
   const register = await fetchRegisterPage(locale);
+
+  /* ----------------------------------------------------------
+     Static localized fallback
+  ---------------------------------------------------------- */
+
+  const fallback = REGISTER_SEO[locale];
+
+  /* ----------------------------------------------------------
+     CMS SEO
+  ---------------------------------------------------------- */
 
   const seo = register?.SEO;
 
-  /*
-   * CMS SEO fields take priority.
-   * Static localized SEO acts as the fallback.
-   */
-  const fallback = REGISTER_SEO[locale];
+  /* ----------------------------------------------------------
+     Title
+     
+     CMS MetaTitle takes priority.
+     Static localized title is the fallback.
+  ---------------------------------------------------------- */
 
-  const title = seo?.MetaTitle || fallback.title;
+  const title = seo?.MetaTitle?.trim() || fallback.title;
 
-  const description = seo?.MetaDescription || fallback.description;
+  /* ----------------------------------------------------------
+     Description
+     
+     CMS MetaDescription takes priority.
+     Static localized description is the fallback.
+  ---------------------------------------------------------- */
+
+  const description = seo?.MetaDescription?.trim() || fallback.description;
+
+  /* ----------------------------------------------------------
+     Keywords
+     
+     CMS keywords are stored as a comma-separated string.
+     Static localized keywords are used when CMS keywords
+     are not available.
+  ---------------------------------------------------------- */
 
   const keywords = seo?.Keywords
     ? seo.Keywords.split(",")
@@ -128,13 +177,42 @@ export async function generateMetadata({
         .filter(Boolean)
     : fallback.keywords;
 
-  const canonical = seo?.CanonicalURL || buildCanonical(locale, "/register");
+  /* ----------------------------------------------------------
+     Canonical URL
+     
+     CMS CanonicalURL takes priority.
+     Generated localized canonical is the fallback.
+  ---------------------------------------------------------- */
+
+  const canonical =
+    seo?.CanonicalURL?.trim() || buildCanonical(locale, "/register");
+
+  /* ----------------------------------------------------------
+     Hreflang / Language Alternates
+  ---------------------------------------------------------- */
 
   const languages = buildLanguageAlternates("/register");
 
-  const image = buildSEOImageUrl(seo?.OGImage?.url);
+  /* ----------------------------------------------------------
+     Open Graph Image
+     
+     Only generate an image URL when the CMS provides
+     an OG image.
+  ---------------------------------------------------------- */
+
+  const image = seo?.OGImage?.url
+    ? buildSEOImageUrl(seo.OGImage.url)
+    : undefined;
+
+  /* ----------------------------------------------------------
+     Metadata
+  ---------------------------------------------------------- */
 
   return createMetadata({
+    /*
+     * If the CMS title already contains the brand name,
+     * don't append it again.
+     */
     title: title.includes("WPT Global Taiwan") ? title : buildPageTitle(title),
 
     description,
@@ -163,11 +241,23 @@ export async function generateMetadata({
 export default async function RegisterPage({ params }: RegisterPageProps) {
   const { locale } = await params;
 
+  /* ----------------------------------------------------------
+     Validate locale
+  ---------------------------------------------------------- */
+
   if (!isValidLocale(locale)) {
     notFound();
   }
 
+  /* ----------------------------------------------------------
+     Fetch Register Page Content
+  ---------------------------------------------------------- */
+
   const register = await fetchRegisterPage(locale);
+
+  /* ----------------------------------------------------------
+     Missing CMS content
+  ---------------------------------------------------------- */
 
   if (!register) {
     notFound();
@@ -175,15 +265,39 @@ export default async function RegisterPage({ params }: RegisterPageProps) {
 
   return (
     <>
+      {/* ======================================================
+          HEADER
+      ====================================================== */}
+
       <Header />
 
+      {/* ======================================================
+          MAIN CONTENT
+      ====================================================== */}
+
       <main className="min-h-screen">
+        {/* ------------------------------------------------------
+            Register Hero
+        ------------------------------------------------------ */}
+
         <RegisterHero register={register} />
+
+        {/* ------------------------------------------------------
+            Register Content
+        ------------------------------------------------------ */}
 
         <RegisterContent register={register} />
 
+        {/* ------------------------------------------------------
+            Register Steps
+        ------------------------------------------------------ */}
+
         <RegisterSteps register={register} />
       </main>
+
+      {/* ======================================================
+          FOOTER
+      ====================================================== */}
 
       <Footer locale={locale} />
     </>

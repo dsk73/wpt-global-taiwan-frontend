@@ -23,7 +23,7 @@ import {
 } from "@/lib/metadata";
 
 /* ============================================================
-   Props
+   PROPS
 ============================================================ */
 
 interface ActivitiesPageProps {
@@ -33,62 +33,96 @@ interface ActivitiesPageProps {
 }
 
 /* ============================================================
-   PAGE CONTENT
+   PAGE SEO
 ============================================================ */
 
 const PAGE_TITLE: Record<Locale, string> = {
-  "zh-Hant-TW": "最新活動與優惠",
-  en: "Latest Activities & Promotions",
-  "ms-MY": "Aktiviti & Promosi Terkini",
+  "zh-Hant-TW": "WPT Global Taiwan 最新活動與優惠｜撲克賽事",
+  en: "WPT Global Taiwan Activities & Promotions | Poker Events",
+  "ms-MY": "Aktiviti & Promosi WPT Global Taiwan | Acara Poker",
 };
 
 const PAGE_DESCRIPTION: Record<Locale, string> = {
-  "zh-Hant-TW": "掌握 WPT Global Taiwan 最新活動、優惠、公告與賽事資訊。",
-  en: "Stay updated with the latest WPT Global Taiwan activities, promotions and announcements.",
+  "zh-Hant-TW":
+    "查看 WPT Global Taiwan 最新活動、撲克優惠、線上撲克賽事與官方公告，掌握最新活動資訊與精彩撲克機會。",
+
+  en: "Discover the latest WPT Global Taiwan activities, poker promotions, online poker tournaments and official announcements, with the latest opportunities for poker players.",
+
   "ms-MY":
-    "Ikuti perkembangan terkini mengenai aktiviti, promosi dan pengumuman WPT Global Taiwan.",
+    "Temui aktiviti terkini WPT Global Taiwan, promosi poker, kejohanan poker dalam talian dan pengumuman rasmi untuk mengikuti peluang poker terbaru.",
 };
 
 /* ============================================================
-   SEO
+   SEO KEYWORDS
 ============================================================ */
 
 const PAGE_KEYWORDS: Record<Locale, string[]> = {
   "zh-Hant-TW": [
     "WPT Global Taiwan",
+    "WPTG Taiwan",
     "WPT Global 活動",
+    "WPT Global 最新活動",
     "WPT Global 優惠",
+    "WPT Global 活動優惠",
+    "WPT Global 撲克活動",
     "撲克活動",
     "撲克優惠",
     "撲克賽事",
     "線上撲克活動",
+    "線上撲克賽事",
+    "線上撲克優惠",
+    "德州撲克賽事",
   ],
 
   en: [
     "WPT Global Taiwan",
+    "WPTG Taiwan",
     "WPT Global activities",
+    "WPT Global latest activities",
     "WPT Global promotions",
+    "WPT Global poker promotions",
+    "WPT Global events",
     "poker promotions",
+    "poker events",
     "poker tournaments",
     "online poker promotions",
-    "poker events",
+    "online poker tournaments",
+    "Texas Hold'em tournaments",
   ],
 
   "ms-MY": [
     "WPT Global Taiwan",
+    "WPTG Taiwan",
     "aktiviti WPT Global",
+    "aktiviti terkini WPT Global",
     "promosi WPT Global",
+    "promosi poker WPT Global",
+    "acara WPT Global",
     "promosi poker",
-    "kejohanan poker",
-    "poker online",
     "aktiviti poker",
+    "kejohanan poker",
+    "poker dalam talian",
+    "promosi poker dalam talian",
+    "kejohanan poker dalam talian",
+    "kejohanan Texas Hold'em",
   ],
 };
 
 /* ============================================================
-   Metadata
+   METADATA
 ============================================================ */
 
+/**
+ * Generates locale-aware SEO metadata for the Activities page.
+ *
+ * Includes:
+ * - Search-focused localized title
+ * - Localized meta description
+ * - Relevant activity, promotion and poker keywords
+ * - Locale-specific canonical URL
+ * - hreflang language alternates
+ * - Locale-specific Open Graph metadata
+ */
 export async function generateMetadata({
   params,
 }: ActivitiesPageProps): Promise<Metadata> {
@@ -115,13 +149,14 @@ export async function generateMetadata({
 
     alternates: {
       canonical,
+
       languages,
     },
   });
 }
 
 /* ============================================================
-   Page
+   PAGE
 ============================================================ */
 
 export default async function ActivitiesPage({ params }: ActivitiesPageProps) {

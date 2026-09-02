@@ -1,3 +1,5 @@
+// src/app/[locale]/teaching-center/[slug]/page.tsx
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -13,6 +15,20 @@ import { fetchTeachingGuide } from "@/services";
 
 import type { Locale } from "@/providers";
 
+import { isValidLocale } from "@/config/languages";
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildPageTitle,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
+
+/* ============================================================
+   Props
+============================================================ */
+
 interface TeachingCenterDetailPageProps {
   params: Promise<{
     locale: Locale;
@@ -20,30 +36,129 @@ interface TeachingCenterDetailPageProps {
   }>;
 }
 
+/* ============================================================
+   SEO CONTENT
+============================================================ */
+
+const SEO_DESCRIPTION_PREFIX: Record<Locale, string> = {
+  en: "Learn more with this WPT Global Taiwan poker teaching guide covering practical poker rules, strategies, tips and techniques.",
+
+  "zh-Hant-TW":
+    "透過 WPT Global Taiwan 撲克教學指南，了解實用的撲克規則、策略、技巧與遊戲方法。",
+
+  "ms-MY":
+    "Pelajari lebih lanjut melalui panduan pembelajaran poker WPT Global Taiwan yang merangkumi peraturan, strategi, tip dan teknik poker praktikal.",
+};
+
+/* ============================================================
+   METADATA
+============================================================ */
+
 export async function generateMetadata({
   params,
 }: TeachingCenterDetailPageProps): Promise<Metadata> {
   const { locale, slug } = await params;
 
+  /* ----------------------------------------------------------
+     Validate locale
+  ---------------------------------------------------------- */
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
+
+  /* ----------------------------------------------------------
+     Fetch teaching guide
+  ---------------------------------------------------------- */
+
   const guide = await fetchTeachingGuide(slug, locale);
+
+  /* ----------------------------------------------------------
+     Guide not found
+  ---------------------------------------------------------- */
 
   if (!guide) {
     return {
       title: "Teaching Guide",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
-  return {
-    title: guide.Title,
-  };
+  /* ----------------------------------------------------------
+     SEO title
+  ---------------------------------------------------------- */
+
+  const title = guide.Title;
+
+  /* ----------------------------------------------------------
+     SEO description
+  ---------------------------------------------------------- */
+
+  const description = `${SEO_DESCRIPTION_PREFIX[locale]} ${guide.Title}`;
+
+  /* ----------------------------------------------------------
+     Canonical URL
+  ---------------------------------------------------------- */
+
+  const canonical = buildCanonical(locale, `/teaching-center/${guide.Slug}`);
+
+  /* ----------------------------------------------------------
+     Hreflang / language alternates
+  ---------------------------------------------------------- */
+
+  const languages = buildLanguageAlternates(`/teaching-center/${guide.Slug}`);
+
+  /* ----------------------------------------------------------
+     Metadata
+  ---------------------------------------------------------- */
+
+  return createMetadata({
+    title: buildPageTitle(title),
+
+    description,
+
+    canonical,
+
+    locale: getOpenGraphLocale(locale),
+
+    type: "article",
+
+    alternates: {
+      canonical,
+      languages,
+    },
+  });
 }
+
+/* ============================================================
+   PAGE
+============================================================ */
 
 export default async function TeachingCenterDetailPage({
   params,
 }: TeachingCenterDetailPageProps) {
   const { locale, slug } = await params;
 
+  /* ----------------------------------------------------------
+     Validate locale
+  ---------------------------------------------------------- */
+
+  if (!isValidLocale(locale)) {
+    notFound();
+  }
+
+  /* ----------------------------------------------------------
+     Fetch teaching guide
+  ---------------------------------------------------------- */
+
   const guide = await fetchTeachingGuide(slug, locale);
+
+  /* ----------------------------------------------------------
+     Guide not found
+  ---------------------------------------------------------- */
 
   if (!guide) {
     notFound();
@@ -52,30 +167,30 @@ export default async function TeachingCenterDetailPage({
   return (
     <>
       <main className="min-h-screen bg-[#070B15] pt-32">
-        {/* -------------------------------------------------------
-         * Hero
-         * ----------------------------------------------------- */}
+        {/* ======================================================
+            HERO
+        ====================================================== */}
 
         <TeachingGuideHero guide={guide} />
 
-        {/* -------------------------------------------------------
-         * Guide Media
-         * ----------------------------------------------------- */}
+        {/* ======================================================
+            GUIDE MEDIA
+        ====================================================== */}
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <TeachingGuideMedia guide={guide} />
         </div>
 
-        {/* -------------------------------------------------------
-         * Guide Sections
-         * ----------------------------------------------------- */}
+        {/* ======================================================
+            GUIDE SECTIONS
+        ====================================================== */}
 
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <TeachingGuideSections guide={guide} />
 
-          {/* -------------------------------------------------------
-           * CTA
-           * ----------------------------------------------------- */}
+          {/* ====================================================
+              CTA
+          ==================================================== */}
 
           {guide.CTA && (
             <section className="mt-20 border-t border-white/10 pt-12">
@@ -92,11 +207,21 @@ export default async function TeachingCenterDetailPage({
                   bg-white/5
                   px-6
                   py-8
+
                   sm:flex-row
                   sm:px-10
                 "
               >
-                <p className="text-center text-lg font-medium text-white sm:text-left">
+                <p
+                  className="
+                    text-center
+                    text-lg
+                    font-medium
+                    text-white
+
+                    sm:text-left
+                  "
+                >
                   Ready to get started?
                 </p>
 
@@ -129,6 +254,10 @@ export default async function TeachingCenterDetailPage({
           )}
         </div>
       </main>
+
+      {/* ======================================================
+          FOOTER
+      ====================================================== */}
 
       <Footer locale={locale} />
     </>

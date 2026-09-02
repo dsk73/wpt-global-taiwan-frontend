@@ -29,6 +29,11 @@ interface ContactPageProps {
    SEO
 ============================================================ */
 
+/**
+ * SEO metadata is focused on the client's priority WPT/WPTG
+ * brand terms together with contact, support and assistance
+ * search intent relevant to this page.
+ */
 const CONTACT_SEO: Record<
   Locale,
   {
@@ -38,44 +43,68 @@ const CONTACT_SEO: Record<
   }
 > = {
   "zh-Hant-TW": {
-    title: "聯絡我們",
+    title: "聯絡 WPT Global Taiwan｜WPTG 官方客服",
     description:
-      "聯絡 WPT Global Taiwan，取得官方資訊與玩家支援，了解更多 WPT Global Taiwan 相關服務。",
+      "聯絡 WPT Global Taiwan｜WPTG 官方客服，取得 WPT Global 官方資訊、玩家支援與服務協助，了解 WPT Global Taiwan 相關服務。",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
+      "WPT Global",
+      "WPTG",
+      "WPT Global Taiwan 聯絡",
       "WPT Global 聯絡我們",
-      "WPT Global 客服",
       "WPTG 聯絡",
-      "撲克客服",
+      "WPT Global 客服",
+      "WPTG 客服",
+      "WPT Global 官方客服",
       "WPT Global 支援",
+      "WPTG 支援",
+      "WPT Global 玩家支援",
+      "撲克客服",
     ],
   },
 
   en: {
-    title: "Contact Us",
+    title: "Contact WPT Global Taiwan | WPTG Official Support",
     description:
-      "Contact WPT Global Taiwan for official information, player support and assistance with WPT Global Taiwan services.",
+      "Contact WPT Global Taiwan | WPTG official support for WPT Global information, player assistance and service support related to WPT Global Taiwan.",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
+      "WPT Global",
+      "WPTG",
+      "WPT Global Taiwan contact",
       "WPT Global contact",
-      "WPT Global customer support",
       "WPTG contact",
-      "poker support",
+      "WPT Global customer support",
+      "WPTG customer support",
+      "WPT Global official support",
       "WPT Global support",
+      "WPTG support",
+      "WPT Global player support",
+      "poker support",
     ],
   },
 
   "ms-MY": {
-    title: "Hubungi Kami",
+    title: "Hubungi WPT Global Taiwan | Sokongan Rasmi WPTG",
     description:
-      "Hubungi WPT Global Taiwan untuk mendapatkan maklumat rasmi, sokongan pemain dan bantuan berkaitan perkhidmatan WPT Global Taiwan.",
+      "Hubungi WPT Global Taiwan | sokongan rasmi WPTG untuk mendapatkan maklumat WPT Global, bantuan pemain dan sokongan perkhidmatan berkaitan WPT Global Taiwan.",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
+      "WPT Global",
+      "WPTG",
+      "hubungi WPT Global Taiwan",
       "hubungi WPT Global",
-      "sokongan pelanggan WPT Global",
       "hubungi WPTG",
-      "sokongan poker",
+      "sokongan pelanggan WPT Global",
+      "sokongan pelanggan WPTG",
+      "sokongan rasmi WPT Global",
       "sokongan WPT Global",
+      "sokongan WPTG",
+      "sokongan pemain WPT Global",
+      "sokongan poker",
     ],
   },
 };

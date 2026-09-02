@@ -29,7 +29,7 @@ import {
 } from "@/lib/metadata";
 
 /* ============================================================
-   Props
+   PROPS
 ============================================================ */
 
 interface HomePageProps {
@@ -42,6 +42,16 @@ interface HomePageProps {
    SEO
 ============================================================ */
 
+/**
+ * Homepage SEO metadata for each supported locale.
+ *
+ * SEO goals:
+ * - Target the primary WPT Global Taiwan brand term.
+ * - Target relevant Taiwan poker search intent.
+ * - Keep titles concise and descriptive.
+ * - Provide natural, localized descriptions.
+ * - Avoid keyword stuffing.
+ */
 const HOME_SEO: Record<
   Locale,
   {
@@ -51,55 +61,77 @@ const HOME_SEO: Record<
   }
 > = {
   "zh-Hant-TW": {
-    title: "WPT Global Taiwan｜全球撲克平台",
+    title: "WPT Global Taiwan｜官方線上撲克平台",
     description:
-      "WPT Global Taiwan 官方網站，探索精彩撲克遊戲、賽事活動、撲克教學與最新資訊，立即加入 WPT Global Taiwan。",
+      "WPT Global Taiwan 官方網站，探索線上撲克、精彩撲克賽事、最新活動、撲克教學與玩家資訊，立即了解 WPT Global Taiwan。",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
       "WPT Global",
       "WPT 撲克",
       "線上撲克",
+      "線上撲克台灣",
+      "台灣撲克",
       "撲克遊戲",
       "撲克賽事",
+      "撲克比賽",
       "撲克教學",
+      "德州撲克",
     ],
   },
 
   en: {
-    title: "WPT Global Taiwan | Global Poker Platform",
+    title: "WPT Global Taiwan | Official Online Poker",
     description:
-      "Official WPT Global Taiwan website. Explore exciting poker games, tournaments, poker guides and the latest updates from WPT Global Taiwan.",
+      "Official WPT Global Taiwan website. Discover online poker, poker tournaments, latest activities, poker guides and player resources from WPT Global Taiwan.",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
       "WPT Global",
       "online poker",
+      "online poker Taiwan",
+      "poker Taiwan",
       "poker games",
       "poker tournaments",
+      "poker events",
       "poker strategy",
       "poker guides",
+      "Texas Hold'em",
     ],
   },
 
   "ms-MY": {
-    title: "WPT Global Taiwan | Platform Poker Global",
+    title: "WPT Global Taiwan | Platform Poker Dalam Talian",
     description:
-      "Laman web rasmi WPT Global Taiwan. Terokai permainan poker, kejohanan, panduan poker dan berita terkini daripada WPT Global Taiwan.",
+      "Laman web rasmi WPT Global Taiwan. Terokai poker dalam talian, kejohanan poker, aktiviti terkini, panduan poker dan sumber pemain daripada WPT Global Taiwan.",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
       "WPT Global",
+      "poker dalam talian",
       "poker online",
+      "poker Taiwan",
       "permainan poker",
       "kejohanan poker",
+      "acara poker",
       "strategi poker",
       "panduan poker",
+      "Texas Hold'em",
     ],
   },
 };
 
 /* ============================================================
-   Metadata
+   METADATA
 ============================================================ */
 
+/**
+ * Generates locale-aware homepage metadata.
+ *
+ * The canonical URL always points to the current locale.
+ * Hreflang alternates connect the equivalent homepage versions
+ * across Traditional Chinese, English and Malay.
+ */
 export async function generateMetadata({
   params,
 }: HomePageProps): Promise<Metadata> {
@@ -126,15 +158,18 @@ export async function generateMetadata({
 
     locale: getOpenGraphLocale(locale),
 
+    type: "website",
+
     alternates: {
       canonical,
+
       languages,
     },
   });
 }
 
 /* ============================================================
-   Page
+   PAGE
 ============================================================ */
 
 export default async function HomePage({ params }: HomePageProps) {
@@ -167,7 +202,10 @@ export default async function HomePage({ params }: HomePageProps) {
           locale={locale}
         />
 
-        <section className="py-14 lg:py-20">
+        <section
+          aria-labelledby="homepage-faq-heading"
+          className="py-14 lg:py-20"
+        >
           <FAQHeader locale={locale} />
 
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -177,6 +215,7 @@ export default async function HomePage({ params }: HomePageProps) {
       </main>
 
       <Footer locale={locale} />
+
       <FloatingLineButton />
     </>
   );

@@ -1,3 +1,5 @@
+// src/app/[locale]/community/page.tsx
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -36,6 +38,25 @@ interface CommunityPageProps {
    SEO
 ============================================================ */
 
+/**
+ * SEO metadata is aligned with the client's priority keyword
+ * strategy for WPT, WPTG, WPT Global, WPTG Taiwan and
+ * Taiwan-focused brand searches.
+ *
+ * Primary SEO intent:
+ * - WPT Global Taiwan
+ * - WPTG Taiwan
+ * - WPT Global
+ * - WPTG
+ *
+ * Secondary/community intent:
+ * - WPT Global community
+ * - WPT Global official community
+ * - WPT Global LINE
+ * - WPTG community
+ *
+ * Keywords are kept relevant to the actual page content.
+ */
 const COMMUNITY_SEO: Record<
   Locale,
   {
@@ -45,45 +66,63 @@ const COMMUNITY_SEO: Record<
   }
 > = {
   "zh-Hant-TW": {
-    title: "WPT Global Taiwan 社群",
+    title: "WPT Global Taiwan｜WPTG 官方社群",
     description:
-      "加入 WPT Global Taiwan 官方社群，掌握最新撲克資訊、活動消息、優惠與官方公告，與其他撲克玩家交流。",
+      "WPT Global Taiwan｜WPTG 官方社群，掌握 WPT Global 最新資訊、活動、優惠與官方公告，加入官方 LINE 與社群，與撲克玩家交流。",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
+      "WPT Global",
+      "WPTG",
+      "WPT Global 官方社群",
+      "WPTG 官方社群",
       "WPT Global 社群",
       "WPTG 社群",
       "WPT Global LINE",
-      "WPT Global 官方社群",
+      "WPT Global 官方 LINE",
+      "WPTG LINE",
       "撲克社群",
       "線上撲克社群",
     ],
   },
 
   en: {
-    title: "WPT Global Taiwan Community",
+    title: "WPT Global Taiwan | WPTG Official Community",
     description:
-      "Join the official WPT Global Taiwan community to stay updated with poker news, activities, promotions, announcements and connect with other players.",
+      "Join the WPT Global Taiwan | WPTG official community for the latest WPT Global updates, offers, activities and announcements. Connect through official LINE and social channels.",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
+      "WPT Global",
+      "WPTG",
+      "WPT Global official community",
+      "WPTG official community",
       "WPT Global community",
       "WPTG community",
       "WPT Global LINE",
-      "WPT Global official community",
+      "WPT Global official LINE",
+      "WPTG LINE",
       "poker community",
       "online poker community",
     ],
   },
 
   "ms-MY": {
-    title: "Komuniti WPT Global Taiwan",
+    title: "WPT Global Taiwan | Komuniti Rasmi WPTG",
     description:
-      "Sertai komuniti rasmi WPT Global Taiwan untuk mendapatkan berita poker, aktiviti, promosi dan pengumuman terkini serta berhubung dengan pemain lain.",
+      "Sertai komuniti rasmi WPT Global Taiwan | WPTG untuk mendapatkan kemas kini, promosi, aktiviti dan pengumuman terkini WPT Global. Hubungi komuniti melalui LINE dan saluran rasmi.",
     keywords: [
       "WPT Global Taiwan",
+      "WPTG Taiwan",
+      "WPT Global",
+      "WPTG",
+      "komuniti rasmi WPT Global",
+      "komuniti rasmi WPTG",
       "komuniti WPT Global",
       "komuniti WPTG",
       "WPT Global LINE",
-      "komuniti rasmi WPT Global",
+      "LINE rasmi WPT Global",
+      "WPTG LINE",
       "komuniti poker",
       "komuniti poker online",
     ],

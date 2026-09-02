@@ -7,6 +7,18 @@ import Link from "next/link";
 import { Footer } from "@/features/footer";
 
 /* ============================================================
+   SEO
+============================================================ */
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildPageTitle,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
+
+/* ============================================================
    Locale
 ============================================================ */
 
@@ -128,29 +140,67 @@ const pageText: Record<
     description: string;
     back: string;
     legal: string;
+    keywords: string[];
   }
 > = {
   en: {
-    title: "Legal",
+    title: "Legal Policies & Terms",
     description:
-      "Review our terms, policies and procedures governing your use of WPT Global.",
+      "Review the official WPT Global Taiwan terms, privacy policy, cookie policy, KYC procedures, bonus policy, customer acceptance policy and dispute resolution information.",
     back: "Back",
     legal: "Legal",
+    keywords: [
+      "WPT Global Taiwan legal",
+      "WPT Global Taiwan terms",
+      "WPT Global Taiwan policies",
+      "WPT Global terms and conditions",
+      "WPT Global privacy policy",
+      "WPT Global cookie policy",
+      "WPT Global KYC policy",
+      "WPT Global bonus policy",
+      "WPT Global customer acceptance policy",
+      "WPT Global dispute resolution",
+    ],
   },
 
   "zh-Hant-TW": {
-    title: "法律文件",
-    description: "查看規範您使用 WPT Global 的條款、政策及相關程序。",
+    title: "法律文件與政策",
+    description:
+      "查看 WPT Global Taiwan 官方條款與政策，包括使用條款、隱私權政策、Cookie 政策、KYC 政策、獎金政策、客戶接受政策及爭議解決資訊。",
     back: "返回",
     legal: "法律",
+    keywords: [
+      "WPT Global Taiwan 法律文件",
+      "WPT Global Taiwan 條款",
+      "WPT Global Taiwan 政策",
+      "WPT Global 使用條款",
+      "WPT Global 隱私權政策",
+      "WPT Global Cookie 政策",
+      "WPT Global KYC 政策",
+      "WPT Global 獎金政策",
+      "WPT Global 客戶接受政策",
+      "WPT Global 爭議解決",
+    ],
   },
 
   "ms-MY": {
-    title: "Undang-undang",
+    title: "Dasar & Terma Undang-undang",
     description:
-      "Semak terma, dasar dan prosedur yang mengawal penggunaan WPT Global anda.",
+      "Semak terma dan dasar rasmi WPT Global Taiwan termasuk terma dan syarat, dasar privasi, dasar cookie, prosedur KYC, dasar bonus, penerimaan pelanggan dan penyelesaian pertikaian.",
     back: "Kembali",
     legal: "Undang-undang",
+    keywords: [
+      "WPT Global Taiwan undang-undang",
+      "terma WPT Global Taiwan",
+      "dasar WPT Global Taiwan",
+      "terma dan syarat WPT Global",
+      "dasar privasi WPT Global",
+      "dasar cookie WPT Global",
+      "dasar KYC WPT Global",
+      "dasar bonus WPT Global",
+      "dasar penerimaan pelanggan WPT Global",
+      "penyelesaian pertikaian WPT Global",
+    ],
   },
 };
 
@@ -186,12 +236,28 @@ export async function generateMetadata({
 
   const language = resolveLocale(locale);
 
-  const text = pageText[language];
+  const seo = pageText[language];
 
-  return {
-    title: `${text.title} | WPT Global`,
-    description: text.description,
-  };
+  const canonical = buildCanonical(language, "/legal");
+
+  const languages = buildLanguageAlternates("/legal");
+
+  return createMetadata({
+    title: buildPageTitle(seo.title),
+
+    description: seo.description,
+
+    keywords: seo.keywords,
+
+    canonical,
+
+    locale: getOpenGraphLocale(language),
+
+    alternates: {
+      canonical,
+      languages,
+    },
+  });
 }
 
 /* ============================================================

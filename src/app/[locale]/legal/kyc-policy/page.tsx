@@ -12,8 +12,18 @@ import * as kycEnModule from "./kyc-en";
 import * as kycZhModule from "./kyc-zh";
 import * as kycMsModule from "./kyc-ms";
 
+import type { Locale } from "@/providers";
+
+import {
+  buildCanonical,
+  buildLanguageAlternates,
+  buildPageTitle,
+  createMetadata,
+  getOpenGraphLocale,
+} from "@/lib/metadata";
+
 /* ============================================================
-   Locale
+   Page Props
 ============================================================ */
 
 interface PageProps {
@@ -57,34 +67,85 @@ const kycContent = {
 };
 
 /* ============================================================
-   Page Text
+   Page Text + SEO
 ============================================================ */
 
 const pageText = {
   en: {
     title: "KYC Policy",
+
     description:
       "Learn about WPT Global's KYC policy, identity verification requirements and procedures for poker players.",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "WPT Global KYC",
+      "WPT Global KYC policy",
+      "WPT Global identity verification",
+      "WPT Global verification",
+      "WPT Global account verification",
+      "WPT Global player verification",
+      "poker KYC",
+      "online poker KYC",
+      "WPT Global legal",
+    ],
+
     lastUpdated: "Last Updated: August 12, 2026",
+
     back: "Back",
+
     legal: "Legal",
   },
 
   zh: {
     title: "KYC 政策",
+
     description:
       "了解 WPT Global 的 KYC 政策、身分驗證要求及撲克玩家相關的身份認證程序。",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "WPT Global KYC",
+      "WPT Global KYC 政策",
+      "WPT Global 身分驗證",
+      "WPT Global 身份認證",
+      "WPT Global 帳戶驗證",
+      "WPT Global 玩家驗證",
+      "撲克 KYC",
+      "線上撲克 KYC",
+      "WPT Global 法律",
+    ],
+
     lastUpdated: "最後更新：2026年8月12日",
+
     back: "返回",
+
     legal: "法律",
   },
 
   ms: {
     title: "Dasar KYC",
+
     description:
       "Ketahui tentang dasar KYC WPT Global, keperluan pengesahan identiti dan prosedur untuk pemain poker.",
+
+    keywords: [
+      "WPT Global Taiwan",
+      "KYC WPT Global",
+      "dasar KYC WPT Global",
+      "pengesahan identiti WPT Global",
+      "pengesahan akaun WPT Global",
+      "pengesahan pemain WPT Global",
+      "verifikasi WPT Global",
+      "KYC poker",
+      "KYC poker online",
+      "undang-undang WPT Global",
+    ],
+
     lastUpdated: "Kemas Kini Terakhir: 12 Ogos 2026",
+
     back: "Kembali",
+
     legal: "Undang-undang",
   },
 };
@@ -97,6 +158,7 @@ function resolveLanguage(locale: string): "en" | "zh" | "ms" {
   if (
     locale === "zh-Hant-TW" ||
     locale === "zh-TW" ||
+    locale === "zh" ||
     locale.startsWith("zh")
   ) {
     return "zh";
@@ -122,10 +184,38 @@ export async function generateMetadata({
 
   const text = pageText[language];
 
-  return {
-    title: `${text.title} | WPT Global`,
+  /*
+   * Canonical URL
+   *
+   * Examples:
+   * /en/legal/kyc-policy
+   * /zh-Hant-TW/legal/kyc-policy
+   * /ms-MY/legal/kyc-policy
+   */
+  const canonical = buildCanonical(locale as Locale, "/legal/kyc-policy");
+
+  /*
+   * Hreflang alternatives for all supported locales.
+   */
+  const languages = buildLanguageAlternates("/legal/kyc-policy");
+
+  return createMetadata({
+    title: buildPageTitle(text.title),
+
     description: text.description,
-  };
+
+    keywords: text.keywords,
+
+    canonical,
+
+    locale: getOpenGraphLocale(locale as Locale),
+
+    alternates: {
+      canonical,
+
+      languages,
+    },
+  });
 }
 
 /* ============================================================
@@ -344,7 +434,7 @@ export default async function KycPolicyPage({ params }: PageProps) {
           FOOTER
       ====================================================== */}
 
-      <Footer locale={locale as "en" | "zh-Hant-TW" | "ms-MY"} />
+      <Footer locale={locale as Locale} />
     </>
   );
 }
