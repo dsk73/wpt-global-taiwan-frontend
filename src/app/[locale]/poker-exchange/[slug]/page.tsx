@@ -105,9 +105,7 @@ export async function generateMetadata({
      Canonical
   ========================================================== */
 
-  const canonical =
-    article.SEO?.CanonicalURL?.trim() ||
-    buildCanonical(locale, `/poker-exchange/${article.Slug}`);
+  const canonical = buildCanonical(locale, `/poker-exchange/${article.Slug}`);
 
   /* ==========================================================
      Language Alternates
