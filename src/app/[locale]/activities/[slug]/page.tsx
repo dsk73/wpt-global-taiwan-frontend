@@ -1,7 +1,7 @@
 // src/app/[locale]/activities/[slug]/page.tsx
 
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { permanentRedirect, notFound } from "next/navigation";
 
 import Header from "@/features/header/components/Header";
 import { Footer } from "@/features/footer";
@@ -28,6 +28,22 @@ import {
   createMetadata,
   getOpenGraphLocale,
 } from "@/lib/metadata";
+
+/* ============================================================
+   LEGACY URL REDIRECTS
+============================================================ */
+
+/**
+ * Handles legacy/malformed activity URLs that were previously
+ * indexed or discovered by search engines.
+ *
+ * The old URL used the activity title as the slug instead of
+ * the actual CMS slug.
+ */
+const LEGACY_ACTIVITY_REDIRECTS: Record<string, string> = {
+  "Join the Community Poker Festival and enjoy freerolls, exclusive events, exciting challenges, and rewards with poker players worldwide.":
+    "community-poker-festival-2026",
+};
 
 /* ============================================================
    PROPS
@@ -176,6 +192,16 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
 
   if (!isValidLocale(locale)) {
     notFound();
+  }
+
+  /* ==========================================================
+     LEGACY URL REDIRECT
+  ========================================================== */
+
+  const legacySlug = LEGACY_ACTIVITY_REDIRECTS[slug];
+
+  if (legacySlug) {
+    permanentRedirect(`/${locale}/activities/${legacySlug}`);
   }
 
   const activity = await getActivity(locale, slug);

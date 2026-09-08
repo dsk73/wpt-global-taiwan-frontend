@@ -11,8 +11,10 @@ import { buildSiteUrl } from "@/lib/metadata";
 /**
  * Global robots.txt configuration.
  *
- * Allows search engines to crawl all public website pages
- * and provides the canonical XML sitemap location.
+ * Search engines are allowed to crawl all public website
+ * routes. URLs that should not be part of the SEO sitemap
+ * are handled through sitemap/canonical/redirect decisions,
+ * not by blocking them in robots.txt.
  */
 export default function robots(): MetadataRoute.Robots {
   return {

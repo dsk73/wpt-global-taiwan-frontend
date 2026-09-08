@@ -7,16 +7,22 @@ import type { Locale } from "@/providers";
 
 import { buildCanonical, buildLanguageAlternates } from "@/lib/metadata";
 
+import { getActivitySlugs } from "@/services/activities.service";
+import { fetchTeachingGuides } from "@/services/teaching-center.service";
+import { getAllPokerExchangeArticles } from "@/services/poker-exchange.service";
+
 /* ============================================================
    STATIC ROUTES
 ============================================================ */
 
 /**
- * Static routes currently confirmed to exist.
+ * Static routes that should be included in the SEO sitemap.
  *
- * Dynamic CMS routes such as activities, teaching guides,
- * poker exchange articles, and tutorials will be added
- * separately once their Strapi data is connected.
+ * Register and Download are intentionally excluded because
+ * those actions use external landing URLs and are not intended
+ * to function as standalone SEO/content pages.
+ *
+ * Dynamic CMS routes are added separately below.
  */
 const STATIC_ROUTES = [
   "",
@@ -24,7 +30,6 @@ const STATIC_ROUTES = [
   "/activities",
   "/community",
   "/contact",
-  "/download",
   "/faq",
   "/legal",
   "/legal/bonus-policy",
@@ -34,7 +39,6 @@ const STATIC_ROUTES = [
   "/legal/kyc-policy",
   "/legal/privacy-policy",
   "/legal/terms-and-conditions",
-  "/register",
   "/resources",
   "/teaching-center",
   "/poker-exchange",
@@ -47,10 +51,6 @@ const STATIC_ROUTES = [
 function getPriority(route: string): number {
   if (route === "") {
     return 1;
-  }
-
-  if (route === "/register") {
-    return 0.9;
   }
 
   if (
@@ -95,10 +95,10 @@ function getChangeFrequency(
 }
 
 /* ============================================================
-   SITEMAP
+   STATIC SITEMAP ENTRIES
 ============================================================ */
 
-export default function sitemap(): MetadataRoute.Sitemap {
+function buildStaticEntries(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
   for (const locale of SUPPORTED_LOCALES) {
@@ -124,4 +124,170 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   return entries;
+}
+
+/* ============================================================
+   ACTIVITY ENTRIES
+============================================================ */
+
+async function buildActivityEntries(): Promise<MetadataRoute.Sitemap> {
+  const entries: MetadataRoute.Sitemap = [];
+
+  for (const locale of SUPPORTED_LOCALES) {
+    const currentLocale = locale as Locale;
+
+    try {
+      const slugs = await getActivitySlugs(currentLocale);
+
+      for (const slug of slugs) {
+        if (!slug) {
+          continue;
+        }
+
+        const route = `/activities/${slug}`;
+
+        const url = buildCanonical(currentLocale, route);
+
+        const languages = buildLanguageAlternates(route);
+
+        entries.push({
+          url,
+
+          alternates: {
+            languages,
+          },
+
+          changeFrequency: "weekly",
+
+          priority: 0.7,
+        });
+      }
+    } catch (error) {
+      console.error(
+        `Failed to build activity sitemap entries for locale: ${currentLocale}`,
+        error,
+      );
+    }
+  }
+
+  return entries;
+}
+
+/* ============================================================
+   TEACHING CENTER ENTRIES
+============================================================ */
+
+async function buildTeachingCenterEntries(): Promise<MetadataRoute.Sitemap> {
+  const entries: MetadataRoute.Sitemap = [];
+
+  for (const locale of SUPPORTED_LOCALES) {
+    const currentLocale = locale as Locale;
+
+    try {
+      const guides = await fetchTeachingGuides(currentLocale);
+
+      for (const guide of guides) {
+        if (!guide.Slug) {
+          continue;
+        }
+
+        const route = `/teaching-center/${guide.Slug}`;
+
+        const url = buildCanonical(currentLocale, route);
+
+        const languages = buildLanguageAlternates(route);
+
+        entries.push({
+          url,
+
+          alternates: {
+            languages,
+          },
+
+          changeFrequency: "monthly",
+
+          priority: 0.7,
+        });
+      }
+    } catch (error) {
+      console.error(
+        `Failed to build teaching center sitemap entries for locale: ${currentLocale}`,
+        error,
+      );
+    }
+  }
+
+  return entries;
+}
+
+/* ============================================================
+   POKER EXCHANGE ENTRIES
+============================================================ */
+
+async function buildPokerExchangeEntries(): Promise<MetadataRoute.Sitemap> {
+  const entries: MetadataRoute.Sitemap = [];
+
+  for (const locale of SUPPORTED_LOCALES) {
+    const currentLocale = locale as Locale;
+
+    try {
+      const articles = await getAllPokerExchangeArticles(currentLocale);
+
+      for (const article of articles) {
+        if (!article.Slug) {
+          continue;
+        }
+
+        const route = `/poker-exchange/${article.Slug}`;
+
+        const url = buildCanonical(currentLocale, route);
+
+        const languages = buildLanguageAlternates(route);
+
+        entries.push({
+          url,
+
+          alternates: {
+            languages,
+          },
+
+          changeFrequency: "monthly",
+
+          priority: 0.7,
+        });
+      }
+    } catch (error) {
+      console.error(
+        `Failed to build poker exchange sitemap entries for locale: ${currentLocale}`,
+        error,
+      );
+    }
+  }
+
+  return entries;
+}
+
+/* ============================================================
+   SITEMAP
+============================================================ */
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [
+    staticEntries,
+    activityEntries,
+    teachingCenterEntries,
+    pokerExchangeEntries,
+  ] = await Promise.all([
+    Promise.resolve(buildStaticEntries()),
+    buildActivityEntries(),
+    buildTeachingCenterEntries(),
+    buildPokerExchangeEntries(),
+  ]);
+
+  return [
+    ...staticEntries,
+    ...activityEntries,
+    ...teachingCenterEntries,
+    ...pokerExchangeEntries,
+  ];
 }
