@@ -117,9 +117,7 @@ export async function generateMetadata({
 
   const activitySlug = activity.Slug || slug;
 
-  const canonical =
-    activity.SEO?.CanonicalURL?.trim() ||
-    buildCanonical(locale, `/activities/${activitySlug}`);
+  const canonical = buildCanonical(locale, `/activities/${activitySlug}`);
 
   const languages = buildLanguageAlternates(`/activities/${activitySlug}`);
 
