@@ -1,4 +1,4 @@
-"use client";
+// src/features/poker-exchange/components/PokerExchangeCard.tsx
 
 import Image from "next/image";
 import Link from "next/link";
@@ -28,7 +28,7 @@ export default function PokerExchangeCard({
             src={
               getMediaUrl(article.Thumbnail?.url) || "/images/placeholder.jpg"
             }
-            alt={article.Title}
+            alt={article.Thumbnail?.alternativeText || article.Title}
             fill
             sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
             className="object-cover transition duration-500 group-hover:scale-105"

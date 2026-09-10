@@ -1,6 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
+// src/features/footer/components/FooterBottom.tsx
 
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/providers";
@@ -24,13 +22,7 @@ const VERSION_LABEL: Record<Locale, string> = {
 
 export default function FooterBottom({ locale, className }: FooterBottomProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className={cn("mt-16 border-t border-white/10 pt-8", className)}
-    >
+    <div className={cn("mt-16 border-t border-white/10 pt-8", className)}>
       <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
         {/* Copyright */}
         <p className="text-sm text-white/50">{COPYRIGHT[locale]}</p>
@@ -44,6 +36,6 @@ export default function FooterBottom({ locale, className }: FooterBottomProps) {
           </span>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

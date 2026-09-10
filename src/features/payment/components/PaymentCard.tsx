@@ -1,7 +1,6 @@
-"use client";
+// src/features/payment/components/PaymentCard.tsx
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { Clock3, Wallet, Globe2 } from "lucide-react";
 
 import type { Locale } from "@/providers";
@@ -47,13 +46,7 @@ export default function PaymentCard({ payment, locale }: PaymentCardProps) {
   const labels = LABELS[locale];
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4 }}
-      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-all duration-300 hover:border-blue-500/40 hover:bg-white/8 hover:shadow-[0_18px_50px_rgba(212,175,55,0.12)]"
-    >
+    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-all duration-300 hover:border-blue-500/40 hover:bg-white/8 hover:shadow-[0_18px_50px_rgba(212,175,55,0.12)]">
       {/* Logo */}
       <div className="mb-5 flex justify-center">
         <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-white p-3 shadow-lg transition-all duration-300 group-hover:scale-105">
@@ -118,6 +111,6 @@ export default function PaymentCard({ payment, locale }: PaymentCardProps) {
       <div className="mt-auto pt-6">
         <div className="h-px bg-linear-to-r from-transparent via-[#d4af37] to-transparent opacity-60 transition-all duration-300 group-hover:opacity-100" />
       </div>
-    </motion.article>
+    </article>
   );
 }

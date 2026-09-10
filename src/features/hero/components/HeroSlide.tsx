@@ -25,12 +25,14 @@ interface HeroSlideProps {
   slide: HeroSlideType;
   promotionCard: HeroPromotionCardType | null;
   className?: string;
+  isPriority?: boolean;
 }
 
 export default function HeroSlide({
   slide,
   promotionCard,
   className,
+  isPriority = false,
 }: HeroSlideProps) {
   return (
     <section
@@ -60,7 +62,7 @@ export default function HeroSlide({
               src={getMediaUrl(slide.MobileImage.url)}
               alt={getHeroImageAlt(slide)}
               fill
-              priority
+              priority={isPriority}
               sizes="100vw"
               className="object-cover"
             />
@@ -70,7 +72,7 @@ export default function HeroSlide({
                 src={getMediaUrl(slide.DesktopImage.url)}
                 alt={getHeroImageAlt(slide)}
                 fill
-                priority
+                priority={isPriority}
                 sizes="100vw"
                 className="object-cover"
               />
@@ -109,7 +111,7 @@ export default function HeroSlide({
             <p className="mt-3 whitespace-pre-line text-base leading-none text-white/80">
               {getHeroDescription(slide)}
             </p>
-            
+
             {/* Primary CTA */}
 
             <HeroButtons slide={slide} className="mt-5" />
@@ -135,7 +137,7 @@ export default function HeroSlide({
             src={getMediaUrl(slide.DesktopImage.url)}
             alt={getHeroImageAlt(slide)}
             fill
-            priority
+            priority={isPriority}
             sizes="(max-width:768px) 100vw, (max-width:1280px) 100vw, 1440px"
             className="object-cover"
           />

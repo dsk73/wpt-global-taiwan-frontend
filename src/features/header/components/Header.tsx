@@ -1,10 +1,10 @@
-//src/features/header/components/Header.tsx
+// src/features/header/components/Header.tsx
 
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import clsx from "clsx";
@@ -23,15 +23,10 @@ import type { Locale } from "@/types/navigation";
 export default function Header() {
   const pathname = usePathname();
 
-  const locale = useMemo<Locale>(() => {
-    const segment = pathname.split("/")[1];
+  const segment = pathname.split("/")[1];
 
-    if (segment === "en") return "en";
-
-    if (segment === "ms-MY") return "ms-MY";
-
-    return "zh-Hant-TW";
-  }, [pathname]);
+  const locale: Locale =
+    segment === "en" ? "en" : segment === "ms-MY" ? "ms-MY" : "zh-Hant-TW";
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -62,6 +57,7 @@ export default function Header() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#070B15] shadow-sm transition-colors duration-300">
       {/* ========================= */}
       {/* TOP BAR */}
+      {/* ========================= */}
 
       <div className="hidden border-b border-white/10 bg-[#070B15] lg:block">
         <div className="container flex h-10 items-center justify-between text-sm">
@@ -130,7 +126,7 @@ export default function Header() {
 
         <Link
           href={localizedHref("/")}
-          className="flex items-center gap-3 shrink-0"
+          className="flex shrink-0 items-center gap-3"
         >
           <Image
             src="/logos/wpt-logo.png"
@@ -215,7 +211,7 @@ export default function Header() {
 
       <div
         className={clsx(
-          "fixed inset-0 z-60 lg:hidden transition-all duration-300",
+          "fixed inset-0 z-60 transition-all duration-300 lg:hidden",
           mobileOpen ? "visible opacity-100" : "invisible opacity-0",
         )}
       >

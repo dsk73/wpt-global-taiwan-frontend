@@ -22,6 +22,7 @@ import {
   buildPageTitle,
   createMetadata,
   getOpenGraphLocale,
+  SITE_URL,
 } from "@/lib/metadata";
 
 /* ============================================================
@@ -185,8 +186,81 @@ export default async function TeachingCenterPage({
     fetchTeachingGuides(locale),
   ]);
 
+  /* ----------------------------------------------------------
+     Structured Data
+  ---------------------------------------------------------- */
+
+  const canonical = buildCanonical(locale, "/teaching-center");
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${canonical}#webpage`,
+        url: canonical,
+        name: PAGE_TITLE[locale],
+        description: PAGE_DESCRIPTION[locale],
+        inLanguage: locale,
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+        mainEntity: {
+          "@id": `${canonical}#collection`,
+        },
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": `${canonical}#collection`,
+        url: canonical,
+        name: PAGE_TITLE[locale],
+        description: PAGE_DESCRIPTION[locale],
+        inLanguage: locale,
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${canonical}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name:
+              locale === "zh-Hant-TW"
+                ? "首頁"
+                : locale === "ms-MY"
+                  ? "Laman Utama"
+                  : "Home",
+            item: buildCanonical(locale, ""),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: PAGE_TITLE[locale],
+            item: canonical,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
+
       <main className="min-h-screen bg-[#070B15] pt-32">
         {/* ======================================================
             HERO

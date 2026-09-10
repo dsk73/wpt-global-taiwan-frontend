@@ -1,4 +1,4 @@
-"use client";
+// src/features/teaching-center-detail/components/TeachingGuideSections.tsx
 
 import TeachingGuideSection from "./TeachingGuideSection";
 

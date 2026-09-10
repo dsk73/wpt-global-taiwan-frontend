@@ -20,6 +20,7 @@ import {
   buildPageTitle,
   createMetadata,
   getOpenGraphLocale,
+  SITE_URL,
 } from "@/lib/metadata";
 
 /* ============================================================
@@ -174,8 +175,148 @@ export default async function ActivitiesPage({ params }: ActivitiesPageProps) {
     (activity) => activity.documentId !== featured?.documentId,
   );
 
+  /* ----------------------------------------------------------
+     Structured Data
+  ---------------------------------------------------------- */
+
+  const canonical = buildCanonical(locale, "/activities");
+
+  const breadcrumbHome =
+    locale === "zh-Hant-TW"
+      ? "首頁"
+      : locale === "ms-MY"
+        ? "Laman Utama"
+        : "Home";
+
+  const breadcrumbActivities =
+    locale === "zh-Hant-TW"
+      ? "最新活動"
+      : locale === "ms-MY"
+        ? "Aktiviti"
+        : "Activities";
+
+  const itemListActivities = activities.map((activity, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: activity.Title,
+    url: buildCanonical(locale, `/activities/${activity.Slug}`),
+  }));
+
+  const structuredData = {
+    "@context": "https://schema.org",
+
+    "@graph": [
+      {
+        "@type": "WebPage",
+
+        "@id": `${canonical}#webpage`,
+
+        url: canonical,
+
+        name: PAGE_TITLE[locale],
+
+        description: PAGE_DESCRIPTION[locale],
+
+        inLanguage: locale,
+
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+
+        breadcrumb: {
+          "@id": `${canonical}#breadcrumb`,
+        },
+
+        mainEntity: {
+          "@id": `${canonical}#collection`,
+        },
+      },
+
+      {
+        "@type": "CollectionPage",
+
+        "@id": `${canonical}#collection`,
+
+        url: canonical,
+
+        name: PAGE_TITLE[locale],
+
+        description: PAGE_DESCRIPTION[locale],
+
+        inLanguage: locale,
+
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+
+        breadcrumb: {
+          "@id": `${canonical}#breadcrumb`,
+        },
+
+        mainEntity: {
+          "@id": `${canonical}#itemlist`,
+        },
+      },
+
+      {
+        "@type": "ItemList",
+
+        "@id": `${canonical}#itemlist`,
+
+        name: PAGE_TITLE[locale],
+
+        numberOfItems: itemListActivities.length,
+
+        itemListElement: itemListActivities,
+      },
+
+      {
+        "@type": "BreadcrumbList",
+
+        "@id": `${canonical}#breadcrumb`,
+
+        itemListElement: [
+          {
+            "@type": "ListItem",
+
+            position: 1,
+
+            name: breadcrumbHome,
+
+            item: buildCanonical(locale, ""),
+          },
+
+          {
+            "@type": "ListItem",
+
+            position: 2,
+
+            name: breadcrumbActivities,
+
+            item: canonical,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
+
       <Header />
 
       <main className="bg-[#070B15] pt-32">

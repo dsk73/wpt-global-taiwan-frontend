@@ -1,4 +1,4 @@
-"use client";
+// src/features/teaching-center/components/TeachingCenterGrid.tsx
 
 import TeachingCenterCard from "./TeachingCenterCard";
 

@@ -21,6 +21,7 @@ import {
   buildPageTitle,
   createMetadata,
   getOpenGraphLocale,
+  SITE_URL,
 } from "@/lib/metadata";
 
 /* ============================================================
@@ -225,8 +226,148 @@ export default async function PokerExchangePage({
     (article) => article.documentId !== featured?.documentId,
   );
 
+  /* ==========================================================
+     STRUCTURED DATA
+  ========================================================== */
+
+  const canonical = buildCanonical(locale, "/poker-exchange");
+
+  const breadcrumbHome =
+    locale === "zh-Hant-TW"
+      ? "首頁"
+      : locale === "ms-MY"
+        ? "Laman Utama"
+        : "Home";
+
+  const breadcrumbPokerExchange =
+    locale === "zh-Hant-TW"
+      ? "撲克交流站"
+      : locale === "ms-MY"
+        ? "Komuniti Poker"
+        : "Poker Exchange";
+
+  const itemListArticles = articles.map((article, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: article.Title,
+    url: buildCanonical(locale, `/poker-exchange/${article.Slug}`),
+  }));
+
+  const structuredData = {
+    "@context": "https://schema.org",
+
+    "@graph": [
+      {
+        "@type": "WebPage",
+
+        "@id": `${canonical}#webpage`,
+
+        url: canonical,
+
+        name: PAGE_TITLE[locale],
+
+        description: PAGE_DESCRIPTION[locale],
+
+        inLanguage: locale,
+
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+
+        breadcrumb: {
+          "@id": `${canonical}#breadcrumb`,
+        },
+
+        mainEntity: {
+          "@id": `${canonical}#collection`,
+        },
+      },
+
+      {
+        "@type": "CollectionPage",
+
+        "@id": `${canonical}#collection`,
+
+        url: canonical,
+
+        name: PAGE_TITLE[locale],
+
+        description: PAGE_DESCRIPTION[locale],
+
+        inLanguage: locale,
+
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+
+        breadcrumb: {
+          "@id": `${canonical}#breadcrumb`,
+        },
+
+        mainEntity: {
+          "@id": `${canonical}#itemlist`,
+        },
+      },
+
+      {
+        "@type": "ItemList",
+
+        "@id": `${canonical}#itemlist`,
+
+        name: PAGE_TITLE[locale],
+
+        numberOfItems: itemListArticles.length,
+
+        itemListElement: itemListArticles,
+      },
+
+      {
+        "@type": "BreadcrumbList",
+
+        "@id": `${canonical}#breadcrumb`,
+
+        itemListElement: [
+          {
+            "@type": "ListItem",
+
+            position: 1,
+
+            name: breadcrumbHome,
+
+            item: buildCanonical(locale, ""),
+          },
+
+          {
+            "@type": "ListItem",
+
+            position: 2,
+
+            name: breadcrumbPokerExchange,
+
+            item: canonical,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
+
       <Header />
 
       <main className="bg-[#070B15] pt-32">

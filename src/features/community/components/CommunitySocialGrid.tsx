@@ -1,4 +1,4 @@
-"use client";
+// src/features/community/components/CommunitySocialGrid.tsx
 
 import CommunitySocialCard from "./CommunitySocialCard";
 

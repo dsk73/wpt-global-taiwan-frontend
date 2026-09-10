@@ -1,6 +1,8 @@
+// src/features/hero/hooks/useHeroCarousel.ts
+
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
@@ -22,11 +24,15 @@ import Autoplay from "embla-carousel-autoplay";
  */
 
 export function useHeroCarousel() {
-  const autoplay = Autoplay({
-    delay: 5000,
-    stopOnInteraction: false,
-    stopOnMouseEnter: true,
-  });
+  const autoplay = useMemo(
+    () =>
+      Autoplay({
+        delay: 5000,
+        stopOnInteraction: false,
+        stopOnMouseEnter: true,
+      }),
+    [],
+  );
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -53,7 +59,6 @@ export function useHeroCarousel() {
     },
     [emblaApi],
   );
-
 
   useEffect(() => {
     if (!emblaApi) return;

@@ -12,7 +12,6 @@ import FloatingLineButton from "@/features/floating-line/components/FloatingLine
 
 import { getHeroData } from "@/services/hero.service";
 import { getBrandAmbassadors } from "@/services/ambassadors.service";
-import { getPaymentMethods } from "@/services/payment.service";
 import { getHomepageActivities } from "@/services/activities.service";
 import { fetchFAQs } from "@/services";
 
@@ -186,10 +185,9 @@ export default async function HomePage({ params }: HomePageProps) {
     notFound();
   }
 
-  const [hero, ambassadors, , activitiesData, groupedFAQs] = await Promise.all([
+  const [hero, ambassadors, activitiesData, groupedFAQs] = await Promise.all([
     getHeroData(locale),
     getBrandAmbassadors(locale),
-    getPaymentMethods(locale),
     getHomepageActivities(locale),
     fetchFAQs(locale),
   ]);

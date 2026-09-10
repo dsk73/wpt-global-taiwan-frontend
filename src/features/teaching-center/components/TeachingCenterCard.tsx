@@ -1,4 +1,4 @@
-"use client";
+// src/features/teaching-center/components/TeachingCenterCard.tsx
 
 import Image from "next/image";
 import Link from "next/link";

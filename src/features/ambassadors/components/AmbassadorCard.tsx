@@ -1,7 +1,6 @@
-"use client";
+// src/features/ambassadors/components/AmbassadorCard.tsx
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 import type { BrandAmbassador } from "@/types/ambassador";
 
@@ -11,12 +10,7 @@ interface AmbassadorCardProps {
 
 export default function AmbassadorCard({ ambassador }: AmbassadorCardProps) {
   return (
-    <motion.div
-      transition={{
-        duration: 0.25,
-      }}
-      className="group h-full"
-    >
+    <div className="group h-full">
       <div
         className="
           h-full
@@ -52,6 +46,6 @@ export default function AmbassadorCard({ ambassador }: AmbassadorCardProps) {
           </p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

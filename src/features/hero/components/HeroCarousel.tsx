@@ -1,3 +1,5 @@
+// src/features/hero/components/HeroCarousel.tsx
+
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -45,9 +47,13 @@ export default function HeroCarousel({
 
       <div ref={emblaRef} className="overflow-hidden">
         <div className="flex">
-          {slides.map((slide) => (
+          {slides.map((slide, index) => (
             <div key={slide.documentId} className="min-w-0 flex-[0_0_100%]">
-              <HeroSlide slide={slide} promotionCard={promotionCard} />
+              <HeroSlide
+                slide={slide}
+                promotionCard={promotionCard}
+                isPriority={index === 0}
+              />
             </div>
           ))}
         </div>

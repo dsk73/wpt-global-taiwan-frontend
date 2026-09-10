@@ -1,4 +1,4 @@
-"use client";
+// src/features/community/components/CommunitySocialCard.tsx
 
 import Image from "next/image";
 import Link from "next/link";
@@ -146,9 +146,7 @@ export default function CommunitySocialCard({
           )}
         </div>
 
-        {/* -----------------------------------------------------
-         * Platform + Username
-         * --------------------------------------------------- */}
+        {/* Platform + Username */}
 
         <div
           className="

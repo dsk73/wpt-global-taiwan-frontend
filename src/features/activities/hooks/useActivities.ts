@@ -32,23 +32,12 @@ import {
  * ============================================================
  */
 
-export function useActivities(
-  activities: Activity[],
-) {
-  const items = useMemo(
-    () => sortActivities(activities),
-    [activities],
-  );
+export function useActivities(activities: Activity[]) {
+  const items = useMemo(() => sortActivities(activities), [activities]);
 
-  const featuredActivity = useMemo(
-    () => getFeaturedActivity(items),
-    [items],
-  );
+  const featuredActivity = useMemo(() => getFeaturedActivity(items), [items]);
 
-  const latestActivities = useMemo(
-    () => getLatestActivities(items),
-    [items],
-  );
+  const latestActivities = useMemo(() => getLatestActivities(items), [items]);
 
   return {
     activities: items,

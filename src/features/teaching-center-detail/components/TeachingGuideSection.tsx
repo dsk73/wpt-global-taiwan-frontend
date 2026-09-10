@@ -1,4 +1,4 @@
-"use client";
+// src/features/teaching-center-detail/components/TeachingGuideSection.tsx
 
 import Image from "next/image";
 

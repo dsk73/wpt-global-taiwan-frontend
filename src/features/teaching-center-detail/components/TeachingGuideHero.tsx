@@ -1,4 +1,4 @@
-"use client";
+// src/features/teaching-center-detail/components/TeachingGuideHero.tsx
 
 import type { TeachingGuide } from "@/types/teaching-guide";
 

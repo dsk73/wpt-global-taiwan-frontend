@@ -1,6 +1,7 @@
 // src/app/[locale]/teaching-center/[slug]/page.tsx
 
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Footer } from "@/features/footer";
@@ -23,7 +24,10 @@ import {
   buildPageTitle,
   createMetadata,
   getOpenGraphLocale,
+  SITE_URL,
 } from "@/lib/metadata";
+
+import { getMediaUrl } from "@/lib/media";
 
 /* ============================================================
    Props
@@ -207,6 +211,227 @@ const DEFAULT_SEO_DESCRIPTION: Record<Locale, string> = {
 };
 
 /* ============================================================
+   RELATED GUIDE CONTENT
+============================================================ */
+
+interface RelatedGuide {
+  title: string;
+  description: string;
+  slug: string;
+}
+
+const RELATED_GUIDES: Record<string, Record<Locale, RelatedGuide[]>> = {
+  "registration-guide": {
+    "zh-Hant-TW": [
+      {
+        title: "WPT Global 推薦碼教學",
+        description: "了解 WPT Global 推薦碼與註冊時的使用方式。",
+        slug: "referral-code",
+      },
+      {
+        title: "WPT Global 下載教學",
+        description: "了解 WPT Global 下載與開始使用平台的方式。",
+        slug: "download-guide",
+      },
+      {
+        title: "WPT Global 儲值教學",
+        description: "了解 WPT Global 儲值與入金相關步驟。",
+        slug: "prepaid-value-guide",
+      },
+    ],
+
+    en: [
+      {
+        title: "WPT Global Referral Code Guide",
+        description:
+          "Learn how WPT Global referral codes may be used during registration.",
+        slug: "referral-code",
+      },
+      {
+        title: "WPT Global Download Guide",
+        description:
+          "Learn how to download WPT Global and get started with the platform.",
+        slug: "download-guide",
+      },
+      {
+        title: "WPT Global Deposit Guide",
+        description:
+          "Learn about WPT Global deposits and adding funds to your account.",
+        slug: "prepaid-value-guide",
+      },
+    ],
+
+    "ms-MY": [
+      {
+        title: "Panduan Kod Rujukan WPT Global",
+        description:
+          "Ketahui cara kod rujukan WPT Global digunakan semasa pendaftaran.",
+        slug: "referral-code",
+      },
+      {
+        title: "Panduan Muat Turun WPT Global",
+        description:
+          "Ketahui cara memuat turun WPT Global dan mula menggunakan platform.",
+        slug: "download-guide",
+      },
+      {
+        title: "Panduan Deposit WPT Global",
+        description:
+          "Ketahui tentang deposit WPT Global dan cara menambah dana.",
+        slug: "prepaid-value-guide",
+      },
+    ],
+  },
+
+  "download-guide": {
+    "zh-Hant-TW": [
+      {
+        title: "WPT Global 註冊教學",
+        description: "了解 WPT Global 註冊與帳戶建立流程。",
+        slug: "registration-guide",
+      },
+      {
+        title: "WPT Global 推薦碼教學",
+        description: "了解 WPT Global 推薦碼與推薦連結的使用方式。",
+        slug: "referral-code",
+      },
+      {
+        title: "WPT Global 儲值教學",
+        description: "了解 WPT Global 儲值與入金相關步驟。",
+        slug: "prepaid-value-guide",
+      },
+    ],
+
+    en: [
+      {
+        title: "WPT Global Registration Guide",
+        description:
+          "Learn how to register with WPT Global and create your account.",
+        slug: "registration-guide",
+      },
+      {
+        title: "WPT Global Referral Code Guide",
+        description:
+          "Learn how WPT Global referral codes and links may be used.",
+        slug: "referral-code",
+      },
+      {
+        title: "WPT Global Deposit Guide",
+        description:
+          "Learn about WPT Global deposits and adding funds to your account.",
+        slug: "prepaid-value-guide",
+      },
+    ],
+
+    "ms-MY": [
+      {
+        title: "Panduan Pendaftaran WPT Global",
+        description:
+          "Ketahui cara mendaftar dengan WPT Global dan membuat akaun.",
+        slug: "registration-guide",
+      },
+      {
+        title: "Panduan Kod Rujukan WPT Global",
+        description:
+          "Ketahui cara kod dan pautan rujukan WPT Global digunakan.",
+        slug: "referral-code",
+      },
+      {
+        title: "Panduan Deposit WPT Global",
+        description:
+          "Ketahui tentang deposit WPT Global dan cara menambah dana.",
+        slug: "prepaid-value-guide",
+      },
+    ],
+  },
+
+  "prepaid-value-guide": {
+    "zh-Hant-TW": [
+      {
+        title: "WPT Global 註冊教學",
+        description: "完成 WPT Global 註冊後再了解帳戶儲值流程。",
+        slug: "registration-guide",
+      },
+      {
+        title: "WPT Global 推薦碼教學",
+        description: "了解 WPT Global 推薦碼、註冊與優惠相關資訊。",
+        slug: "referral-code",
+      },
+      {
+        title: "WPT Global 出金教學",
+        description: "了解 WPT Global 出金、提款與 KYC 驗證流程。",
+        slug: "withdrawal",
+      },
+    ],
+
+    en: [
+      {
+        title: "WPT Global Registration Guide",
+        description:
+          "Complete your WPT Global registration before reviewing the deposit process.",
+        slug: "registration-guide",
+      },
+      {
+        title: "WPT Global Referral Code Guide",
+        description:
+          "Learn about WPT Global referral codes, registration and promotional information.",
+        slug: "referral-code",
+      },
+      {
+        title: "WPT Global Withdrawal Guide",
+        description:
+          "Learn about WPT Global withdrawals, eligibility and KYC verification.",
+        slug: "withdrawal",
+      },
+    ],
+
+    "ms-MY": [
+      {
+        title: "Panduan Pendaftaran WPT Global",
+        description:
+          "Lengkapkan pendaftaran WPT Global sebelum melihat panduan deposit.",
+        slug: "registration-guide",
+      },
+      {
+        title: "Panduan Kod Rujukan WPT Global",
+        description:
+          "Ketahui tentang kod rujukan, pendaftaran dan promosi WPT Global.",
+        slug: "referral-code",
+      },
+      {
+        title: "Panduan Pengeluaran WPT Global",
+        description:
+          "Ketahui tentang pengeluaran WPT Global, kelayakan dan pengesahan KYC.",
+        slug: "withdrawal",
+      },
+    ],
+  },
+};
+
+/* ============================================================
+   RELATED GUIDE LABELS
+============================================================ */
+
+const RELATED_GUIDES_TITLE: Record<Locale, string> = {
+  "zh-Hant-TW": "WPT Global 相關指南",
+  en: "Related WPT Global Guides",
+  "ms-MY": "Panduan WPT Global Berkaitan",
+};
+
+const RELATED_GUIDES_DESCRIPTION: Record<Locale, string> = {
+  "zh-Hant-TW": "繼續了解 WPT Global 註冊、下載、推薦碼、儲值與出金等相關指南.",
+  en: "Continue with related WPT Global guides covering registration, download, referral codes, deposits and withdrawals.",
+  "ms-MY":
+    "Teruskan dengan panduan WPT Global berkaitan pendaftaran, muat turun, kod rujukan, deposit dan pengeluaran.",
+};
+
+const TEACHING_CENTER_LABEL: Record<Locale, string> = {
+  "zh-Hant-TW": "返回 WPT Global 撲克教學中心",
+  en: "Back to WPT Global Poker Teaching Center",
+  "ms-MY": "Kembali ke Pusat Pembelajaran Poker WPT Global",
+};
+
+/* ============================================================
    METADATA
 ============================================================ */
 
@@ -324,8 +549,157 @@ export default async function TeachingCenterDetailPage({
     notFound();
   }
 
+  /* ==========================================================
+     SEO VALUES
+  ========================================================== */
+
+  const seo = SEO_CONFIG[guide.Slug]?.[locale];
+
+  const pageTitle = seo?.title ?? guide.Title;
+
+  const pageDescription = seo
+    ? seo.description
+    : `${DEFAULT_SEO_DESCRIPTION[locale]} ${guide.Title}`;
+
+  const canonical = buildCanonical(locale, `/teaching-center/${guide.Slug}`);
+
+  const guideUrl = canonical;
+
+  const thumbnailUrl = guide.Thumbnail
+    ? getMediaUrl(guide.Thumbnail.url)
+    : undefined;
+
+  const relatedGuides = RELATED_GUIDES[guide.Slug]?.[locale] ?? [];
+
+  /* ==========================================================
+     STRUCTURED DATA
+  ========================================================== */
+
+  const structuredData = {
+    "@context": "https://schema.org",
+
+    "@graph": [
+      {
+        "@type": "WebPage",
+
+        "@id": `${guideUrl}#webpage`,
+
+        url: guideUrl,
+
+        name: pageTitle,
+
+        description: pageDescription,
+
+        inLanguage: locale,
+
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+
+        breadcrumb: {
+          "@id": `${guideUrl}#breadcrumb`,
+        },
+
+        ...(thumbnailUrl
+          ? {
+              primaryImageOfPage: {
+                "@type": "ImageObject",
+                url: thumbnailUrl,
+              },
+            }
+          : {}),
+      },
+
+      {
+        "@type": "Article",
+
+        "@id": `${guideUrl}#article`,
+
+        url: guideUrl,
+
+        headline: pageTitle,
+
+        description: pageDescription,
+
+        inLanguage: locale,
+
+        mainEntityOfPage: {
+          "@id": `${guideUrl}#webpage`,
+        },
+
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+
+        breadcrumb: {
+          "@id": `${guideUrl}#breadcrumb`,
+        },
+
+        ...(thumbnailUrl
+          ? {
+              image: [thumbnailUrl],
+            }
+          : {}),
+      },
+
+      {
+        "@type": "BreadcrumbList",
+
+        "@id": `${guideUrl}#breadcrumb`,
+
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name:
+              locale === "zh-Hant-TW"
+                ? "首頁"
+                : locale === "ms-MY"
+                  ? "Laman Utama"
+                  : "Home",
+            item: buildCanonical(locale, ""),
+          },
+
+          {
+            "@type": "ListItem",
+            position: 2,
+            name:
+              locale === "zh-Hant-TW"
+                ? "撲克教學中心"
+                : locale === "ms-MY"
+                  ? "Pusat Pembelajaran Poker"
+                  : "Poker Teaching Center",
+            item: buildCanonical(locale, "/teaching-center"),
+          },
+
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: guide.Title,
+            item: guideUrl,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
+
       <main className="min-h-screen bg-[#070B15] pt-32">
         {/* ======================================================
             HERO
@@ -347,6 +721,81 @@ export default async function TeachingCenterDetailPage({
 
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <TeachingGuideSections guide={guide} />
+
+          {/* ====================================================
+              RELATED GUIDES
+          ==================================================== */}
+
+          {relatedGuides.length > 0 && (
+            <section
+              aria-labelledby="related-guides-heading"
+              className="mt-20 border-t border-white/10 pt-12"
+            >
+              <h2
+                id="related-guides-heading"
+                className="
+                  text-3xl
+                  font-bold
+                  tracking-tight
+                  text-white
+                  sm:text-4xl
+                "
+              >
+                {RELATED_GUIDES_TITLE[locale]}
+              </h2>
+
+              <p className="mt-5 max-w-3xl leading-7 text-white/65">
+                {RELATED_GUIDES_DESCRIPTION[locale]}
+              </p>
+
+              <div className="mt-8 grid gap-5 md:grid-cols-3">
+                {relatedGuides.map((relatedGuide) => (
+                  <Link
+                    key={relatedGuide.slug}
+                    href={`/${locale}/teaching-center/${relatedGuide.slug}`}
+                    className="
+                      group
+                      rounded-2xl
+                      border
+                      border-white/10
+                      bg-white/3
+                      p-6
+                      transition-all
+                      duration-300
+                      hover:-translate-y-1
+                      hover:border-(--primary)/40
+                      hover:bg-white/5
+                    "
+                  >
+                    <h3 className="text-lg font-semibold text-white transition group-hover:text-(--primary)">
+                      {relatedGuide.title}
+                    </h3>
+
+                    <p className="mt-3 text-sm leading-6 text-white/60">
+                      {relatedGuide.description}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="mt-8">
+                <Link
+                  href={`/${locale}/teaching-center`}
+                  className="
+                    inline-flex
+                    items-center
+                    text-sm
+                    font-semibold
+                    text-(--primary)
+                    transition
+                    hover:opacity-80
+                  "
+                >
+                  {TEACHING_CENTER_LABEL[locale]}
+                </Link>
+              </div>
+            </section>
+          )}
 
           {/* ====================================================
               CTA

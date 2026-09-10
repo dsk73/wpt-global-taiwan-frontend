@@ -1,7 +1,6 @@
-"use client";
+// src/features/footer/components/FooterColumn.tsx
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
@@ -23,13 +22,7 @@ export default function FooterColumn({
   className,
 }: FooterColumnProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.45 }}
-      className={cn("self-start", className)}
-    >
+    <div className={cn("self-start", className)}>
       {/* Heading */}
       {title && (
         <h3 className="mb-5 text-lg font-semibold tracking-wide text-white">
@@ -62,6 +55,6 @@ export default function FooterColumn({
           </li>
         ))}
       </ul>
-    </motion.div>
+    </div>
   );
 }

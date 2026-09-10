@@ -16,6 +16,7 @@ import {
   buildPageTitle,
   createMetadata,
   getOpenGraphLocale,
+  SITE_URL,
 } from "@/lib/metadata";
 
 /* ============================================================
@@ -74,6 +75,9 @@ interface ReferralCodeContent {
 
   teachingLabel: string;
   teachingUrl: string;
+
+  withdrawalLabel: string;
+  withdrawalUrl: string;
 
   bonusLabel: string;
   bonusUrl: string;
@@ -297,6 +301,9 @@ const CONTENT: Record<Locale, ReferralCodeContent> = {
     teachingLabel: "WPT Global 撲克教學",
     teachingUrl: "/zh-Hant-TW/teaching-center",
 
+    withdrawalLabel: "WPT Global 出金教學",
+    withdrawalUrl: "/zh-Hant-TW/withdrawal",
+
     bonusLabel: "WPT Global 最新優惠",
     bonusUrl: "/zh-Hant-TW/activities",
 
@@ -440,6 +447,9 @@ const CONTENT: Record<Locale, ReferralCodeContent> = {
 
     teachingLabel: "WPT Global Poker Teaching Center",
     teachingUrl: "/en/teaching-center",
+
+    withdrawalLabel: "WPT Global Withdrawal Guide",
+    withdrawalUrl: "/en/withdrawal",
 
     bonusLabel: "WPT Global Latest Offers",
     bonusUrl: "/en/activities",
@@ -585,6 +595,9 @@ const CONTENT: Record<Locale, ReferralCodeContent> = {
     teachingLabel: "Pusat Pembelajaran Poker WPT Global",
     teachingUrl: "/ms-MY/teaching-center",
 
+    withdrawalLabel: "Panduan Pengeluaran WPT Global",
+    withdrawalUrl: "/ms-MY/withdrawal",
+
     bonusLabel: "Tawaran Terkini WPT Global",
     bonusUrl: "/ms-MY/activities",
 
@@ -674,7 +687,11 @@ export default async function ReferralCodePage({
         inLanguage: locale,
 
         isPartOf: {
-          "@id": "https://wptglobal-asia.com/#website",
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
         },
 
         breadcrumb: {
@@ -682,7 +699,33 @@ export default async function ReferralCodePage({
         },
 
         mainEntity: {
-          "@id": `${canonical}#faq`,
+          "@id": `${canonical}#article`,
+        },
+      },
+
+      {
+        "@type": "Article",
+
+        "@id": `${canonical}#article`,
+
+        url: canonical,
+
+        headline: content.title,
+
+        description: SEO_CONFIG[locale].description,
+
+        inLanguage: locale,
+
+        mainEntityOfPage: {
+          "@id": `${canonical}#webpage`,
+        },
+
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
         },
       },
 
@@ -701,6 +744,7 @@ export default async function ReferralCodePage({
 
             item: buildCanonical(locale),
           },
+
           {
             "@type": "ListItem",
 
@@ -976,6 +1020,10 @@ export default async function ReferralCodePage({
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {/* ==================================================
+                  REGISTRATION
+              ================================================== */}
+
               <Link
                 href={content.registerUrl}
                 className="
@@ -992,6 +1040,10 @@ export default async function ReferralCodePage({
               >
                 {content.registerLabel}
               </Link>
+
+              {/* ==================================================
+                  DOWNLOAD
+              ================================================== */}
 
               <Link
                 href={content.downloadUrl}
@@ -1010,6 +1062,10 @@ export default async function ReferralCodePage({
                 {content.downloadLabel}
               </Link>
 
+              {/* ==================================================
+                  DEPOSIT
+              ================================================== */}
+
               <Link
                 href={content.depositUrl}
                 className="
@@ -1027,6 +1083,10 @@ export default async function ReferralCodePage({
                 {content.depositLabel}
               </Link>
 
+              {/* ==================================================
+                  TEACHING CENTER
+              ================================================== */}
+
               <Link
                 href={content.teachingUrl}
                 className="
@@ -1043,6 +1103,31 @@ export default async function ReferralCodePage({
               >
                 {content.teachingLabel}
               </Link>
+
+              {/* ==================================================
+                  WITHDRAWAL
+              ================================================== */}
+
+              <Link
+                href={content.withdrawalUrl}
+                className="
+                  rounded-2xl
+                  border
+                  border-white/10
+                  bg-white/3
+                  p-5
+                  text-white
+                  transition
+                  hover:border-(--primary)/40
+                  hover:bg-white/5
+                "
+              >
+                {content.withdrawalLabel}
+              </Link>
+
+              {/* ==================================================
+                  ACTIVITIES / OFFERS
+              ================================================== */}
 
               <Link
                 href={content.bonusUrl}

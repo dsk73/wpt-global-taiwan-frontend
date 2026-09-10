@@ -1,4 +1,4 @@
-"use client";
+// src/features/poker-exchange/components/PokerExchangeGrid.tsx
 
 import PokerExchangeCard from "./PokerExchangeCard";
 

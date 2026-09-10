@@ -38,7 +38,6 @@ export function AboutGlobalSection({ about }: AboutGlobalSectionProps) {
                           about.SectionTitle
                         }
                         fill
-                        priority
                         className="object-cover"
                       />
 

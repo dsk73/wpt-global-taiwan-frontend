@@ -16,6 +16,7 @@ import {
   buildPageTitle,
   createMetadata,
   getOpenGraphLocale,
+  SITE_URL,
 } from "@/lib/metadata";
 
 /* ============================================================
@@ -70,6 +71,9 @@ interface WithdrawalContent {
 
   registerLabel: string;
   registerUrl: string;
+
+  referralLabel: string;
+  referralUrl: string;
 
   depositLabel: string;
   depositUrl: string;
@@ -306,10 +310,13 @@ const CONTENT: Record<Locale, WithdrawalContent> = {
     relatedTitle: "WPT Global Taiwan 相關指南",
 
     relatedDescription:
-      "如果您正在開始使用 WPT Global，可以先了解註冊、下載、儲值與撲克教學，再依需要查看提款資訊。",
+      "如果您正在開始使用 WPT Global，可以先了解註冊、推薦碼、儲值與撲克教學，再依需要查看提款資訊。",
 
     registerLabel: "WPT Global 註冊教學",
     registerUrl: "/zh-Hant-TW/teaching-center/registration-guide",
+
+    referralLabel: "WPT Global 推薦碼教學",
+    referralUrl: "/zh-Hant-TW/referral-code",
 
     depositLabel: "WPT Global 儲值教學",
     depositUrl: "/zh-Hant-TW/teaching-center/prepaid-value-guide",
@@ -469,10 +476,13 @@ const CONTENT: Record<Locale, WithdrawalContent> = {
     relatedTitle: "More WPT Global Taiwan Guides",
 
     relatedDescription:
-      "If you are getting started with WPT Global, explore the registration, download, deposit and poker teaching guides before reviewing the withdrawal information.",
+      "If you are getting started with WPT Global, explore the registration, referral code, deposit and poker teaching guides before reviewing the withdrawal information.",
 
     registerLabel: "WPT Global Registration Guide",
     registerUrl: "/en/teaching-center/registration-guide",
+
+    referralLabel: "WPT Global Referral Code Guide",
+    referralUrl: "/en/referral-code",
 
     depositLabel: "WPT Global Deposit Guide",
     depositUrl: "/en/teaching-center/prepaid-value-guide",
@@ -632,10 +642,13 @@ const CONTENT: Record<Locale, WithdrawalContent> = {
     relatedTitle: "Panduan WPT Global Taiwan Lain",
 
     relatedDescription:
-      "Jika anda baru bermula dengan WPT Global, lihat panduan pendaftaran, muat turun, deposit dan pembelajaran poker sebelum membaca maklumat pengeluaran.",
+      "Jika anda baru bermula dengan WPT Global, lihat panduan pendaftaran, kod rujukan, deposit dan pembelajaran poker sebelum membaca maklumat pengeluaran.",
 
     registerLabel: "Panduan Pendaftaran WPT Global",
     registerUrl: "/ms-MY/teaching-center/registration-guide",
+
+    referralLabel: "Panduan Kod Rujukan WPT Global",
+    referralUrl: "/ms-MY/referral-code",
 
     depositLabel: "Panduan Deposit WPT Global",
     depositUrl: "/ms-MY/teaching-center/prepaid-value-guide",
@@ -711,9 +724,9 @@ export default async function WithdrawalPage({ params }: WithdrawalPageProps) {
 
   const canonical = buildCanonical(locale, "/withdrawal");
 
-  /* ----------------------------------------------------------
+  /* ==========================================================
      JSON-LD
-  ---------------------------------------------------------- */
+  ========================================================== */
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -733,7 +746,11 @@ export default async function WithdrawalPage({ params }: WithdrawalPageProps) {
         inLanguage: locale,
 
         isPartOf: {
-          "@id": "https://wptglobal-asia.com/#website",
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
         },
 
         breadcrumb: {
@@ -741,7 +758,33 @@ export default async function WithdrawalPage({ params }: WithdrawalPageProps) {
         },
 
         mainEntity: {
-          "@id": `${canonical}#faq`,
+          "@id": `${canonical}#article`,
+        },
+      },
+
+      {
+        "@type": "Article",
+
+        "@id": `${canonical}#article`,
+
+        url: canonical,
+
+        headline: content.title,
+
+        description: SEO_CONFIG[locale].description,
+
+        inLanguage: locale,
+
+        mainEntityOfPage: {
+          "@id": `${canonical}#webpage`,
+        },
+
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
         },
       },
 
@@ -753,14 +796,21 @@ export default async function WithdrawalPage({ params }: WithdrawalPageProps) {
         itemListElement: [
           {
             "@type": "ListItem",
+
             position: 1,
+
             name: content.breadcrumbHome,
+
             item: buildCanonical(locale),
           },
+
           {
             "@type": "ListItem",
+
             position: 2,
+
             name: content.breadcrumbWithdrawal,
+
             item: canonical,
           },
         ],
@@ -778,6 +828,7 @@ export default async function WithdrawalPage({ params }: WithdrawalPageProps) {
 
           acceptedAnswer: {
             "@type": "Answer",
+
             text: item.answer,
           },
         })),
@@ -1054,7 +1105,7 @@ export default async function WithdrawalPage({ params }: WithdrawalPageProps) {
               {content.relatedDescription}
             </p>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <Link
                 href={content.registerUrl}
                 className="
@@ -1070,6 +1121,23 @@ export default async function WithdrawalPage({ params }: WithdrawalPageProps) {
                 "
               >
                 {content.registerLabel}
+              </Link>
+
+              <Link
+                href={content.referralUrl}
+                className="
+                  rounded-2xl
+                  border
+                  border-white/10
+                  bg-white/3
+                  p-5
+                  text-white
+                  transition
+                  hover:border-(--primary)/40
+                  hover:bg-white/5
+                "
+              >
+                {content.referralLabel}
               </Link>
 
               <Link

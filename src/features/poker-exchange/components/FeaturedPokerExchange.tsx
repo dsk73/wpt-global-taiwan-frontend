@@ -1,3 +1,5 @@
+// src/features/poker-exchange/components/FeaturedPokerExchange.tsx
+
 "use client";
 
 import Image from "next/image";
@@ -32,7 +34,11 @@ export default function FeaturedPokerExchange({
               getMediaUrl(article.BannerImage?.url ?? article.Thumbnail?.url) ||
               "/images/placeholder.jpg"
             }
-            alt={article.Title}
+            alt={
+              article.BannerImage?.alternativeText ||
+              article.Thumbnail?.alternativeText ||
+              article.Title
+            }
             fill
             priority
             sizes="(max-width:1024px)100vw,50vw"

@@ -1,9 +1,8 @@
-"use client";
+// src/features/activities/components/ActivityCard.tsx
 
 import Image from "next/image";
 import Link from "next/link";
 import { CalendarDays, Clock3, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/providers";
@@ -22,7 +21,7 @@ interface ActivityCardProps {
 }
 
 const READ_MORE: Record<Locale, string> = {
-  "zh-Hant-TW": "閱讀更多",
+  "zh-Hant-TW": "é–±è®€æ›´å¤š",
   en: "Read More",
   "ms-MY": "Baca Lagi",
 };
@@ -33,9 +32,7 @@ export default function ActivityCard({
   className = "",
 }: ActivityCardProps) {
   return (
-    <motion.article
-      whileHover={{}}
-      transition={{ duration: 0.25 }}
+    <article
       className={cn(
         "group overflow-hidden rounded-3xl border border-white/10 bg-white/3 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/50 hover:bg-white/5 hover:shadow-[0_18px_50px_rgba(37,99,235,0.18)]",
         className,
@@ -95,6 +92,6 @@ export default function ActivityCard({
           </div>
         </div>
       </Link>
-    </motion.article>
+    </article>
   );
 }
