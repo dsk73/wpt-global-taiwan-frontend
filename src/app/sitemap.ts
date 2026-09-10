@@ -42,6 +42,8 @@ const STATIC_ROUTES = [
   "/resources",
   "/teaching-center",
   "/poker-exchange",
+  "/withdrawal",
+  "/referral-code",
 ] as const;
 
 /* ============================================================
@@ -56,7 +58,9 @@ function getPriority(route: string): number {
   if (
     route === "/activities" ||
     route === "/teaching-center" ||
-    route === "/poker-exchange"
+    route === "/poker-exchange" ||
+    route === "/withdrawal" ||
+    route === "/referral-code"
   ) {
     return 0.8;
   }

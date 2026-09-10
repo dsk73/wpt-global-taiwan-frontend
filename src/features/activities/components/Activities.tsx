@@ -1,3 +1,5 @@
+// src/features/activities/components/Activities.tsx
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -16,9 +18,9 @@ interface ActivitiesProps {
 }
 
 const EYEBROWS: Record<Locale, string> = {
-  "zh-Hant-TW": "最新活動與優惠",
-  en: "LATEST ACTIVITIES",
-  "ms-MY": "AKTIVITI TERKINI",
+  "zh-Hant-TW": "WPT Global 最新活動與優惠",
+  en: "WPT GLOBAL ACTIVITIES & OFFERS",
+  "ms-MY": "AKTIVITI & PROMOSI WPT GLOBAL",
 };
 
 const TITLES: Record<Locale, string> = {
@@ -28,10 +30,11 @@ const TITLES: Record<Locale, string> = {
 };
 
 const SUBTITLES: Record<Locale, string> = {
-  "zh-Hant-TW": "掌握 WPT Global Taiwan 最新錦標賽、活動、促銷以及官方公告。",
-  en: "Stay up to date with the latest WPT Global Taiwan tournaments, promotions and official announcements.",
+  "zh-Hant-TW":
+    "掌握 WPT Global Taiwan 最新活動、撲克優惠、錦標賽與官方公告，了解精彩 WPT Global 活動資訊。",
+  en: "Stay up to date with WPT Global Taiwan activities, poker promotions, tournaments and official announcements.",
   "ms-MY":
-    "Ikuti perkembangan terkini mengenai kejohanan, promosi dan pengumuman rasmi WPT Global Taiwan.",
+    "Ikuti perkembangan aktiviti WPT Global Taiwan, promosi poker, kejohanan dan pengumuman rasmi terkini.",
 };
 
 const LATEST_TITLE: Record<Locale, string> = {

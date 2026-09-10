@@ -1,3 +1,5 @@
+// src/features/payment/components/Payment.tsx
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -17,22 +19,23 @@ interface PaymentProps {
 }
 
 const TITLES: Record<Locale, string> = {
-  "zh-Hant-TW": "付款方式",
-  en: "Payment Methods",
-  "ms-MY": "Kaedah Pembayaran",
+  "zh-Hant-TW": "WPT Global 儲值與付款方式",
+  en: "WPT Global Deposit & Payment Methods",
+  "ms-MY": "Deposit & Kaedah Pembayaran WPT Global",
 };
 
 const SUBTITLES: Record<Locale, string> = {
-  "zh-Hant-TW": "支援多種安全、快速且可靠的存提款方式，讓您輕鬆享受遊戲體驗。",
-  en: "Choose from multiple secure and trusted payment methods for fast deposits and withdrawals.",
+  "zh-Hant-TW":
+    "了解 WPT Global 儲值、入金與付款方式，支援多種安全、快速且可靠的方式，讓您輕鬆完成交易。",
+  en: "Explore WPT Global deposit, top-up and payment methods with secure, fast and trusted options for your transactions.",
   "ms-MY":
-    "Nikmati pelbagai kaedah pembayaran yang selamat, pantas dan dipercayai untuk deposit serta pengeluaran.",
+    "Terokai deposit, tambah nilai dan kaedah pembayaran WPT Global dengan pilihan yang selamat, pantas dan dipercayai untuk transaksi anda.",
 };
 
 const EYEBROWS: Record<Locale, string> = {
-  "zh-Hant-TW": "PAYMENT METHODS",
-  en: "PAYMENT METHODS",
-  "ms-MY": "KAEDAH PEMBAYARAN",
+  "zh-Hant-TW": "WPT GLOBAL 儲值與入金",
+  en: "WPT GLOBAL DEPOSIT & TOP-UP",
+  "ms-MY": "DEPOSIT & TAMBAH NILAI WPT GLOBAL",
 };
 
 export default function Payment({

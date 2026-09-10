@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import Header from "@/features/header/components/Header";
+import StructuredData from "@/components/seo/StructuredData";
 
 import { isValidLocale } from "@/config/languages";
 
@@ -212,6 +213,8 @@ export default async function LocaleLayout({
 
   return (
     <LocaleProvider locale={currentLocale}>
+      <StructuredData locale={currentLocale} />
+
       <Header />
 
       <main className="min-h-screen pt-21">{children}</main>

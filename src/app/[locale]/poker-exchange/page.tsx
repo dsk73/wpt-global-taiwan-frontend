@@ -38,17 +38,19 @@ interface PokerExchangePageProps {
 ============================================================ */
 
 const PAGE_TITLE: Record<Locale, string> = {
-  "zh-Hant-TW": "撲克交流站",
-  en: "Poker Exchange",
-  "ms-MY": "Poker Exchange",
+  "zh-Hant-TW": "WPT 德州撲克｜撲克交流與策略",
+  en: "WPT Texas Hold'em | Poker Strategy & Exchange",
+  "ms-MY": "WPT Texas Hold'em | Strategi & Komuniti Poker",
 };
 
 const PAGE_DESCRIPTION: Record<Locale, string> = {
   "zh-Hant-TW":
-    "掌握最新 Poker Exchange 策略、產業資訊、賽事新聞與 WPT Global Taiwan 專業文章。",
-  en: "Explore the latest Poker Exchange strategies, industry insights, tournament news and expert articles from WPT Global Taiwan.",
+    "探索 WPT 德州撲克與線上撲克內容，掌握撲克策略、技巧、賽事新聞與 WPT Global Taiwan 專業文章。",
+
+  en: "Explore WPT Texas Hold'em and online poker content, including poker strategies, tips, tournament news and expert articles from WPT Global Taiwan.",
+
   "ms-MY":
-    "Terokai strategi Poker Exchange terkini, berita kejohanan, perkembangan industri dan artikel pakar daripada WPT Global Taiwan.",
+    "Terokai WPT Texas Hold'em dan kandungan poker online, termasuk strategi, tip, berita kejohanan dan artikel pakar daripada WPT Global Taiwan.",
 };
 
 /* ============================================================
@@ -57,7 +59,11 @@ const PAGE_DESCRIPTION: Record<Locale, string> = {
 
 const PAGE_KEYWORDS: Record<Locale, string[]> = {
   "zh-Hant-TW": [
+    "WPT",
     "WPT Global Taiwan",
+    "WPT 德州撲克",
+    "WPT 線上撲克",
+    "WPT 撲克",
     "Poker Exchange",
     "撲克交流站",
     "撲克策略",
@@ -65,19 +71,25 @@ const PAGE_KEYWORDS: Record<Locale, string[]> = {
     "撲克賽事",
     "線上撲克",
     "德州撲克",
+    "德州撲克策略",
     "撲克技巧",
     "撲克攻略",
     "撲克文章",
   ],
 
   en: [
+    "WPT",
     "WPT Global Taiwan",
+    "WPT Texas Hold'em",
+    "WPT online poker",
+    "WPT poker",
     "Poker Exchange",
     "poker strategy",
     "poker news",
     "poker tournament news",
     "online poker",
     "Texas Hold'em",
+    "Texas Hold'em strategy",
     "poker tips",
     "poker guides",
     "poker articles",
@@ -85,17 +97,21 @@ const PAGE_KEYWORDS: Record<Locale, string[]> = {
   ],
 
   "ms-MY": [
+    "WPT",
     "WPT Global Taiwan",
+    "WPT Texas Hold'em",
+    "WPT online poker",
+    "WPT poker",
     "Poker Exchange",
     "strategi poker",
     "berita poker",
     "kejohanan poker",
     "poker online",
     "Texas Hold'em",
+    "strategi Texas Hold'em",
     "tips poker",
     "panduan poker",
     "artikel poker",
-    "strategi Texas Hold'em",
   ],
 };
 

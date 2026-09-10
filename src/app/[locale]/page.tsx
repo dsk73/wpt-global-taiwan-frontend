@@ -46,10 +46,13 @@ interface HomePageProps {
  * Homepage SEO metadata for each supported locale.
  *
  * SEO goals:
- * - Target the primary WPT Global Taiwan brand term.
- * - Target relevant Taiwan poker search intent.
- * - Keep titles concise and descriptive.
- * - Provide natural, localized descriptions.
+ * - Establish the homepage as the primary WPT / WPTG / WPT Global
+ *   brand and product landing page.
+ * - Target WPT Global Taiwan brand intent.
+ * - Support relevant online poker search intent naturally.
+ * - Keep registration, download, deposit, withdrawal, referral-code,
+ *   and promotion keywords focused on their dedicated pages.
+ * - Keep each locale naturally localized.
  * - Avoid keyword stuffing.
  */
 const HOME_SEO: Record<
@@ -61,61 +64,65 @@ const HOME_SEO: Record<
   }
 > = {
   "zh-Hant-TW": {
-    title: "WPT Global Taiwan｜官方線上撲克平台",
+    title: "WPT Global 台灣｜WPTG 官方入口・線上撲克",
     description:
-      "WPT Global Taiwan 官方網站，探索線上撲克、精彩撲克賽事、最新活動、撲克教學與玩家資訊，立即了解 WPT Global Taiwan。",
+      "WPT Global 台灣官方入口，了解 WPT、WPTG 與 WPT Global，探索線上撲克、精彩撲克賽事、最新活動與撲克教學，掌握 WPT Global Taiwan 最新資訊。",
     keywords: [
-      "WPT Global Taiwan",
-      "WPTG Taiwan",
+      "WPT",
+      "WPTG",
       "WPT Global",
+      "WPT Global 台灣",
+      "WPTG 台灣",
+      "WPT 線上",
+      "WPT 線上撲克",
       "WPT 撲克",
       "線上撲克",
-      "線上撲克台灣",
       "台灣撲克",
       "撲克遊戲",
       "撲克賽事",
-      "撲克比賽",
-      "撲克教學",
       "德州撲克",
     ],
   },
 
   en: {
-    title: "WPT Global Taiwan | Official Online Poker",
+    title: "WPT Global Taiwan | WPTG Official Online Poker",
     description:
-      "Official WPT Global Taiwan website. Discover online poker, poker tournaments, latest activities, poker guides and player resources from WPT Global Taiwan.",
+      "Official WPT Global Taiwan portal for WPT, WPTG and WPT Global. Explore online poker, poker tournaments, latest activities and poker guides for players.",
     keywords: [
+      "WPT",
+      "WPTG",
+      "WPT Global",
       "WPT Global Taiwan",
       "WPTG Taiwan",
-      "WPT Global",
+      "WPT online",
+      "WPT online poker",
+      "WPT poker",
       "online poker",
       "online poker Taiwan",
-      "poker Taiwan",
-      "poker games",
       "poker tournaments",
       "poker events",
-      "poker strategy",
-      "poker guides",
       "Texas Hold'em",
     ],
   },
 
   "ms-MY": {
-    title: "WPT Global Taiwan | Platform Poker Dalam Talian",
+    title: "WPT Global Taiwan | Portal Rasmi WPTG & Poker Dalam Talian",
     description:
-      "Laman web rasmi WPT Global Taiwan. Terokai poker dalam talian, kejohanan poker, aktiviti terkini, panduan poker dan sumber pemain daripada WPT Global Taiwan.",
+      "Portal rasmi WPT Global Taiwan untuk WPT, WPTG dan WPT Global. Terokai poker dalam talian, kejohanan poker, aktiviti terkini dan panduan poker untuk pemain.",
     keywords: [
+      "WPT",
+      "WPTG",
+      "WPT Global",
       "WPT Global Taiwan",
       "WPTG Taiwan",
-      "WPT Global",
+      "WPT online",
+      "WPT online poker",
+      "WPT poker",
       "poker dalam talian",
       "poker online",
       "poker Taiwan",
-      "permainan poker",
       "kejohanan poker",
       "acara poker",
-      "strategi poker",
-      "panduan poker",
       "Texas Hold'em",
     ],
   },
