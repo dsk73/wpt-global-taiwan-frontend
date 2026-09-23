@@ -41,7 +41,7 @@ export function TeamExclusiveBenefitCard({
   return (
     <article
       aria-labelledby={`team-exclusive-benefit-${benefit.StepNumber}`}
-      className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0A101D] shadow-xl"
+      className="relative overflow-hidden rounded-4xl border border-white/10 bg-[#0A101D] shadow-xl"
     >
       {/* ---------------------------------------
        * Decorative Step Number
@@ -49,7 +49,7 @@ export function TeamExclusiveBenefitCard({
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-5 -top-8 z-0 select-none text-[150px] font-black leading-none text-white/[0.025] sm:text-[190px] lg:text-[220px]"
+        className="pointer-events-none absolute -right-5 -top-8 z-0 select-none text-[150px] font-black leading-none text-white/2.5 sm:text-[190px] lg:text-[220px]"
       >
         {stepNumber}
       </div>
@@ -64,7 +64,7 @@ export function TeamExclusiveBenefitCard({
          * ------------------------------------- */}
 
         {imageUrl ? (
-          <div className="relative min-h-[240px] overflow-hidden sm:min-h-[280px] lg:min-h-[390px]">
+          <div className="relative min-h-60 overflow-hidden sm:min-h-70 lg:min-h-97.5">
             <Image
               src={imageUrl}
               alt={
@@ -81,7 +81,7 @@ export function TeamExclusiveBenefitCard({
 
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#070B15]/70 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-[#0A101D]/20"
+              className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#070B15]/70 via-transparent to-transparent lg:bg-linear-to-r lg:from-transparent lg:via-transparent lg:to-[#0A101D]/20"
             />
 
             {/* Step Number */}
@@ -91,10 +91,10 @@ export function TeamExclusiveBenefitCard({
             </div>
           </div>
         ) : (
-          <div className="flex min-h-[180px] items-center justify-center bg-gradient-to-br from-[#111827] to-[#080C15] sm:min-h-[220px] lg:min-h-[390px]">
+          <div className="flex min-h-45 items-center justify-center bg-linear-to-br from-[#111827] to-[#080C15] sm:min-h-55 lg:min-h-97.5">
             <span
               aria-hidden="true"
-              className="text-7xl font-black text-white/[0.05]"
+              className="text-7xl font-black text-white/5"
             >
               {stepNumber}
             </span>

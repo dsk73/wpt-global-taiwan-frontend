@@ -1,4 +1,4 @@
-//src/config/navigation.ts
+// src/config/navigation.ts
 
 import { HeaderAction, NavigationItem } from "@/types/navigation";
 
@@ -11,6 +11,7 @@ export const NAVIGATION: NavigationItem[] = [
     },
     href: "/activities",
   },
+
   {
     label: {
       "zh-Hant-TW": "撲克交流站",
@@ -19,6 +20,16 @@ export const NAVIGATION: NavigationItem[] = [
     },
     href: "/poker-exchange",
   },
+
+  {
+    label: {
+      "zh-Hant-TW": "戰隊優惠專區",
+      en: "Team Exclusive Benefits",
+      "ms-MY": "Manfaat Eksklusif Pasukan",
+    },
+    href: "/team-exclusive-benefits",
+  },
+
   {
     label: {
       "zh-Hant-TW": "教學中心",
@@ -27,6 +38,7 @@ export const NAVIGATION: NavigationItem[] = [
     },
     href: "/teaching-center",
   },
+
   {
     label: {
       "zh-Hant-TW": "關於我們",
@@ -35,13 +47,14 @@ export const NAVIGATION: NavigationItem[] = [
     },
     href: "/about",
   },
+
   {
-    href: "/community",
     label: {
       "zh-Hant-TW": "社群",
       en: "Community",
       "ms-MY": "Komuniti",
     },
+    href: "/community",
   },
 ];
 
@@ -57,6 +70,7 @@ export const HEADER_ACTIONS: HeaderAction[] = [
 
     variant: "secondary",
   },
+
   {
     label: {
       "zh-Hant-TW": "立即下載",
@@ -79,6 +93,7 @@ export const TOPBAR_LINKS: NavigationItem[] = [
     },
     href: "/faq",
   },
+
   {
     label: {
       "zh-Hant-TW": "合作洽談",
@@ -95,11 +110,13 @@ export const LANGUAGES = [
     short: "繁中",
     name: "繁體中文",
   },
+
   {
     code: "en",
     short: "EN",
     name: "English",
   },
+
   {
     code: "ms-MY",
     short: "BM",

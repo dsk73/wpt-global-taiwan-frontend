@@ -1,11 +1,9 @@
-// src/features/header/components/Header.tsx
-
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import clsx from "clsx";
 
@@ -20,17 +18,9 @@ import {
 
 import type { Locale } from "@/types/navigation";
 
-const TEAM_EXCLUSIVE_NAV_ITEM = {
-  href: "/team-exclusive-benefits",
-  label: {
-    "zh-Hant-TW": "戰隊優惠專區",
-    en: "Team Exclusive Benefits",
-    "ms-MY": "Manfaat Eksklusif Pasukan",
-  },
-} as const;
-
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const segment = pathname.split("/")[1];
 
@@ -40,6 +30,9 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
 
+  /**
+   * Prevent background scrolling when mobile menu is open.
+   */
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
 
@@ -48,30 +41,54 @@ export default function Header() {
     };
   }, [mobileOpen]);
 
+  /**
+   * Add the current locale to an internal route.
+   *
+   * Example:
+   * /activities
+   * becomes:
+   * /en/activities
+   */
   const localizedHref = (href: string) => {
     return `/${locale}${href}`;
   };
 
+  /**
+   * Switch language while keeping the current page.
+   *
+   * Example:
+   * /en/team-exclusive-benefits
+   * becomes:
+   * /zh-Hant-TW/team-exclusive-benefits
+   *
+   * Uses Next.js router instead of directly modifying
+   * window.location.href.
+   */
   const switchLanguage = (newLocale: string) => {
     const parts = pathname.split("/");
 
     parts[1] = newLocale;
 
-    // eslint-disable-next-line react-hooks/immutability
-    window.location.href = parts.join("/");
+    const newPath = parts.join("/") || `/${newLocale}`;
+
+    setLanguageOpen(false);
+    setMobileOpen(false);
+
+    router.push(newPath);
   };
 
-  /*
-   * Add Team Exclusive Benefits between
-   * Teaching Center and About Us.
+  /**
+   * NAVIGATION already contains Team Exclusive Benefits
+   * in the required order:
+   *
+   * Promotions
+   * Poker Exchange
+   * Team Exclusive Benefits
+   * Learning Center
+   * About Us
+   * Community
    */
-  const navigationItems = NAVIGATION.flatMap((item) => {
-    if (item.href === "/about") {
-      return [TEAM_EXCLUSIVE_NAV_ITEM, item];
-    }
-
-    return [item];
-  });
+  const navigationItems = NAVIGATION;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#070B15] shadow-sm transition-colors duration-300">
@@ -81,6 +98,8 @@ export default function Header() {
 
       <div className="hidden border-b border-white/10 bg-[#070B15] lg:block">
         <div className="container flex h-10 items-center justify-between text-sm">
+          {/* TOP BAR LINKS */}
+
           <div className="flex items-center gap-6">
             {TOPBAR_LINKS.map((item) => {
               const isFaq = item.href === "/faq";
@@ -106,23 +125,40 @@ export default function Header() {
             })}
           </div>
 
+          {/* LANGUAGE SELECTOR */}
+
           <div className="relative">
             <button
+              type="button"
               onClick={() => setLanguageOpen(!languageOpen)}
               className="flex items-center gap-2 text-slate-300 hover:text-white"
+              aria-expanded={languageOpen}
+              aria-haspopup="true"
             >
-              {LANGUAGES.find((l) => l.code === locale)?.short}
+              {LANGUAGES.find((language) => language.code === locale)?.short}
 
-              <ChevronDown size={16} />
+              <ChevronDown
+                size={16}
+                className={clsx(
+                  "transition-transform duration-200",
+                  languageOpen && "rotate-180",
+                )}
+              />
             </button>
 
             {languageOpen && (
               <div className="absolute right-0 mt-3 w-44 overflow-hidden rounded-xl border border-white/10 bg-slate-900 shadow-2xl">
                 {LANGUAGES.map((lang) => (
                   <button
+                    type="button"
                     key={lang.code}
                     onClick={() => switchLanguage(lang.code)}
-                    className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-slate-800"
+                    className={clsx(
+                      "flex w-full items-center justify-between px-4 py-3 text-left transition",
+                      locale === lang.code
+                        ? "bg-slate-800 text-white"
+                        : "text-slate-300 hover:bg-slate-800 hover:text-white",
+                    )}
                   >
                     <span>{lang.name}</span>
 
@@ -217,7 +253,9 @@ export default function Header() {
         {/* ========================= */}
 
         <button
+          type="button"
           aria-label="Toggle Menu"
+          aria-expanded={mobileOpen}
           onClick={() => setMobileOpen(true)}
           className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition hover:bg-white/10 lg:hidden"
         >
@@ -235,14 +273,14 @@ export default function Header() {
           mobileOpen ? "visible opacity-100" : "invisible opacity-0",
         )}
       >
-        {/* Overlay */}
+        {/* OVERLAY */}
 
         <div
           onClick={() => setMobileOpen(false)}
           className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         />
 
-        {/* Drawer */}
+        {/* DRAWER */}
 
         <aside
           className={clsx(
@@ -250,12 +288,14 @@ export default function Header() {
             mobileOpen ? "translate-x-0" : "translate-x-full",
           )}
         >
-          {/* Drawer Header */}
+          {/* ========================= */}
+          {/* DRAWER HEADER */}
+          {/* ========================= */}
 
           <div className="flex h-20 items-center justify-between border-b border-white/10 px-6">
             <Image
               src="/logos/wpt-logo.png"
-              alt="WPT"
+              alt="WPT Global"
               width={110}
               height={50}
               className="h-11"
@@ -263,14 +303,16 @@ export default function Header() {
             />
 
             <button
+              type="button"
+              aria-label="Close Menu"
               onClick={() => setMobileOpen(false)}
-              className="rounded-lg border border-white/10 p-2"
+              className="rounded-lg border border-white/10 p-2 transition hover:bg-white/5"
             >
               <X size={20} />
             </button>
           </div>
 
-          <div className="flex flex-1 flex-col px-6 py-8">
+          <div className="flex flex-1 flex-col overflow-y-auto px-6 py-8">
             {/* ========================= */}
             {/* MOBILE NAVIGATION */}
             {/* ========================= */}
@@ -309,6 +351,7 @@ export default function Header() {
               <div className="grid grid-cols-3 gap-2">
                 {LANGUAGES.map((lang) => (
                   <button
+                    type="button"
                     key={lang.code}
                     onClick={() => switchLanguage(lang.code)}
                     className={clsx(
