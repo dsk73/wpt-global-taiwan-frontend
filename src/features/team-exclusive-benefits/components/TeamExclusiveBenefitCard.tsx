@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { marked } from "marked";
 
 import { getMediaUrl } from "@/lib/media";
 
@@ -6,6 +7,16 @@ import type { TeamExclusiveBenefit } from "@/types/team-exclusive-benefits";
 
 interface TeamExclusiveBenefitCardProps {
   benefit: TeamExclusiveBenefit;
+}
+
+/* ---------------------------------------
+ * Markdown Renderer
+ * ------------------------------------- */
+
+function renderMarkdown(content: string): string {
+  return marked.parse(content, {
+    async: false,
+  }) as string;
 }
 
 /* ---------------------------------------
@@ -18,6 +29,14 @@ export function TeamExclusiveBenefitCard({
   const imageUrl = benefit.Image ? getMediaUrl(benefit.Image.url) : null;
 
   const stepNumber = String(benefit.StepNumber).padStart(2, "0");
+
+  const contentHtml = benefit.Content?.trim()
+    ? renderMarkdown(benefit.Content)
+    : "";
+
+  const redemptionContentHtml = benefit.RedemptionContent?.trim()
+    ? renderMarkdown(benefit.RedemptionContent)
+    : "";
 
   return (
     <article
@@ -116,7 +135,7 @@ export function TeamExclusiveBenefitCard({
 
           {/* Main Content */}
 
-          {benefit.Content?.trim() && (
+          {contentHtml && (
             <div
               className="
                 mt-5
@@ -124,33 +143,57 @@ export function TeamExclusiveBenefitCard({
                 leading-7
                 text-white/70
                 sm:text-base
+
                 [&_a]:text-[#D4AF37]
                 [&_a]:underline
                 [&_a]:underline-offset-4
+
                 [&_blockquote]:my-5
                 [&_blockquote]:border-l-2
                 [&_blockquote]:border-[#D4AF37]/50
                 [&_blockquote]:pl-4
+
                 [&_code]:rounded
                 [&_code]:bg-white/10
                 [&_code]:px-1.5
                 [&_code]:py-0.5
+
                 [&_em]:text-white/80
+
+                [&_h1]:mb-4
+                [&_h1]:text-2xl
+                [&_h1]:font-bold
+                [&_h1]:text-white
+
+                [&_h2]:mb-4
+                [&_h2]:text-xl
+                [&_h2]:font-bold
+                [&_h2]:text-white
+
+                [&_h3]:mb-3
+                [&_h3]:text-lg
+                [&_h3]:font-bold
+                [&_h3]:text-white
+
                 [&_li]:ml-5
                 [&_li]:list-disc
+
                 [&_ol]:my-4
                 [&_ol]:space-y-2
                 [&_ol]:pl-5
+
                 [&_p]:mb-4
                 [&_p:last-child]:mb-0
+
                 [&_strong]:font-semibold
                 [&_strong]:text-white
+
                 [&_ul]:my-4
                 [&_ul]:space-y-2
                 [&_ul]:pl-5
               "
               dangerouslySetInnerHTML={{
-                __html: benefit.Content,
+                __html: contentHtml,
               }}
             />
           )}
@@ -180,7 +223,7 @@ export function TeamExclusiveBenefitCard({
 
             {/* Redemption Content */}
 
-            {benefit.RedemptionContent?.trim() && (
+            {redemptionContentHtml && (
               <div
                 className="
                   mt-3
@@ -188,24 +231,54 @@ export function TeamExclusiveBenefitCard({
                   leading-7
                   text-white/65
                   sm:text-[15px]
+
                   [&_a]:text-[#D4AF37]
                   [&_a]:underline
                   [&_a]:underline-offset-4
+
+                  [&_blockquote]:my-4
+                  [&_blockquote]:border-l-2
+                  [&_blockquote]:border-[#D4AF37]/50
+                  [&_blockquote]:pl-4
+
+                  [&_code]:rounded
+                  [&_code]:bg-white/10
+                  [&_code]:px-1.5
+                  [&_code]:py-0.5
+
+                  [&_em]:text-white/80
+
+                  [&_h1]:mb-3
+                  [&_h1]:font-bold
+                  [&_h1]:text-white
+
+                  [&_h2]:mb-3
+                  [&_h2]:font-bold
+                  [&_h2]:text-white
+
+                  [&_h3]:mb-3
+                  [&_h3]:font-bold
+                  [&_h3]:text-white
+
                   [&_li]:ml-5
                   [&_li]:list-disc
+
                   [&_ol]:my-3
                   [&_ol]:space-y-1
                   [&_ol]:pl-5
+
                   [&_p]:mb-3
                   [&_p:last-child]:mb-0
+
                   [&_strong]:font-semibold
                   [&_strong]:text-white
+
                   [&_ul]:my-3
                   [&_ul]:space-y-1
                   [&_ul]:pl-5
                 "
                 dangerouslySetInnerHTML={{
-                  __html: benefit.RedemptionContent,
+                  __html: redemptionContentHtml,
                 }}
               />
             )}
