@@ -20,6 +20,15 @@ import {
 
 import type { Locale } from "@/types/navigation";
 
+const TEAM_EXCLUSIVE_NAV_ITEM = {
+  href: "/team-exclusive-benefits",
+  label: {
+    "zh-Hant-TW": "戰隊優惠專區",
+    en: "Team Exclusive Benefits",
+    "ms-MY": "Manfaat Eksklusif Pasukan",
+  },
+} as const;
+
 export default function Header() {
   const pathname = usePathname();
 
@@ -29,7 +38,6 @@ export default function Header() {
     segment === "en" ? "en" : segment === "ms-MY" ? "ms-MY" : "zh-Hant-TW";
 
   const [mobileOpen, setMobileOpen] = useState(false);
-
   const [languageOpen, setLanguageOpen] = useState(false);
 
   useEffect(() => {
@@ -52,6 +60,18 @@ export default function Header() {
     // eslint-disable-next-line react-hooks/immutability
     window.location.href = parts.join("/");
   };
+
+  /*
+   * Add Team Exclusive Benefits between
+   * Teaching Center and About Us.
+   */
+  const navigationItems = NAVIGATION.flatMap((item) => {
+    if (item.href === "/about") {
+      return [TEAM_EXCLUSIVE_NAV_ITEM, item];
+    }
+
+    return [item];
+  });
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#070B15] shadow-sm transition-colors duration-300">
@@ -144,7 +164,7 @@ export default function Header() {
         {/* ========================= */}
 
         <nav className="hidden items-center gap-10 lg:flex">
-          {NAVIGATION.map((item) => {
+          {navigationItems.map((item) => {
             const active = pathname === localizedHref(item.href);
 
             return (
@@ -152,7 +172,7 @@ export default function Header() {
                 key={item.href}
                 href={localizedHref(item.href)}
                 className={clsx(
-                  "relative text-sm font-medium transition duration-200",
+                  "relative whitespace-nowrap text-sm font-medium transition duration-200",
                   active ? "text-white" : "text-slate-300 hover:text-white",
                 )}
               >
@@ -256,7 +276,7 @@ export default function Header() {
             {/* ========================= */}
 
             <nav className="flex flex-col gap-2">
-              {NAVIGATION.map((item) => {
+              {navigationItems.map((item) => {
                 const active = pathname === localizedHref(item.href);
 
                 return (
