@@ -1,3 +1,5 @@
+// src/constants/routes.ts
+
 export const ROUTES = {
   HOME: "/",
 
@@ -18,4 +20,6 @@ export const ROUTES = {
   TERMS: "/terms",
 
   PRIVACY: "/privacy-policy",
+
+  TEAM_EXCLUSIVE_BENEFITS: "/team-exclusive-benefits",
 } as const;

@@ -1,14 +1,27 @@
 // src/services/index.ts
 
 export * from "./hero.service";
+
 export * from "./activities.service";
+
 export * from "./payment.service";
+
 export * from "./faq.service";
+
 export * from "./ambassadors.service";
+
 export * from "./poker-exchange.service";
+
 export * from "./teaching-center.service";
+
 export * from "./about.service";
+
 export * from "./register.service";
+
 export * from "./download.service";
+
 export * from "./community-page.service";
+
 export * from "./teaching-center-page.service";
+
+export * from "./team-exclusive-benefits.service";

@@ -1,7 +1,13 @@
 // src/schemas/index.ts
 
 export * from "./about.schema";
+
 export * from "./ambassador.schema";
+
 export * from "./payment.schema";
+
 export * from "./community-page.schema";
+
 export * from "./teaching-center.schema";
+
+export * from "./team-exclusive-benefits.schema";
