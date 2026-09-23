@@ -258,7 +258,7 @@ export default function Footer({ locale }: FooterProps) {
               aria-label="WPT Global Taiwan"
             >
               <Image
-                src="/images/logo.png"
+                src="/logos/wpt-logo.png"
                 alt="WPT Global Taiwan"
                 width={180}
                 height={60}

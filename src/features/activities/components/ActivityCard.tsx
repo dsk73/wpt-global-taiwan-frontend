@@ -21,7 +21,7 @@ interface ActivityCardProps {
 }
 
 const READ_MORE: Record<Locale, string> = {
-  "zh-Hant-TW": "é–±è®€æ›´å¤š",
+  "zh-Hant-TW": "了解更多",
   en: "Read More",
   "ms-MY": "Baca Lagi",
 };
